@@ -26,7 +26,7 @@ Main prose directs likes to the original poster and describes reCAW payment diff
 
 ## Token compatibility gate
 
-The public canonical receipt identifies the CAW contract as `0xf3b9569f82b18aef890de263b84189bd33ebe452`; this phase has not independently queried its bytecode, decimals or transfer behavior. The manifesto specifies `0x0` for mint burns. Referenced username code instead transfers to a dead-pattern address and assumes 18 decimals. That is evidence of its implementation, not proof that the original token supports the required zero-address transfer or reduces total supply.
+The preserved creation receipt identifies the CAW contract as `0xf3b9569f82b18aef890de263b84189bd33ebe452`; this phase has not independently queried its bytecode, decimals or transfer behavior. The manifesto specifies `0x0` for mint burns. Contract identity does not prove that the original token supports the required zero-address transfer or reduces total supply.
 
 Before real custody: verify address, chain, creation receipt, bytecode/source correspondence, decimals, allowances and exact transfer behavior; isolate tests for zero-address transfer, transferFrom and any actual burn function. Preserve failure evidence. A different destination or substitute token requires a disclosed specification decision. No production mint/burn contract is authorized by the fixture plan.
 
@@ -38,7 +38,7 @@ For an appendix demo like of 2,000 whole synthetic CAW, 1,600 goes to the target
 
 Required production invariants include deductions equalling all credits plus explicitly modelled burns, deposits and withdrawals preserving liability backing, rejected/replayed actions changing nothing, and resolved NFT-transfer ordering. The implemented fixture uses only `appendix-demo-v1`, with fixed synthetic stake weights, payer exclusion for every action and integer division dust held in a visible reserve. Those are disclosed demo decisions, not adopted production rules. Zero eligible stake is rejected. No deposits, withdrawals, minting or real token custody are implemented.
 
-Model and separate literal reference tests cover underfunding, duplicate events, authority changes, exact precision, conservation and remainders. Comparison against a second prose scenario remains unimplemented. Whole-supply calculations cannot establish real token custody.
+Model and separate literal reference tests cover underfunding, duplicate events, authority changes, exact precision, conservation and remainders. Ledger now offers a [read-only scenario comparison](ECONOMIC_SCENARIOS.md): the appendix against a proposed 100% recipient interpretation for likes and reCAWs, with common fees and stake assumptions. Confirmed demo actions still use `appendix-demo-v1`. The shared allocator removes duplicated distribution arithmetic; it does not resolve C-002 or establish real token custody. Current execution evidence must identify the reviewed source revision.
 
 ## Operating cost model
 

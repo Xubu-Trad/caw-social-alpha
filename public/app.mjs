@@ -2,6 +2,7 @@ import { UNIT, createState, previewAction, applyAction, rebuild, canonicalExport
 import {inspectMedia,validateVideoMetadata,MEDIA_LIMITS} from './media.mjs';
 import {loadEnvironment} from './deployment.mjs';
 import {createCheckpoint,verifyHistory} from './history.mjs';
+import {allocateFee,DEMO_FEES} from './economics.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -304,8 +305,39 @@ function receiptCard(receipt){
     receipt.allocations.length?el('details',{},el('summary',{},'Inspect payment recipients'),details(receipt.allocations.map(item=>['$$ '+item.account+' · '+item.reason,money(item.amount)])),el('p',{class:'small muted'},'Rounding reserve addition: '+receipt.poolDustAdded+' base units.')):null,
     el('p',{class:'source-note'},'Local simulation only. This receipt is not a wallet signature or proof of blockchain inclusion.'));
 }
+function renderEconomicComparison(){
+  const kind=el('select',{id:'comparison-action',class:'text-input'},['caw','like','recaw','follow'].map(value=>el('option',{value},labelFor(value))));
+  const target=el('select',{id:'comparison-recipient',class:'text-input'},Object.keys(state.accounts).filter(name=>name!==selected).map(name=>el('option',{value:name},name)));
+  const output=el('div',{id:'comparison-results','aria-live':'polite'});
+  const profiles=[['appendix-demo-v1','Recommended appendix · current demo'],['prose-recipient-interpretation-v1','Proposed 100% recipient interpretation']];
+  function compare(){
+    target.disabled=kind.value==='caw';
+    try{
+      const accounts=Object.values(state.accounts).map(({name,stake})=>({name,stake}));
+      const fee=DEMO_FEES[kind.value],recipient=target.disabled?null:target.value;
+      const rows=profiles.map(([profile,title])=>{
+        const quote=allocateFee(kind.value,fee,selected,recipient,accounts,profile);
+        return el('section',{class:'economic-result'},el('h4',{},title),details([
+          ['Example cost',money(fee)],['Direct recipient credit',money(quote.directAmount)],
+          ...(recipient?[['Recipient total including pool',money(quote.allocations.filter(item=>item.account===recipient).reduce((sum,item)=>sum+BigInt(item.amount),0n))]]:[]),
+          ['Pool amount',money(quote.poolAmount)],['Rounding held',quote.poolDustAdded+' base units']
+        ]),el('details',{},el('summary',{},'Each recipient'),details(quote.allocations.map(item=>[item.account+' · '+item.reason,money(item.amount)]))));
+      });
+      output.replaceChildren(...rows);
+    }catch(error){output.replaceChildren(el('p',{class:'notice error'},`Comparison unavailable. ${error.message}`));}
+  }
+  kind.addEventListener('change',compare);target.addEventListener('change',compare);compare();
+  return el('details',{class:'card economic-comparison'},el('summary',{},'Compare source payment descriptions'),
+    el('p',{},`Allocation example for ${selected}. This does not charge an account, check its balance or change the active payment rules.`),
+    el('p',{},'The source contains different descriptions. Both examples keep fees and demo stake assumptions fixed. The 100% recipient option is an interpretation for review.'),
+    el('div',{class:'form-row'},el('div',{class:'field'},el('label',{for:'comparison-action',class:'field-label'},'Action'),kind),
+      el('div',{class:'field'},el('label',{for:'comparison-recipient',class:'field-label'},'Recipient'),target)),output,
+    el('p',{class:'source-note'},'Direct credit and a recipient’s pool share are listed separately. Pool weights are fixed for this demo; the payer is excluded. C-002 and C-007 remain open.'),
+    el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/ECONOMIC_SCENARIOS.md',rel:'noreferrer noopener'},'Read the source passages and assumptions'));
+}
 function renderReceipts(){
   const container=el('div',{},el('p',{class:'section-intro'},'Synthetic costs, recipients and controller changes. Every entry is local.'));
+  container.append(renderEconomicComparison());
   if(!state.receipts.length)container.append(el('section',{class:'card empty'},icon('receipts'),el('h2',{},'Nothing settled yet.'),el('p',{},'Review a CAW, like, reCAW or follow, then advance its demo settlement. The receipt will appear here.'),button('Go to commons',()=>navigate('feed'))));
   else container.append(...[...state.receipts].reverse().map(receiptCard));
   return container;

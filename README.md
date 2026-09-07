@@ -28,6 +28,7 @@ Open **http://127.0.0.1:4173/website.html** for the alpha website or **http://12
 - Saved-record verification against a separately retained SHA-256 checkpoint; see [history recovery](docs/HISTORY_RECOVERY.md).
 - Bounded local media preview, with no upload or media attachment to settlement.
 - Portable website/app assets and a deterministic SHA-256 build manifest.
+- Ledger compares source payment descriptions without changing active settlement; see [economic scenarios](docs/ECONOMIC_SCENARIOS.md).
 
 The accounting model uses **provisional appendix settings**. Main-text and appendix allocations differ; stake eligibility, rounding, repeat actions and character counting also require decisions. Passing tests does not resolve these conflicts.
 

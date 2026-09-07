@@ -1,3 +1,5 @@
+> Economics revision: [Ledger comparison and shared allocation arithmetic](ECONOMIC_SCENARIOS.md) make competing interpretations testable. Active actions remain on the same provisional appendix profile. The earlier review below is historical; see [current validation](VALIDATION.md) and source hashes for this revision. No source conflict is resolved by displaying alternatives.
+
 # Architecture proposal
 
 Status: local fixture architecture implemented and exercised by the 40-test B-001 suite. Bounded browser review subsequently became available and exercised the core synthetic journeys; current rerun limits and artifact-specific results are recorded in BOOTSTRAP.md (supporting local record omitted; see the source-coverage note). Production architecture is still proposed; no production stack has been accepted.

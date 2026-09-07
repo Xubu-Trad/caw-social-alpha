@@ -1,3 +1,5 @@
+> Economics revision: [Ledger comparison and shared allocation arithmetic](ECONOMIC_SCENARIOS.md) make competing interpretations testable. Active actions remain on the same provisional appendix profile. The earlier review below is historical; see [current validation](VALIDATION.md) and source hashes for this revision. No source conflict is resolved by displaying alternatives.
+
 > Historical UI brief: its 40/44-test references describe earlier snapshots. The first alpha revision passed 51 automated tests; see [VALIDATION.md](VALIDATION.md) for the exact scope and remaining gaps.
 
 # Product and interface brief

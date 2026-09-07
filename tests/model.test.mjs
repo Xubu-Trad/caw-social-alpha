@@ -21,6 +21,20 @@ const intent = (state, actor, kind, extra = {}) => ({
 const apply = (state, actor, kind, extra = {}) => applyAction(state, intent(state, actor, kind, extra));
 const code = (expected) => (error) => error instanceof Error && error.code === expected;
 
+test("canonical fields reject trailing line terminators before any settlement", () => {
+  for (const suffix of ["\n", "\r", "\r\n", "\u2028", "\u2029"]) {
+    for (const [field, expected] of [["name", "INVALID_NAME"], ["controller", "INVALID_CONTROLLER"], ["balance", "INVALID_AMOUNT"], ["stake", "INVALID_AMOUNT"]]) {
+      const fixture = copy(FIXTURE);
+      fixture.accounts[0][field] += suffix;
+      assert.throws(() => createState(fixture), code(expected), field + JSON.stringify(suffix));
+    }
+    const state = start(), before = canonicalExport(state);
+    assert.throws(() => apply(state, "pioneer", "caw", { id: "action" + suffix, text: "A valid body." }), code("INVALID_ID"));
+    assert.throws(() => apply(state, "pioneer", "transfer", { newController: "device-next" + suffix }), code("INVALID_CONTROLLER"));
+    assert.equal(canonicalExport(state), before);
+  }
+});
+
 test("fixture is synthetic, JSON-compatible and preserves separate fixed stake weights", () => {
   const state = start();
   assert.equal(state.scenario, SCENARIO);

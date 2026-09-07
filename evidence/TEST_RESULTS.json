@@ -1,26 +1,40 @@
 {
-  "scope": "Synthetic CAW alpha recovery revision",
-  "release": "0.1.0-alpha.2",
+  "scope": "Synthetic alpha economics revision",
+  "release": "0.1.0-alpha.3",
   "date": "2026-09-07",
   "runtime": "Node.js 24.20.0",
-  "tests": 61,
-  "passed": 61,
+  "tests": 76,
+  "passed": 76,
   "failed": 0,
-  "test_files": 7,
+  "test_files": 8,
   "test_code_manifest": "CODE_SHA256SUMS.txt",
-  "application_model_unchanged": true,
-  "browser_current": [],
+  "application_model_unchanged": false,
+  "active_settlement_profile": "appendix-demo-v1",
+  "compatibility_evidence": "Existing literal reference and history tests pass after allocator extraction.",
+  "browser_current": [
+    "Fresh loopback-only alpha.3 tab loaded with the updated static module",
+    "Recovery prepared and rebuilt both zero-event and one-event synthetic records",
+    "Recovery rejected a one-byte export change against its saved checkpoint",
+    "Recovery rejected malformed checkpoint JSON and preserved the active canonical export",
+    "Ledger showed both labelled profiles for CAW, Like, ReCAW and Follow",
+    "CAW recipient control was disabled; selecting another recipient updated the Follow quote",
+    "Signal-to-pioneer Like totals were 1840 versus 2000 and ReCAW totals were 3200 versus 4000 synthetic CAW",
+    "Comparing all four actions and changing recipient preserved the exact canonical session record",
+    "A Like completed review, queue, submission and demo settlement; balances matched the literal reference case",
+    "Desktop Ledger screenshot was visually inspected; no warning or error console entries were returned"
+  ],
   "browser_prior": [
-    "Alpha.1: configuration, navigation, Commons startup and phone layouts",
-    "Earlier website/media: PNG preview and removal"
+    "Alpha.1 configuration, navigation, Commons startup and phone layouts",
+    "Earlier PNG preview/removal"
   ],
   "unverified": [
-    "New recovery-form browser interaction",
+    "New comparison at explicit phone viewport widths",
+    "Recovery form coverage beyond zero/one event, altered bytes and malformed checkpoint JSON",
     "Media lifecycle and codec coverage",
-    "Actual downloaded export file",
-    "Complete accessibility",
+    "Downloaded export-file contents",
+    "Full accessibility",
     "Independent reproduction",
-    "Real protocol and deployment"
+    "Live protocol and deployment"
   ],
   "independent_peer_review_completed": false,
   "public_site_deployed": false,

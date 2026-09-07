@@ -1,3 +1,5 @@
+> Economics revision: [Ledger comparison and shared allocation arithmetic](ECONOMIC_SCENARIOS.md) make competing interpretations testable. Active actions remain on the same provisional appendix profile. The earlier review below is historical; see [current validation](VALIDATION.md) and source hashes for this revision. No source conflict is resolved by displaying alternatives.
+
 > Recovery revision: [saved-history verification](HISTORY_RECOVERY.md) now checks exact canonical exports against separately retained checkpoints. [Current validation](VALIDATION.md) records the tested code. The original review below remains a baseline; source conflicts and unimplemented production requirements remain open.
 
 # Manifesto and recovered R2: alpha alignment review

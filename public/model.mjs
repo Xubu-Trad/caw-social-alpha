@@ -1,5 +1,6 @@
 // Local, synthetic accounting only. No wallets, signatures, network or chain access.
 // The appendix schedule and every edge-case policy below remain provisional.
+import {allocateFee,DEMO_FEES} from './economics.mjs';
 export const UNIT = 10n ** 18n;
 export const SCENARIO = "appendix-demo-v1";
 
@@ -7,7 +8,7 @@ const MAX_UINT = (1n << 256n) - 1n;
 const MAX_EVENTS = 256;
 const MAX_JSON_BYTES = 1024 * 1024;
 const encoder = new TextEncoder();
-const FEES = Object.freeze({ caw: 5000n * UNIT, like: 2000n * UNIT, recaw: 4000n * UNIT, follow: 30000n * UNIT, transfer: 0n });
+const FEES = Object.freeze(Object.fromEntries(Object.entries(DEMO_FEES).map(([kind,value])=>[kind,BigInt(value)])));
 const SHARED_INTENT = ["id", "kind", "actor", "controller", "epoch", "nonce"];
 const INTENT_EXTRA = Object.freeze({ caw: ["text"], like: ["postId"], recaw: ["postId"], follow: ["target"], transfer: ["newController"] });
 
@@ -46,19 +47,20 @@ function safeInteger(value, label) {
   ensure(Number.isSafeInteger(value) && value >= 0 && !Object.is(value, -0), "INVALID_INTEGER", label + " must be a nonnegative safe integer.");
 }
 function amount(value, label, maximum = MAX_UINT) {
-  ensure(typeof value === "string" && /^(0|[1-9][0-9]{0,77})$/.test(value), "INVALID_AMOUNT", label + " must be a canonical decimal string.");
+  // An absolute end check also rejects final line terminators accepted by `$`.
+  ensure(typeof value === "string" && /^(0|[1-9][0-9]{0,77})(?![\s\S])/.test(value), "INVALID_AMOUNT", label + " must be a canonical decimal string.");
   const result = BigInt(value);
   ensure(result <= maximum, "AMOUNT_OVERFLOW", label + " exceeds the demo's integer bound.");
   return result;
 }
 function name(value) {
-  ensure(typeof value === "string" && /^[a-z0-9]{1,32}$/.test(value), "INVALID_NAME", "Demo account names require 1–32 lowercase letters or digits.");
+  ensure(typeof value === "string" && /^[a-z0-9]{1,32}(?![\s\S])/.test(value), "INVALID_NAME", "Demo account names require 1–32 lowercase letters or digits.");
 }
 function controller(value) {
-  ensure(typeof value === "string" && /^device-[a-z0-9][a-z0-9-]{0,39}$/.test(value), "INVALID_CONTROLLER", "Use a synthetic device label such as device-a.");
+  ensure(typeof value === "string" && /^device-[a-z0-9][a-z0-9-]{0,39}(?![\s\S])/.test(value), "INVALID_CONTROLLER", "Use a synthetic device label such as device-a.");
 }
 function identifier(value, label, maximum = 64) {
-  ensure(typeof value === "string" && value.length <= maximum && /^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(value), "INVALID_ID", label + " is not a supported local identifier.");
+  ensure(typeof value === "string" && value.length <= maximum && /^[A-Za-z0-9][A-Za-z0-9_-]*(?![\s\S])/.test(value), "INVALID_ID", label + " is not a supported local identifier.");
 }
 export function countCharacters(text) {
   ensure(typeof text === "string", "INVALID_TEXT", "Text must be a string.");
@@ -223,23 +225,11 @@ function plan(state, intent) {
   const fee = FEES[intent.kind];
   const actorBalance = BigInt(account.balance);
   ensure(actorBalance >= fee, "INSUFFICIENT_BALANCE", "The synthetic balance cannot cover this action.");
-  const direct = intent.kind === "like" || intent.kind === "follow" ? fee * 80n / 100n : intent.kind === "recaw" ? fee / 2n : 0n;
-  const pool = fee - direct;
-  const allocations = [];
-  if (direct > 0n) allocations.push({ account: target, amount: direct.toString(), reason: "recipient" });
-  let dust = 0n;
-  if (pool > 0n) {
-    const eligible = Object.values(state.accounts).filter((entry) => entry.name !== intent.actor && BigInt(entry.stake) > 0n).sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
-    const totalWeight = eligible.reduce((sum, entry) => sum + BigInt(entry.stake), 0n);
-    ensure(totalWeight > 0n, "UNRESOLVED_POOL", "No eligible other stakers. This unresolved case is rejected in the demo.");
-    let distributed = 0n;
-    for (const recipient of eligible) {
-      const credit = pool * BigInt(recipient.stake) / totalWeight;
-      distributed += credit;
-      if (credit > 0n) allocations.push({ account: recipient.name, amount: credit.toString(), reason: "stake-pool" });
-    }
-    dust = pool - distributed;
-  }
+  // Settlement remains fixed to the same provisional appendix scenario.
+  const allocation = allocateFee(intent.kind,fee.toString(),intent.actor,target??null,
+    Object.values(state.accounts).map(({name,stake})=>({name,stake})),SCENARIO);
+  const allocations=allocation.allocations;
+  const pool=BigInt(allocation.poolAmount),dust=BigInt(allocation.poolDustAdded);
   const totals = new Map();
   for (const allocation of allocations) totals.set(allocation.account, (totals.get(allocation.account) || 0n) + BigInt(allocation.amount));
   for (const [recipient, total] of totals) ensure(BigInt(state.accounts[recipient].balance) + total <= MAX_UINT, "AMOUNT_OVERFLOW", "A resulting synthetic balance exceeds its integer bound.");
