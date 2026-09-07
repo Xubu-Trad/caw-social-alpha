@@ -1,6 +1,6 @@
 # A signed action, checked before acceptance
 
-The Identity view contains a separate local signature lab. It signs a fixed synthetic CAW, checks it against a separately held test-key binding, and can consume its action number once. It never posts, charges an account or changes Commons history. This is a proposed authorization experiment, not the CAW wallet format or an adopted protocol rule.
+The Identity view contains a separate local signature lab. It signs a fixed synthetic CAW and checks it against a separately held test-key binding. Alpha.5 adds a [copied ledger](SIGNED_SETTLEMENT.md): acceptance updates its synthetic balance, post, receipt and action number together. Commons remains unchanged. This is a proposed authorization experiment, not the CAW wallet format or an adopted protocol rule.
 
 ## What the signature covers
 
@@ -20,6 +20,8 @@ Text retains exact valid Unicode, with the existing provisional 420-code-point l
 The verifier receives the expected public key, account, controller, epoch, next action number and domain separately. A packet cannot grant itself authority by supplying its own key. The verifier checks all bindings and the time interval before and after asynchronous cryptographic verification. No asynchronous step separates the final checks from consuming the next action number, so simultaneous duplicate calls on the same verifier cannot both accept. Failed checks consume nothing. Revocation closes the verifier, including pending checks.
 
 That counter lives in one JavaScript object. A new verifier, another tab, reload or another process does not share it. Distributed replay protection requires an authoritative durable state transition; this lab provides none. The clock is local and cannot establish chain time. The supplied binding is an assumption, not evidence of NFT ownership, a delegated allowance or real account authority.
+
+The copied-ledger adapter calls the non-consuming `check` operation, then uses the accounting model's nonce as its single acceptance counter. Failed accounting must not consume a separate verifier nonce. It rechecks its owned ledger revision, current authority, closure and time before committing. Its unsigned controller-change control is a fixture mutation for testing stale keys, not a signed transfer.
 
 ## Keys and lifecycle
 

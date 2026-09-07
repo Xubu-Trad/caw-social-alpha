@@ -1,3 +1,5 @@
+> Signed settlement revision: [Identity verifies and applies CAWs in an isolated copied ledger](SIGNED_SETTLEMENT.md). Commons remains unsigned and synthetic. This does not authenticate NFT ownership or preserve signed archival history. Earlier reviews below are historical; [current validation](VALIDATION.md) controls test claims. All production conflicts remain unchanged.
+
 > Signature revision: [Identity now offers a local signature lab](SIGNATURE_LAB.md). It verifies a bounded synthetic action against a separate test-key binding; Commons settlement is still unsigned and synthetic. Earlier reviews below are historical. See [current validation](VALIDATION.md). No production conflict is resolved by this experiment.
 
 > Economics revision: [Ledger comparison and shared allocation arithmetic](ECONOMIC_SCENARIOS.md) make competing interpretations testable. Active actions remain on the same provisional appendix profile. The earlier review below is historical; see [current validation](VALIDATION.md) and source hashes for this revision. No source conflict is resolved by displaying alternatives.

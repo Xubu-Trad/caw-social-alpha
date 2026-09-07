@@ -3,7 +3,8 @@ import {inspectMedia,validateVideoMetadata,MEDIA_LIMITS} from './media.mjs';
 import {loadEnvironment} from './deployment.mjs';
 import {createCheckpoint,verifyHistory} from './history.mjs';
 import {allocateFee,DEMO_FEES} from './economics.mjs';
-import {createDemoSigner,createActionVerifier} from './signatures.mjs';
+import {createDemoSigner} from './signatures.mjs';
+import {createSignedLedger} from './signed-ledger.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -278,14 +279,22 @@ function renderSignatureLab(){
   const account=state.accounts[selected];
   const result=el('div',{'aria-live':'polite'});
   const packetField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed synthetic example',spellcheck:false});
+  const ledgerField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Copied lab ledger',spellcheck:false});
   const summary=el('div');
-  let signer=null,verifier=null,packet='',generation=0,mounted=true,busy=false;
+  const ledgerSummary=el('div');
+  let signer=null,ledger=null,packet='',generation=0,mounted=true,busy=false;
   function controls(){
     create.disabled=busy;
     for(const control of [check,accept,tamper])control.disabled=busy||!packet;
+    transfer.disabled=busy||!packet||ledger?.status().epoch!==account.epoch;
   }
   function clear(){
-    generation+=1; signer?.revoke(); verifier?.revoke(); signer=null;verifier=null;packet='';packetField.value='';
+    generation+=1; signer?.revoke(); ledger?.revoke(); signer=null;ledger=null;packet='';packetField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
+  }
+  function showLedger(){
+    const current=ledger.status();ledgerField.value=ledger.snapshot();
+    ledgerSummary.replaceChildren(el('h3',{},'Copied ledger'),details([['Copied balance',money(current.balance)],['Controller',current.controller],
+      ['Ownership epoch',current.epoch],['Next action number',current.nextNonce],['Total copied events',current.events],['Signatures accepted here',current.acceptedSignatures]]));
   }
   signatureCleanup=()=>{mounted=false;clear();};
   async function work(operation){
@@ -302,23 +311,27 @@ function renderSignatureLab(){
     if(!mounted||current!==generation){nextSigner.revoke();return;}
     signer=nextSigner;
     const now=Math.floor(Date.now()/1000),domain='lab-'+crypto.randomUUID();
-    verifier=createActionVerifier({domain,account:account.name,controller:account.controller,epoch:account.epoch,nextNonce:account.nonce,publicKey:signer.publicKey});
+    ledger=createSignedLedger(state,{domain,account:account.name,controller:account.controller,epoch:account.epoch,publicKey:signer.publicKey});
     const action={account:account.name,controller:account.controller,deployment:'unconnected-lab',domain,epoch:account.epoch,
       expiresAt:now+300,fee:DEMO_FEES.caw,kind:'caw',network:'simulation',nonce:account.nonce,notBefore:now,
       scenario:'appendix-demo-v1',text:'Check the words. Keep the signature.',version:1};
     const signed=await signer.sign(action);
     if(!mounted||current!==generation)return;
     packet=signed;packetField.value=packet;
+    showLedger();
     summary.replaceChildren(details([['Account',account.name],['Example action','Public CAW'],['Example cost',money(action.fee)],['Action number',action.nonce],['Valid for','Five minutes']]));
-    result.replaceChildren(el('p',{class:'check-result'},'Example signed. It has not been accepted, posted or charged.'));
+    result.replaceChildren(el('p',{class:'check-result'},'Example signed. The copied ledger is unchanged until you accept it.'));
   }),'primary');
   const check=button('Verify example',()=>work(async()=>{
-    const current=generation;await verifier.check(packet);
-    if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Signature and lab checks passed. No action number was consumed.'));
+    const current=generation;await ledger.check(packet);
+    if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Signature and accounting checks passed. The copied ledger is unchanged.'));
   }));
-  const accept=button('Accept once in lab',()=>work(async()=>{
-    const current=generation,receipt=await verifier.accept(packet);
-    if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Accepted in this lab. Next action number: '+receipt.nextNonce+'. Repeating it will be rejected. Balances and history are unchanged.'));
+  const accept=button('Accept in copied ledger',()=>work(async()=>{
+    const current=generation,receipt=await ledger.accept(packet);
+    if(mounted&&current===generation){
+      showLedger();result.replaceChildren(el('p',{class:'check-result'},'Accepted in the copy. '+money(receipt.fee)+' allocated; post, receipt and action number updated together. Commons is unchanged.'),
+        details(receipt.allocations.map(allocation=>[allocation.account+' / '+allocation.reason,money(allocation.amount)])));
+    }
   }));
   const tamper=button('Change example text',()=>{
     if(busy||!packet)return;
@@ -326,12 +339,17 @@ function renderSignatureLab(){
     packet=JSON.stringify(altered);packetField.value=packet;
     result.replaceChildren(el('p',{},'Text changed; the original signature is retained. Verify it to inspect the rejection.'));
   });
+  const transfer=button('Change copied controller',()=>work(async()=>{
+    ledger.simulateTransfer(account.controller==='device-lab-next'?'device-lab-other':'device-lab-next');
+    showLedger();result.replaceChildren(el('p',{},'Copied controller changed by an unsigned test control. The old signed example must now fail. No NFT was transferred; Commons is unchanged.'));
+  }));
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
-    el('p',{},'A temporary key signs a fixed example in this tab. No wallet, post or payment. These keys do not prove ownership of a CAW account.'),
-    el('p',{class:'small muted'},'Create an example, verify it, then accept it twice to check replay rejection. Create a new example before testing changed text. Leaving this view closes the lab.'),
-    el('div',{class:'pending-actions'},create,check,accept,tamper),summary,result,
+    el('p',{},'A temporary key signs a fixed example for a copy of this demo ledger. Acceptance spends synthetic CAW and adds a post only in that copy. No wallet or real payment; these keys do not prove account ownership.'),
+    el('p',{class:'small muted'},'Create, verify and accept twice to check replay rejection. Create a fresh copy before testing changed text or a changed controller. Leaving this view clears the copy.'),
+    el('div',{class:'pending-actions'},create,check,accept,tamper,transfer),summary,result,ledgerSummary,
     el('details',{},el('summary',{},'Inspect signed bytes'),packetField),
+    el('details',{},el('summary',{},'Inspect copied ledger'),ledgerField),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
     el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
 }

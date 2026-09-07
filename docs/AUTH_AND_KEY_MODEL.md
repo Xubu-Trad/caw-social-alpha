@@ -1,6 +1,6 @@
 # Identity, authorization and private-message keys
 
-Status: PROPOSED production design. The separate [signature lab](SIGNATURE_LAB.md) now exercises ephemeral Ed25519 signing, exact action binding, expiry, revocation and an in-memory action counter. It neither authenticates wallets/NFT owners nor encrypts messages. Commons settlement remains unsigned and synthetic.
+Status: PROPOSED production design. The separate [signature lab](SIGNATURE_LAB.md) exercises ephemeral Ed25519 signing, exact action binding, expiry and revocation. Its [copied ledger](SIGNED_SETTLEMENT.md) applies verified CAWs and advances the model nonce atomically. It neither authenticates wallets/NFT owners nor encrypts messages. Commons settlement remains unsigned and synthetic.
 
 ## Separate authorities
 
