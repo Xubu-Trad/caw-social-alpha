@@ -1,0 +1,33 @@
+{
+  "scope": "Synthetic alpha only",
+  "date": "2026-09-07",
+  "runtime": "Node.js 24.20.0",
+  "tests": 51,
+  "passed": 51,
+  "failed": 0,
+  "test_files": 6,
+  "test_code_manifest": "CODE_SHA256SUMS.txt",
+  "application_model_unchanged": true,
+  "browser_current": [
+    "Alpha website reads simulation configuration",
+    "Website-to-app and return navigation",
+    "App starts with three synthetic participant lanes",
+    "390-pixel-requested app and website layouts have no horizontal overflow",
+    "No captured browser warnings/errors"
+  ],
+  "browser_prior": [
+    "44-test website/media snapshot: seven checks including real PNG preview/removal and unchanged synthetic export"
+  ],
+  "unverified": [
+    "Real MP4/WebM playback",
+    "Valid JPEG/WebP browser decoding",
+    "Media lifecycle races and BFCache",
+    "Actual downloaded export file",
+    "Complete accessibility",
+    "Independent reproduction",
+    "Real protocol and deployment"
+  ],
+  "independent_peer_review_completed": false,
+  "public_site_deployed": false,
+  "chain_deployed": false
+}

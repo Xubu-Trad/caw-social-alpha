@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="CAW Social alpha: a community conversation frontend under review. Synthetic accounts and settlement; no connected blockchain.">
+  <title>CAW Social · Commons · Alpha simulation</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="demo-strip"><strong>ALPHA / SIMULATION</strong><span>Synthetic accounts · simulated settlement · no real funds</span></div>
+  <div class="shell">
+    <header class="masthead">
+      <a class="brand" href="#feed" aria-label="CAW Social home">
+        <img class="brand-symbol" src="./caw-symbol.png" width="66" height="66" alt="" aria-hidden="true">
+        <span>CAW<span class="brand-sub">SOCIAL / CONVERSATION TERMINAL</span></span>
+      </a>
+      <div class="masthead-note"><span class="eyebrow">A PLACE FOR EVERY VOICE.</span><span class="version">XUBU / COMMUNITY ALPHA</span></div>
+    </header>
+    <nav id="navigation" aria-label="Primary"></nav>
+    <main id="main" tabindex="-1">
+      <header class="page-header"><div><span class="eyebrow">CAW / PUBLIC CONVERSATION</span><h1 id="page-title">Commons</h1></div><span class="local-pill">[ LOCAL SESSION ]</span></header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section id="pending" aria-label="Pending simulated action" hidden></section>
+      <div id="view"><p class="loading">Preparing the local demonstration…</p></div>
+    </main>
+    <aside id="context" class="context" aria-label="Demo account and information"></aside>
+    <footer class="terminal-footer"><span id="alpha-environment" role="status">Checking alpha configuration…</span><a href="./website.html">Alpha website / build status</a><a href="https://github.com/Xubu-Trad/caw-social-alpha">Code / peer review</a></footer>
+  </div>
+  <dialog id="review-dialog" aria-labelledby="review-title">
+    <div class="dialog-top"><span class="eyebrow">ACTION / REVIEW</span><button id="close-dialog" type="button" class="icon-button" aria-label="Close action review">×</button></div>
+    <h2 id="review-title">Review your action</h2>
+    <div id="review-content"></div>
+    <div class="dialog-actions"><button id="cancel-dialog" class="button secondary" type="button">Cancel</button><button id="queue-action" class="button primary" type="button">Queue demo action</button></div>
+  </dialog>
+  <noscript><p class="noscript">This local prototype needs JavaScript for its synthetic account model. It does not connect to a wallet or a blockchain.</p></noscript>
+</body>
+</html>

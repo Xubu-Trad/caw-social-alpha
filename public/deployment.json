@@ -1,0 +1,11 @@
+{
+  "schema": "caw-alpha-environment/1",
+  "release": "0.1.0-alpha.1",
+  "mode": "simulation",
+  "chainId": null,
+  "contracts": {},
+  "rpcUrls": [],
+  "walletEnabled": false,
+  "mediaUploadEnabled": false,
+  "scenario": "recommended-appendix-provisional"
+}

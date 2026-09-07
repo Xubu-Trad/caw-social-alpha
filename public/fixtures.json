@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "scenario": "appendix-demo-v1",
+  "description": "Synthetic local interface fixture. No wallets, real CAW, signatures, blockchain settlement or private messages are used.",
+  "policies": [
+    "All amounts use 18 decimal places solely for this local fixture; these are not verified token integration settings.",
+    "Historical appendix fees are displayed as a provisional scenario; prose and appendix distribution conflicts remain unresolved.",
+    "Fixed stake weights are 3, 1 and 2; they are separate from synthetic balances. Every pool excludes the payer.",
+    "Integer division rounds each eligible stake credit down. Unallocated base units remain visible in poolDust, with no builder recipient.",
+    "No eligible other staker rejects the action. Self-interactions and repeated likes, reCAWs and follows are rejected.",
+    "Messages use a provisional 420 Unicode code-point limit, preserving exact valid text without normalization.",
+    "Device labels simulate account-control checks; they are not credentials or cryptographic authentication.",
+    "Transfer only changes a synthetic controller, increments its ownership epoch and invalidates older pending intents.",
+    "Local export/rebuild checks internal consistency. It does not authenticate an original history or demonstrate permanent storage."
+  ],
+  "accounts": [
+    {
+      "name": "pioneer",
+      "controller": "device-a",
+      "balance": "250000000000000000000000",
+      "stake": "3"
+    },
+    {
+      "name": "signal",
+      "controller": "device-b",
+      "balance": "120000000000000000000000",
+      "stake": "1"
+    },
+    {
+      "name": "keeper",
+      "controller": "device-c",
+      "balance": "750000000000000000000000",
+      "stake": "2"
+    }
+  ],
+  "posts": [
+    {
+      "id": "seed-post",
+      "author": "pioneer",
+      "text": "Build in the open. Keep the receipts. This local room is a sketch of the journey, with synthetic balances only.",
+      "time": "Fixture · morning"
+    },
+    {
+      "id": "seed-signal",
+      "author": "signal",
+      "text": "A post can be inspected without pretending that its claim is true. Read the words. Check the record.",
+      "time": "Fixture · morning"
+    },
+    {
+      "id": "seed-keeper",
+      "author": "keeper",
+      "text": "If one interface disappears, the records should still be useful. Local replay is a first check; permanent public storage is still unresolved.",
+      "time": "Fixture · morning"
+    },
+    {
+      "id": "seed-language",
+      "author": "signal",
+      "text": "A quiet interface should make room for every voice. مرحبًا · こんにちは · welcome.",
+      "time": "Fixture · morning"
+    }
+  ]
+}

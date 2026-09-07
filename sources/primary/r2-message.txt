@@ -1,0 +1,15 @@
+the lp was relocked.  we will keep doing this until it is clear that it can find it's forever home.  we have no financial incentive here.  the purpose is success of the experiment
+
+decentralization is a deeper dive then most realize. it actually means 'no devs'  no hidden hand, nobody to wait on to do the needed.  if you are a pleb sitting around waiting for the devs to do something, guess what, you are the dev now. The manifesto is very simple.  It requires the following
+
+1- some dev to put up a github. 
+2- that dev and others contribute to it according to the manifesto (or if clear changes were agreed)
+3- eventually we have a thing that is solid, peer reviewed, contributed to by many and it is agreed to be released
+
+if you are waiting on some dev to do something, maybe do not worry about him anymore and follow the above
+
+also to be very very very very clear. This code and contract needs to be put up with no dev backdoors, no proxy, no multisigs . In fact, it needs to be written in a way that after the deploy, the dev(s) that deployed it do not matter more than any individual community member. 
+
+The scope of what we are trying to achieve needs to be greater than any single human or group and be truly censorship resistant.   On the same note, anybody trying to build a 'growth fund" or "dao" or "support token"  based around this can go and die. we do this for teh community. CAW is exactly what it says it is.
+
+gl anons. 
