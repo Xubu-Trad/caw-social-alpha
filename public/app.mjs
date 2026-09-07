@@ -3,6 +3,7 @@ import {inspectMedia,validateVideoMetadata,MEDIA_LIMITS} from './media.mjs';
 import {loadEnvironment} from './deployment.mjs';
 import {createCheckpoint,verifyHistory} from './history.mjs';
 import {allocateFee,DEMO_FEES} from './economics.mjs';
+import {createDemoSigner,createActionVerifier} from './signatures.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -42,6 +43,7 @@ const labelFor = kind => ({caw:'Public CAW',like:'Like',recaw:'ReCAW',follow:'Fo
 let seed, state, selected='pioneer', activeView='feed', draft='', pending=null, reviewIntent=null, operator='A';
 let commonsQuery='', commonsView='all';
 let mediaCleanup=null;
+let signatureCleanup=null;
 const sessionBookmarks=new Map();
 function savedForAccount(){
   if(!sessionBookmarks.has(selected))sessionBookmarks.set(selected,new Set());
@@ -272,6 +274,67 @@ function renderFeed(){
       submit)));
   return shell;
 }
+function renderSignatureLab(){
+  const account=state.accounts[selected];
+  const result=el('div',{'aria-live':'polite'});
+  const packetField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed synthetic example',spellcheck:false});
+  const summary=el('div');
+  let signer=null,verifier=null,packet='',generation=0,mounted=true,busy=false;
+  function controls(){
+    create.disabled=busy;
+    for(const control of [check,accept,tamper])control.disabled=busy||!packet;
+  }
+  function clear(){
+    generation+=1; signer?.revoke(); verifier?.revoke(); signer=null;verifier=null;packet='';packetField.value='';
+  }
+  signatureCleanup=()=>{mounted=false;clear();};
+  async function work(operation){
+    if(busy)return;
+    busy=true;controls();
+    try{await operation();}
+    catch(error){if(mounted)result.replaceChildren(el('p',{class:'notice error'},'Example rejected. '+error.message));}
+    finally{busy=false;if(mounted)controls();}
+  }
+  const create=button('Create signed example',()=>work(async()=>{
+    clear(); const current=generation;
+    result.replaceChildren(el('p',{},'Preparing a temporary test key…'));summary.replaceChildren();
+    const nextSigner=await createDemoSigner();
+    if(!mounted||current!==generation){nextSigner.revoke();return;}
+    signer=nextSigner;
+    const now=Math.floor(Date.now()/1000),domain='lab-'+crypto.randomUUID();
+    verifier=createActionVerifier({domain,account:account.name,controller:account.controller,epoch:account.epoch,nextNonce:account.nonce,publicKey:signer.publicKey});
+    const action={account:account.name,controller:account.controller,deployment:'unconnected-lab',domain,epoch:account.epoch,
+      expiresAt:now+300,fee:DEMO_FEES.caw,kind:'caw',network:'simulation',nonce:account.nonce,notBefore:now,
+      scenario:'appendix-demo-v1',text:'Check the words. Keep the signature.',version:1};
+    const signed=await signer.sign(action);
+    if(!mounted||current!==generation)return;
+    packet=signed;packetField.value=packet;
+    summary.replaceChildren(details([['Account',account.name],['Example action','Public CAW'],['Example cost',money(action.fee)],['Action number',action.nonce],['Valid for','Five minutes']]));
+    result.replaceChildren(el('p',{class:'check-result'},'Example signed. It has not been accepted, posted or charged.'));
+  }),'primary');
+  const check=button('Verify example',()=>work(async()=>{
+    const current=generation;await verifier.check(packet);
+    if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Signature and lab checks passed. No action number was consumed.'));
+  }));
+  const accept=button('Accept once in lab',()=>work(async()=>{
+    const current=generation,receipt=await verifier.accept(packet);
+    if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Accepted in this lab. Next action number: '+receipt.nextNonce+'. Repeating it will be rejected. Balances and history are unchanged.'));
+  }));
+  const tamper=button('Change example text',()=>{
+    if(busy||!packet)return;
+    const altered=JSON.parse(packet);altered.action.text='These words were changed after signing.';
+    packet=JSON.stringify(altered);packetField.value=packet;
+    result.replaceChildren(el('p',{},'Text changed; the original signature is retained. Verify it to inspect the rejection.'));
+  });
+  controls();
+  return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
+    el('p',{},'A temporary key signs a fixed example in this tab. No wallet, post or payment. These keys do not prove ownership of a CAW account.'),
+    el('p',{class:'small muted'},'Create an example, verify it, then accept it twice to check replay rejection. Create a new example before testing changed text. Leaving this view closes the lab.'),
+    el('div',{class:'pending-actions'},create,check,accept,tamper),summary,result,
+    el('details',{},el('summary',{},'Inspect signed bytes'),packetField),
+    el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
+    el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
+}
 function renderAccount(){
   const account=state.accounts[selected];
   const nameInput=el('input',{id:'name-preview',class:'text-input',placeholder:'a lowercase name',autocomplete:'off',maxlength:32,'aria-describedby':'name-result'});
@@ -288,7 +351,8 @@ function renderAccount(){
   return el('div',{},el('p',{class:'section-intro'},'Inspect a synthetic account. Its balance, controller and ownership epoch belong only to this local demonstration.'),
     el('section',{class:'card'},identity(selected),el('div',{class:'mini-rule'}),el('div',{class:'metrics'},el('div',{class:'metric'},el('span',{class:'eyebrow'},'DEMO BALANCE'),el('div',{class:'value'},formatAmount(account.balance)),el('span',{class:'unit'},'SYNTHETIC CAW')),el('div',{class:'metric'},el('span',{class:'eyebrow'},'FIXTURE STAKE WEIGHT'),el('div',{class:'value'},account.stake),el('span',{class:'small muted'},'Provisional, fixed units'))),details([['Synthetic controller',account.controller],['Ownership epoch',account.epoch],['Next action nonce',account.nonce],['Held rounding reserve',`${state.poolDust} base units`]])),
     el('section',{class:'card'},el('span',{class:'eyebrow'},'A NAME, WITHOUT THE GUESSWORK'),el('h3',{},'Inspect a username'),el('label',{for:'name-preview',class:'field-label'},'Proposed name'),nameInput,nameResult,el('p',{class:'source-note'},'The recommendation is preserved for comparison. Zero-address burn compatibility and production name limits are unresolved.')),
-    el('section',{class:'card'},el('span',{class:'eyebrow'},'OWNERSHIP DEMONSTRATION'),el('h3',{},'Transfer demo control'),el('p',{id:'transfer-note',class:'small muted'},'Change this fixture account’s controller. Previous-controller actions become invalid; this does not transfer an NFT or any private messages.'),el('div',{class:'form-row'},el('div',{class:'field'},el('label',{for:'transfer-controller',class:'field-label'},'New synthetic controller'),newController),button('Review demo transfer',()=>review('transfer',{newController:newController.value}),'secondary',{disabled:Boolean(pending)})))
+    el('section',{class:'card'},el('span',{class:'eyebrow'},'OWNERSHIP DEMONSTRATION'),el('h3',{},'Transfer demo control'),el('p',{id:'transfer-note',class:'small muted'},'Change this fixture account’s controller. Previous-controller actions become invalid; this does not transfer an NFT or any private messages.'),el('div',{class:'form-row'},el('div',{class:'field'},el('label',{for:'transfer-controller',class:'field-label'},'New synthetic controller'),newController),button('Review demo transfer',()=>review('transfer',{newController:newController.value}),'secondary',{disabled:Boolean(pending)}))),
+    renderSignatureLab()
   );
 }
 function receiptCard(receipt){
@@ -461,6 +525,7 @@ function renderMedia(){
 }
 function render(){
   if(mediaCleanup){mediaCleanup();mediaCleanup=null;}
+  if(signatureCleanup){signatureCleanup();signatureCleanup=null;}
   $('page-title').textContent=views[activeView];document.title=`CAW Social · ${views[activeView]} · Alpha simulation`;
   $('navigation').replaceChildren(...Object.entries(views).map(([key])=>el('button',{type:'button',class:`nav-button ${activeView===key?'active':''}`,'aria-current':activeView===key?'page':null,onClick:()=>navigate(key)},icon(key),views[key])));
   renderContext();renderPending();
@@ -493,5 +558,5 @@ try{
   navigate(initialView==='main'?'feed':initialView||'feed',initialView==='main');
 }catch(error){$('view').replaceChildren(el('section',{class:'card'},el('h2',{},'The demonstration could not start.'),el('p',{class:'muted'},error.message)));}
 
-window.addEventListener('pagehide',()=>{if(mediaCleanup){mediaCleanup();mediaCleanup=null;}});
+window.addEventListener('pagehide',()=>{if(mediaCleanup){mediaCleanup();mediaCleanup=null;}if(signatureCleanup){signatureCleanup();signatureCleanup=null;}});
 window.addEventListener('pageshow',event=>{if(event.persisted && state)render();});

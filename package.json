@@ -1,13 +1,13 @@
 {
   "name": "caw-social-alpha",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "private": true,
   "type": "module",
   "description": "Community CAW frontend and synthetic reference model for peer review",
   "engines": { "node": "24.20.0" },
   "scripts": {
     "start": "node --max-old-space-size=128 server.mjs",
-    "test": "node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs",
+    "test": "node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs",
     "build": "node --max-old-space-size=128 scripts/build.mjs"
   }
 }

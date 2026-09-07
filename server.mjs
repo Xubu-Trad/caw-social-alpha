@@ -15,6 +15,7 @@ const ROUTES = new Map([
   ['/model.mjs', [new URL('./public/model.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/history.mjs', [new URL('./public/history.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/economics.mjs', [new URL('./public/economics.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
+  ['/signatures.mjs', [new URL('./public/signatures.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/fixtures.json', [new URL('./public/fixtures.json', import.meta.url), 'application/json; charset=utf-8']],
   ['/media.mjs', [new URL('./public/media.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/deployment.mjs', [new URL('./public/deployment.mjs', import.meta.url), 'text/javascript; charset=utf-8']],

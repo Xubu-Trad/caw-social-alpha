@@ -1,6 +1,6 @@
 # Identity, authorization and private-message keys
 
-Status: PROPOSED. No wallet authentication or encryption is implemented in the first fixture scope.
+Status: PROPOSED production design. The separate [signature lab](SIGNATURE_LAB.md) now exercises ephemeral Ed25519 signing, exact action binding, expiry, revocation and an in-memory action counter. It neither authenticates wallets/NFT owners nor encrypts messages. Commons settlement remains unsigned and synthetic.
 
 ## Separate authorities
 
@@ -18,7 +18,7 @@ For later service authentication, evaluate [ERC-4361 / SIWE](https://eips.ethere
 
 Bind version, network/chain, contract, account/NFT, action type, exact content digest, cost parameters or fixed-schedule commitment, recipient, nonce and validity interval. Specify canonical bytes and domain separation. Reject changed content, cross-domain replays, duplicate application, stale owners, expired sessions and modified costs. Choose nonce/order and NFT transfer rules in the specification before implementing irreversible settlement.
 
-A session grant must disclose scope, budget and expiry. Revocation and ownership changes invalidate relevant future actions at the authoritative boundary. Login is not a token approval. The fixture prototype uses labelled simulated authorization states, not actual cryptographic signing.
+A session grant must disclose scope, budget and expiry. Revocation and ownership changes invalidate relevant future actions at the authoritative boundary. Login is not a token approval. Commons actions still use simulated authorization; actual signing exists only in the separate, unfunded signature lab.
 
 ## DM questions that block production messaging
 
@@ -28,4 +28,4 @@ Prior owners and recipients may retain copied plaintext or keys. No protocol can
 
 Select maintained reviewed cryptographic protocols only after that model is settled. Independently assess implementation, test vectors, key lifecycle, metadata, online/offline delivery and backup behavior. BitChat or Nostr documentation is not a security review of CAW. Group messaging and experimental Bluetooth transport are outside this baseline.
 
-The interface may show a clearly disabled, explanatory Messages view or synthetic preview. It must not accept actual private correspondence, persist real secrets, connect a wallet, request a signature or describe demo messages as encrypted.
+The Messages view may show a clearly disabled explanation or synthetic preview. It must not accept actual private correspondence, persist real secrets, connect a wallet, request a signature or describe demo messages as encrypted.
