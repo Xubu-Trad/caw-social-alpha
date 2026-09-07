@@ -6,7 +6,7 @@ For a finding, give the commit, requirement or conflict ID, expected result, obs
 
 For a proposed patch, describe the trigger and resulting behavior, source basis, tests, dependencies and limitations. Run the existing tests; add tests for actual behavioral changes. Keep language short and claims checkable. Record objections and alternative interpretations rather than silently changing the specification.
 
-This repository can receive peer-review input and proposed changes. Any outgoing contribution to the original CAW project is for the relevant cawdevelopment repository, with its exact base branch verified. GilgameshCaw/Caw remains reference only. No automated requests to individual reviewers are sent.
+This repository can receive peer-review input and proposed changes. Any outgoing contribution to the original CAW project is for the relevant cawdevelopment repository, with its exact base branch verified. No automated requests to individual reviewers are sent.
 
 Open source licensing is still to be selected; see LICENSE_STATUS.md before assuming redistribution rights. A public repository does not itself grant a general software license.
 

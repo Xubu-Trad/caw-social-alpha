@@ -1,4 +1,4 @@
-> Historical UI brief: its 40/44-test references describe earlier snapshots. Current alpha validation is 51 automated tests; see [VALIDATION.md](VALIDATION.md) for the exact scope and remaining gaps.
+> Historical UI brief: its 40/44-test references describe earlier snapshots. The first alpha revision passed 51 automated tests; see [VALIDATION.md](VALIDATION.md) for the exact scope and remaining gaps.
 
 # Product and interface brief
 

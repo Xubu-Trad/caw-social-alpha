@@ -13,6 +13,7 @@ const ROUTES = new Map([
   ['/styles.css', [new URL('./public/styles.css', import.meta.url), 'text/css; charset=utf-8']],
   ['/app.mjs', [new URL('./public/app.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/model.mjs', [new URL('./public/model.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
+  ['/history.mjs', [new URL('./public/history.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/fixtures.json', [new URL('./public/fixtures.json', import.meta.url), 'application/json; charset=utf-8']],
   ['/media.mjs', [new URL('./public/media.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/deployment.mjs', [new URL('./public/deployment.mjs', import.meta.url), 'text/javascript; charset=utf-8']],

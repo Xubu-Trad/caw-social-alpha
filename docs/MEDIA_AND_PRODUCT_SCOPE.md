@@ -41,7 +41,7 @@ The current preparation includes an associated `website.html`, paths that work u
 
 Native-app and installable-PWA distribution remain proposed. No installation, service worker, push service, background media access or offline guarantee is part of this phase. Name registration, hosting accounts, storage purchases, uploads and production deployment are separate actions; no provider is selected by this document.
 
-Future contributions may target only the relevant **cawdevelopment** repository. **GilgameshCaw/Caw remains reference only and must never be a pull-request target.** The destination rule does not itself authorize a public write; see [CONTRIBUTING.md](../CONTRIBUTING.md).
+Future contributions may target only the relevant **cawdevelopment** repository. The destination rule does not itself authorize a public write; see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ## Production gates
 

@@ -4,7 +4,7 @@ Prepared 2026-09-07. **Nothing is deployed by this plan.** No host/account/proje
 
 The next suitable target is a **hosted synthetic website/app preview**, after the gates below. It would demonstrate navigation, local actions, accounting/replay and deliberately selected local media previews. It would not be a decentralized network, a functioning CAW protocol or a financial product. Contract/testnet deployment is a separate later phase with presently missing implementation and specifications.
 
-Read the [comparison review](REFERENCE_COMPARISON_REVIEW.md), [portable build](PORTABLE_WEB_BUILD.md), [resilience plan](RESILIENCE_PLAN.md) and [media scope](MEDIA_AND_PRODUCT_SCOPE.md). The 59 primary requirement rows and 15 production conflicts remain in force; hosting a fixture does not resolve them.
+Read the [manifesto/R2 alignment review](MANIFESTO_R2_ALIGNMENT_REVIEW.md), [portable build](PORTABLE_WEB_BUILD.md), [resilience plan](RESILIENCE_PLAN.md) and [media scope](MEDIA_AND_PRODUCT_SCOPE.md). The 59 primary requirement rows and 15 production conflicts remain in force; hosting a fixture does not resolve them.
 
 ## Release decision record
 
@@ -23,7 +23,7 @@ Before requesting or exercising a publication decision, prepare these concrete f
 | Evidence | Final syntax/automated/browser/package results for the outgoing artifact, plus explicitly untested cases |
 | Authorization boundary | Confirm the requested destination and visibility against the user's instructions; no implicit permission for a new repository, PR, domain purchase, native app or chain action |
 
-Do not use GilgameshCaw/Caw as a contribution target. The comparison report lists refreshed cawdevelopment heads; the relevant target and branch still need selection for an actual upstream change. Destination eligibility does not imply write access or current interoperability.
+Upstream contributions belong in the relevant cawdevelopment repository. Verify its target and base branch before an actual submission. Destination eligibility does not imply write access or interoperability.
 
 ## Stage A — finish the local release candidate
 

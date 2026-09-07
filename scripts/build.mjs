@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 export const ASSETS = Object.freeze(['index.html', 'website.html', 'styles.css', 'website.css',
-  'app.mjs', 'model.mjs', 'media.mjs', 'deployment.mjs', 'deployment.json', 'alpha.mjs',
+  'app.mjs', 'model.mjs', 'history.mjs', 'media.mjs', 'deployment.mjs', 'deployment.json', 'alpha.mjs',
   'fixtures.json', 'caw-symbol.png']);
 const PUBLIC = new URL('../public/', import.meta.url);
 const OUTPUT = new URL('../dist/', import.meta.url);

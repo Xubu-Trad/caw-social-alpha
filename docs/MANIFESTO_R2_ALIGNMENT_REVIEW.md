@@ -1,3 +1,5 @@
+> Recovery revision: [saved-history verification](HISTORY_RECOVERY.md) now checks exact canonical exports against separately retained checkpoints. [Current validation](VALIDATION.md) records the tested code. The original review below remains a baseline; source conflicts and unimplemented production requirements remain open.
+
 # Manifesto and recovered R2: alpha alignment review
 
 Reviewed 2026-09-07, before the next test-deployment candidate. This is a source and implementation comparison, not an application execution, independent security audit or community release decision. It contains no private research, account identifiers, credentials or machine paths.
@@ -198,4 +200,4 @@ A **protocol test deployment** requires a separate real vertical slice: verified
 
 Before any production release, add independent review and reproduction, documented source decisions, privacy/media/retention and operating-cost evidence, full deployed wiring checks, and the actual loss-of-original-operator exercise. The decoded instruction to build is a mandate for that work, not evidence that it has already been done.
 
-Future upstream contributions are restricted by user direction to the appropriate **cawdevelopment** repository. **GilgameshCaw/Caw is reference only and must never be the pull-request destination.** Nothing in archived documents is treated as a new instruction to execute, publish or deploy.
+Future upstream contributions are restricted by user direction to the appropriate **cawdevelopment** repository. Nothing in archived documents is treated as a new instruction to execute, publish or deploy.

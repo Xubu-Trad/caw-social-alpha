@@ -1,6 +1,7 @@
 import { UNIT, createState, previewAction, applyAction, rebuild, canonicalExport, formatAmount, countCharacters } from './model.mjs';
 import {inspectMedia,validateVideoMetadata,MEDIA_LIMITS} from './media.mjs';
 import {loadEnvironment} from './deployment.mjs';
+import {createCheckpoint,verifyHistory} from './history.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -309,6 +310,42 @@ function renderReceipts(){
   else container.append(...[...state.receipts].reverse().map(receiptCard));
   return container;
 }
+function renderHistoryVerifier(){
+  const history=el('textarea',{id:'history-input',class:'data-field',maxlength:1048576,spellcheck:'false','aria-describedby':'history-scope'});
+  const checkpoint=el('textarea',{id:'checkpoint-input',class:'data-field',maxlength:1024,spellcheck:'false','aria-describedby':'history-scope'});
+  const result=el('div',{'aria-live':'polite'});
+  let revision=0;
+  const changed=()=>{revision+=1;result.replaceChildren();};
+  history.addEventListener('input',changed);checkpoint.addEventListener('input',changed);
+  const capture=button('Prepare this session',async()=>{
+    const generation=++revision, current=state;
+    capture.disabled=true;
+    try{
+      const text=canonicalExport(current), saved=await createCheckpoint(current);
+      if(generation!==revision||!history.isConnected)return;
+      history.value=text;checkpoint.value=JSON.stringify(saved);
+      result.replaceChildren(el('p',{class:'check-result'},'Record and fingerprint prepared. Save them separately before relying on a later comparison.'));
+    }catch(error){if(generation===revision&&history.isConnected)result.replaceChildren(el('p',{class:'notice error'},error.message));}
+    finally{capture.disabled=false;}
+  });
+  const verify=button('Verify and rebuild',async()=>{
+    const generation=++revision, text=history.value, saved=checkpoint.value;
+    verify.disabled=true;result.replaceChildren(el('p',{},'Checking the saved record…'));
+    try{
+      if(saved.length>1024)throw new Error('The saved fingerprint is too large.');
+      const checked=await verifyHistory(text,JSON.parse(saved));
+      if(generation!==revision||!history.isConnected)return;
+      result.replaceChildren(el('p',{class:'check-result'},`Saved fingerprint matched. ${checked.state.events.length} synthetic events rebuilt.`),
+        el('p',{},`${Object.keys(checked.state.accounts).length} accounts · ${checked.state.posts.length} posts · active session unchanged.`),
+        el('p',{class:'source-note'},'This checks the supplied record against the fingerprint you supplied. A replacement of both can still pass. It does not verify a blockchain or an author.'));
+    }catch(error){if(generation===revision&&history.isConnected)result.replaceChildren(el('p',{class:'notice error'},`Record rejected. ${error instanceof SyntaxError?'Paste a valid saved fingerprint JSON.':error.message}`));}
+    finally{verify.disabled=false;}
+  },'primary');
+  return el('section',{class:'card'},el('h3',{},'Recover a saved record'),
+    el('p',{id:'history-scope',class:'small muted'},'Paste a synthetic export and its separately saved fingerprint. Verification stays on this device and does not change the active session. A fingerprint detects changed bytes; it does not prove authorship or complete history.'),
+    capture,el('label',{for:'history-input',class:'field-label'},'Exact exported JSON · up to 1 MiB'),history,
+    el('label',{for:'checkpoint-input',class:'field-label'},'Saved fingerprint JSON'),checkpoint,verify,result);
+}
 function renderOperators(){
   const result=el('div',{'aria-live':'polite'});
   const data=el('textarea',{id:'export-data',class:'data-field',readonly:true,'aria-label':'Canonical synthetic export'});data.value=canonicalExport(state);
@@ -330,6 +367,7 @@ function renderOperators(){
       const blob=new Blob([canonicalExport(state)],{type:'application/json'});const url=URL.createObjectURL(blob);const link=el('a',{href:url,download:'caw-social-demo.json'});document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
     }),button('Select JSON for copying',()=>{data.focus();data.select();announce('The complete synthetic JSON is selected. Use your device’s copy command.');}),el('p',{class:'source-note'},'If your browser does not download, select the JSON and copy it. This is unencrypted synthetic data. A self-consistent edited export is not evidence of an original signed history.'))
   );
+  container.append(renderHistoryVerifier());
   return container;
 }
 function renderMessages(){

@@ -1,3 +1,5 @@
+> Recovery revision: [saved-history verification](HISTORY_RECOVERY.md) now checks exact canonical exports against separately retained checkpoints. [Current validation](VALIDATION.md) records the tested code. The original review below remains a baseline; source conflicts and unimplemented production requirements remain open.
+
 # Data availability and reconstruction
 
 Status: synthetic export and reconstruction tests passed. Production data design remains proposed; no permanence or builder-disappears test has passed.
