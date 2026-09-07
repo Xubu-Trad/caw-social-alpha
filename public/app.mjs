@@ -5,6 +5,7 @@ import {createCheckpoint,verifyHistory} from './history.mjs';
 import {allocateFee,DEMO_FEES} from './economics.mjs';
 import {createDemoSigner} from './signatures.mjs';
 import {createSignedLedger} from './signed-ledger.mjs';
+import {createLabRecordCheckpoint,verifyLabRecord,LAB_RECORD_LIMITS} from './signed-record.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -282,14 +283,23 @@ function renderSignatureLab(){
   const ledgerField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Copied lab ledger',spellcheck:false});
   const summary=el('div');
   const ledgerSummary=el('div');
-  let signer=null,ledger=null,packet='',generation=0,mounted=true,busy=false;
+  const savedRecord=el('textarea',{class:'data-field',maxlength:LAB_RECORD_LIMITS.maxBytes,'aria-label':'Saved signed record',spellcheck:false});
+  const savedFingerprint=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved record fingerprint',spellcheck:false});
+  const savedBinding=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved test-key binding',spellcheck:false});
+  const recoveredField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Rebuilt copied ledger',spellcheck:false});
+  const recoveryResult=el('div',{'aria-live':'polite'});
+  let signer=null,ledger=null,packet='',generation=0,recoveryRevision=0,mounted=true,busy=false;
+  function recoveryChanged(){recoveryRevision+=1;recoveredField.value='';recoveryResult.replaceChildren();}
+  for(const field of [savedRecord,savedFingerprint,savedBinding])field.addEventListener('input',recoveryChanged);
   function controls(){
     create.disabled=busy;
     for(const control of [check,accept,tamper])control.disabled=busy||!packet;
     transfer.disabled=busy||!packet||ledger?.status().epoch!==account.epoch;
+    prepareRecord.disabled=busy||!ledger;verifyRecord.disabled=busy;
   }
   function clear(){
     generation+=1; signer?.revoke(); ledger?.revoke(); signer=null;ledger=null;packet='';packetField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
+    savedRecord.value='';savedFingerprint.value='';savedBinding.value='';recoveryChanged();
   }
   function showLedger(){
     const current=ledger.status();ledgerField.value=ledger.snapshot();
@@ -297,11 +307,12 @@ function renderSignatureLab(){
       ['Ownership epoch',current.epoch],['Next action number',current.nextNonce],['Total copied events',current.events],['Signatures accepted here',current.acceptedSignatures]]));
   }
   signatureCleanup=()=>{mounted=false;clear();};
-  async function work(operation){
+  async function work(operation,target=result,prefix='Example rejected. '){
     if(busy)return;
+    const recoveryVersion=recoveryRevision;
     busy=true;controls();
     try{await operation();}
-    catch(error){if(mounted)result.replaceChildren(el('p',{class:'notice error'},'Example rejected. '+error.message));}
+    catch(error){if(mounted&&(target!==recoveryResult||recoveryVersion===recoveryRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
     finally{busy=false;if(mounted)controls();}
   }
   const create=button('Create signed example',()=>work(async()=>{
@@ -343,6 +354,24 @@ function renderSignatureLab(){
     ledger.simulateTransfer(account.controller==='device-lab-next'?'device-lab-other':'device-lab-next');
     showLedger();result.replaceChildren(el('p',{},'Copied controller changed by an unsigned test control. The old signed example must now fail. No NFT was transferred; Commons is unchanged.'));
   }));
+  const prepareRecord=button('Prepare recovery record',()=>work(async()=>{
+    const current=generation,revision=recoveryRevision,captured=ledger.exportRecord();
+    recoveredField.value='';recoveryResult.replaceChildren();
+    const checkpoint=await createLabRecordCheckpoint(captured.recordText,captured.canonicalText);
+    if(!mounted||current!==generation||revision!==recoveryRevision)return;
+    savedRecord.value=captured.recordText;savedFingerprint.value=JSON.stringify(checkpoint);savedBinding.value=JSON.stringify(captured.binding);recoveredField.value='';
+    recoveryResult.replaceChildren(el('p',{},'Snapshot prepared. Copy the record, fingerprint and test-key binding before leaving. Keep the fingerprint separately; later actions are not added automatically.'));
+  },recoveryResult,'Record preparation failed. '));
+  const verifyRecord=button('Verify saved record',()=>work(async()=>{
+    const current=generation,revision=recoveryRevision;recoveredField.value='';recoveryResult.replaceChildren();
+    if(savedFingerprint.value.length>1024||savedBinding.value.length>1024)throw new Error('Fingerprint or binding exceeds the local input bound.');
+    const checked=await verifyLabRecord(savedRecord.value,JSON.parse(savedFingerprint.value),JSON.parse(savedBinding.value));
+    if(!mounted||current!==generation||revision!==recoveryRevision)return;
+    recoveredField.value=checked.canonicalText;
+    recoveryResult.replaceChildren(el('p',{class:'check-result'},'Saved fingerprints match. '+checked.signedActions+' signed CAW(s) checked; '+checked.fixtureTransfers+
+      ' unsigned controller change(s) and '+checked.inheritedEvents+' inherited event(s) replayed. Commons is unchanged.'),
+      el('p',{class:'source-note'},'This checks the supplied test key and recorded time windows. It does not prove account ownership or historical clock accuracy.'));
+  },recoveryResult,'Record rejected. '));
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
     el('p',{},'A temporary key signs a fixed example for a copy of this demo ledger. Acceptance spends synthetic CAW and adds a post only in that copy. No wallet or real payment; these keys do not prove account ownership.'),
@@ -350,6 +379,13 @@ function renderSignatureLab(){
     el('div',{class:'pending-actions'},create,check,accept,tamper,transfer),summary,result,ledgerSummary,
     el('details',{},el('summary',{},'Inspect signed bytes'),packetField),
     el('details',{},el('summary',{},'Inspect copied ledger'),ledgerField),
+    el('details',{},el('summary',{},'Save and verify a signed record'),
+      el('p',{},'Prepare this copy or paste a saved lab record, its separately retained fingerprint and test-key binding. Verification only rebuilds a result for inspection.'),
+      el('p',{class:'small muted'},'Up to 64 added events and 2 MiB of record text. A new example or leaving Identity clears these fields. No file is saved automatically.'),
+      prepareRecord,el('label',{class:'field-label'},'Saved signed record',savedRecord),
+      el('label',{class:'field-label'},'Saved record fingerprint',savedFingerprint),
+      el('label',{class:'field-label'},'Saved test-key binding',savedBinding),verifyRecord,recoveryResult,
+      el('details',{},el('summary',{},'Inspect rebuilt result'),recoveredField)),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
     el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
 }

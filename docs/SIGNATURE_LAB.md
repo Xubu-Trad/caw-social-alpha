@@ -23,6 +23,8 @@ That counter lives in one JavaScript object. A new verifier, another tab, reload
 
 The copied-ledger adapter calls the non-consuming `check` operation, then uses the accounting model's nonce as its single acceptance counter. Failed accounting must not consume a separate verifier nonce. It rechecks its owned ledger revision, current authority, closure and time before committing. Its unsigned controller-change control is a fixture mutation for testing stale keys, not a signed transfer.
 
+Alpha.6 also captures exact packets and recorded local acceptance times in a [bounded recovery record](SIGNED_RECORD_RECOVERY.md). That record is committed with the copied model state. Its verifier checks supplied test-key signatures and reconstructed accounting against separately retained fingerprints; it does not prove real account ownership or historical wall time.
+
 ## Keys and lifecycle
 
 The native API creates a fresh Ed25519 private key with export disabled. The module exposes only its public key and bounded signing operation; no private-key export, user-key import, wallet call, persistence or network transmission is implemented. Closing/replacing the lab revokes its verifier and signer and drops references to its key. Pending results cannot restore a closed view.

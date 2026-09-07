@@ -1,6 +1,6 @@
 # One signature. One copied-ledger result.
 
-Alpha.5 connects the [local signature format](SIGNATURE_LAB.md) to the existing synthetic accounting model. Identity lets a reader create a signed example, check it, and accept it in a separate copy of the current demo ledger. The copied balance, post, fee allocation, receipt and nonce change together. Commons does not change.
+Alpha.5 connected the [local signature format](SIGNATURE_LAB.md) to the existing synthetic accounting model. Alpha.6 also preserves a [separate recovery record](SIGNED_RECORD_RECOVERY.md). Identity lets a reader create a signed example, check it, and accept it in a separate copy of the current demo ledger. The copied balance, post, fee allocation, receipt, nonce and recovery record change together. Commons does not change.
 
 ## Reproduce in the interface
 
@@ -24,7 +24,7 @@ The unchanged model checks funds, generated post identifiers, exact fee allocati
 
 Checking returns a frozen preview. Acceptance returns a frozen receipt. Status is frozen; the canonical snapshot is a string. Caller edits to initial state, binding or returned values do not edit the owned state. A controller change increments the same revision and model nonce, but is explicitly an unsigned test control. Revocation prevents future or pending acceptance.
 
-A successful check reserves nothing. Acceptance can still fail because of expiry, a ledger change, or the candidate's final export-size limit, which the preview does not evaluate.
+A successful check reserves nothing. Acceptance can still fail because of expiry, a ledger change, or the candidate's final export or recovery-record limits, which the preview does not evaluate.
 
 ## What the copy proves, and what it cannot
 
@@ -32,6 +32,6 @@ The active economics and accounting model are unchanged from alpha.3. Fixed stak
 
 The adapter has no wallet, NFT ownership lookup, delegated spending budget, contract-wallet support, blockchain, shared state, network, disk persistence or finality. Another independently created ledger can accept the same packet if given the same test binding and initial state. Reloading does not establish durable replay protection. A local revision is not a block height or consensus decision.
 
-The copied export is the existing unsigned synthetic history format. It permits deterministic model reconstruction, but does **not** preserve signed packets, historical key bindings or acceptance timestamps. It cannot independently prove signature authorization of past events. The displayed count is only signatures accepted by this live adapter; inherited Commons events and controller-change events are not thereby authenticated. No claim of a signed archival log is made.
+The ordinary copied export remains unsigned synthetic model history. The new, separately versioned [recovery record](SIGNED_RECORD_RECOVERY.md) preserves exact signed packets and recorded local times alongside explicit unsigned fixture changes. It is checked against a separately retained fingerprint and externally supplied test binding. It does not prove historical time or real ownership. The live signature count excludes inherited Commons events and unsigned controller changes; those events are not authenticated by replay.
 
 Source mapping remains partial: M-007/M-025 concern signing and account use; ownership, delegation, custody and durable reconstruction still require specified production designs and independent review. The UI creates no production authority and the protocol is not fully implemented. See [current validation](VALIDATION.md) for executed tests and browser coverage.

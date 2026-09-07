@@ -1,24 +1,11 @@
 // Signed synthetic settlement on an owned copy. No wallet, chain or persistence.
 import { applyAction, previewAction, canonicalExport, rebuild } from './model.mjs';
 import { createActionVerifier } from './signatures.mjs';
+import {copyLabBinding,createLabRecord,appendLabRecord} from './signed-record.mjs';
 
 function ensure(condition, code, message) {
   if (condition) return;
   const error = new Error(message); error.code = code; throw error;
-}
-function bindingCopy(value) {
-  const keys=['domain','account','controller','epoch','publicKey'];
-  ensure(value!==null && typeof value==='object' && !Array.isArray(value), 'INVALID_BINDING','Expected a separate test-key binding.');
-  const proto=Object.getPrototypeOf(value), own=Reflect.ownKeys(value);
-  ensure((proto===Object.prototype || proto===null) && own.length===keys.length && own.every(key=>keys.includes(key)),
-    'INVALID_BINDING','Use only the five test-key binding fields.');
-  const copy={};
-  for(const key of keys){
-    const descriptor=Object.getOwnPropertyDescriptor(value,key);
-    ensure(descriptor && Object.hasOwn(descriptor,'value') && descriptor.enumerable,'INVALID_BINDING','Binding fields must be plain data.');
-    copy[key]=descriptor.value;
-  }
-  return Object.freeze(copy);
 }
 function freeze(value) {
   if(value && typeof value==='object') { for(const child of Object.values(value))freeze(child);Object.freeze(value); }
@@ -27,9 +14,10 @@ function freeze(value) {
 
 export function createSignedLedger(initialState, binding, clock=()=>Math.floor(Date.now()/1000)) {
   // Validate and rebuild before owning a private copy; no caller can edit it.
-  const envelope=JSON.parse(canonicalExport(initialState));
+  const initialHistory=canonicalExport(initialState),envelope=JSON.parse(initialHistory);
   let state=rebuild(envelope.seed,envelope),revision=0,closed=false,acceptedSignatures=0;
-  const trusted=bindingCopy(binding);
+  let recordText=createLabRecord(initialHistory);
+  const trusted=copyLabBinding(binding);
   // Reuse the exact signature format's identity/key/nonce/clock validation.
   const validation=createActionVerifier({...trusted,nextNonce:0},clock);validation.revoke();
   ensure(Object.hasOwn(state.accounts,trusted.account),'UNKNOWN_ACCOUNT','The bound account is absent from this copied ledger.');
@@ -49,6 +37,7 @@ export function createSignedLedger(initialState, binding, clock=()=>Math.floor(D
     ensure(revision===expectedRevision,'STATE_CHANGED','The copied ledger changed during verification. Review the current state and try again.');
     authority(state.accounts[trusted.account]);
     ensure(now>=action.notBefore && now<action.expiresAt,'OUTSIDE_WINDOW','This signed action is not yet valid or has expired.');
+    return now;
   }
   async function process(text,commit){
     active();authority(state.accounts[trusted.account]);
@@ -61,16 +50,18 @@ export function createSignedLedger(initialState, binding, clock=()=>Math.floor(D
     // Everything that can reject the accounting result happens before commit.
     const candidate=commit?applyAction(before,intent):null;
     const result=freeze(commit?JSON.parse(JSON.stringify(candidate.receipts.at(-1))):previewAction(before,intent));
-    finalCheck(expectedRevision,action);
+    const acceptedAt=finalCheck(expectedRevision,action);
+    const nextRecord=commit?appendLabRecord(recordText,{kind:'signed-caw',packet:text,acceptedAt}):null;
     // One synchronous commit owns post, fee allocation, receipt and next nonce.
     // There is no second signature counter to consume on an accounting failure.
-    if(commit){state=candidate;revision+=1;acceptedSignatures+=1;}
+    if(commit){state=candidate;recordText=nextRecord;revision+=1;acceptedSignatures+=1;}
     return result;
   }
   return Object.freeze({
     check(text){return process(text,false);},
     accept(text){return process(text,true);},
     snapshot(){return canonicalExport(state);},
+    exportRecord(){return Object.freeze({recordText,canonicalText:canonicalExport(state),binding:trusted});},
     status(){const account=state.accounts[trusted.account];return Object.freeze({closed,revision,acceptedSignatures,
       account:account.name,controller:account.controller,epoch:account.epoch,nextNonce:account.nonce,
       balance:account.balance,events:state.events.length});},
@@ -80,7 +71,8 @@ export function createSignedLedger(initialState, binding, clock=()=>Math.floor(D
       const candidate=applyAction(state,{id:'transfer-'+account.name+'-'+account.nonce,kind:'transfer',actor:account.name,
         controller:account.controller,epoch:account.epoch,nonce:account.nonce,newController});
       const receipt=freeze(JSON.parse(JSON.stringify(candidate.receipts.at(-1))));
-      state=candidate;revision+=1;return receipt;
+      const nextRecord=appendLabRecord(recordText,{kind:'unsigned-fixture-transfer',newController});
+      state=candidate;recordText=nextRecord;revision+=1;return receipt;
     },
     revoke(){closed=true;}
   });

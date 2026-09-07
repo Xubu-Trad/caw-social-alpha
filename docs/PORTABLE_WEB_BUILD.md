@@ -1,6 +1,6 @@
 # Portable alpha build
 
-Run npm run build (or node scripts/build.mjs). dist/ contains sixteen allowlisted public assets and SHA256SUMS.txt. All application asset and configuration links are relative. The local server also exposes an exact /mirror/ prefix for relocation testing; it is the same process, not an independent operator.
+Run npm run build (or node scripts/build.mjs). dist/ contains seventeen allowlisted public assets and SHA256SUMS.txt. All application asset and configuration links are relative. The local server also exposes an exact /mirror/ prefix for relocation testing; it is the same process, not an independent operator.
 
 No installation or network fetch occurs during the static build. No public deployment was performed. A production static host must supply HTTPS, correct HTML/CSS/module/JSON/image MIME types, an isolated origin, no directory listing and the response policies below. Merely copying files does not apply headers:
 

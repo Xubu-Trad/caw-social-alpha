@@ -55,6 +55,7 @@ test('serves only the named public assets, with exact file bytes and MIME types'
     ['/economics.mjs', 'economics.mjs', 'text/javascript; charset=utf-8'],
     ['/signatures.mjs', 'signatures.mjs', 'text/javascript; charset=utf-8'],
     ['/signed-ledger.mjs', 'signed-ledger.mjs', 'text/javascript; charset=utf-8'],
+    ['/signed-record.mjs', 'signed-record.mjs', 'text/javascript; charset=utf-8'],
     ['/fixtures.json', 'fixtures.json', 'application/json; charset=utf-8'],
     ['/media.mjs', 'media.mjs', 'text/javascript; charset=utf-8'],
     ['/deployment.mjs', 'deployment.mjs', 'text/javascript; charset=utf-8'],

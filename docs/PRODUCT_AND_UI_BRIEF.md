@@ -1,3 +1,5 @@
+> Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
+
 > Signed settlement revision: [Identity verifies and applies CAWs in an isolated copied ledger](SIGNED_SETTLEMENT.md). Commons remains unsigned and synthetic. This does not authenticate NFT ownership or preserve signed archival history. Earlier reviews below are historical; [current validation](VALIDATION.md) controls test claims. All production conflicts remain unchanged.
 
 > Signature revision: [Identity now offers a local signature lab](SIGNATURE_LAB.md). It verifies a bounded synthetic action against a separate test-key binding; Commons settlement is still unsigned and synthetic. Earlier reviews below are historical. See [current validation](VALIDATION.md). No production conflict is resolved by this experiment.
