@@ -1,5 +1,7 @@
 # Keep the words. Rebuild the receipt.
 
+Alpha.8 adds [owner-granted records](OWNER_SIGNED_GRANTS.md) with the exact signed test-owner grant and a fifth, separately retained owner-authority input. It verifies owner approval by that supplied test key, not real NFT ownership or later revocation. The earlier two formats below retain their distinct verification rules.
+
 ## Alpha.7 permission extension
 
 [Delegated records](DELEGATED_PERMISSIONS.md) use the separate `caw-delegated-lab-record-v1` format and require a separately retained permission as a fourth trust input. Verification recomputes its signed domain and gross spending. Ordinary records below keep their original format. Any `grant-` binding requires a permission; dropping it cannot select the ordinary path. Input edits invalidate prior and pending verification results. Later revocation and owner approval remain unproven.
@@ -8,9 +10,9 @@ Alpha.6 preserves the copied ledger's exact signed packets and recorded local ac
 
 ## Use the recovery panel
 
-In Identity, create and accept a signed example. Expand **Save and verify a signed record**, then choose **Prepare recovery record**. Copy the record, fingerprint and test-key binding before leaving. Keep the fingerprint separately from the record; a fingerprint obtained from the same untrusted source is not independent evidence.
+In Identity, create and accept a signed example. Expand **Save and verify a signed record**, then choose **Prepare recovery record**. Copy all populated fields before leaving: record, fingerprint, spending-key binding, permission when present, and test-owner authority when present. Keep the fingerprint and trust values separately from the record; values obtained from the same untrusted source are not independent evidence.
 
-Choose **Verify saved record** and inspect the rebuilt result. To check a previous session, paste its record, separately retained fingerprint and test-key binding into the three fields. No live signer or active copied ledger is required for verification. A new example or leaving Identity clears the form. No file is saved automatically, and later actions are not silently added to an already prepared snapshot.
+Choose **Verify saved record** and inspect the rebuilt result. To check a previous session, paste the record and every applicable separately retained value into its corresponding field. Ordinary records use three fields, delegated records add permission, and owner-granted records also require test-owner authority. No live signer or active copied ledger is required for verification. A new example or leaving Identity clears the form. No file is saved automatically, and later actions are not silently added to an already prepared snapshot.
 
 The result reports signed CAWs, unsigned fixture-controller changes and inherited events separately. A controller-change button never becomes proof of a wallet transaction or NFT transfer.
 

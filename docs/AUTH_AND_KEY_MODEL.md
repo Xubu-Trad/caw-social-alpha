@@ -1,6 +1,8 @@
 # Identity, authorization and private-message keys
 
-The [limited test-key experiment](DELEGATED_PERMISSIONS.md) now enforces a proposed scope, gross-fee budget, signed permission commitment and expiry in a copied fixture. Grant creation is an unsigned local control; authoritative ownership and owner-signed delegation remain unimplemented. Existing design requirements below retain that production boundary.
+Alpha.8 adds [test-owner-signed grants](OWNER_SIGNED_GRANTS.md). A separately supplied owner test key approves exact limited terms for another key; both signatures are checked before copied settlement. Real NFT/wallet ownership, persistent grant lifecycle and production authorization remain unimplemented. The earlier unsigned-grant experiment below remains available for comparison.
+
+The earlier [limited test-key experiment](DELEGATED_PERMISSIONS.md) enforces a proposed scope, gross-fee budget, signed permission commitment and expiry in a copied fixture. Its comparison path uses an unsigned local grant control. Production ownership-based delegation remains unimplemented; the alpha.8 extension above verifies only supplied test-owner authority. Existing design requirements below retain that production boundary.
 
 Status: PROPOSED production design. The separate [signature lab](SIGNATURE_LAB.md) exercises ephemeral Ed25519 signing, exact action binding, expiry and revocation. Its [copied ledger](SIGNED_SETTLEMENT.md) applies verified CAWs and advances the model nonce atomically. It neither authenticates wallets/NFT owners nor encrypts messages. Commons settlement remains unsigned and synthetic.
 

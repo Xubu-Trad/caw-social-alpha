@@ -1,5 +1,7 @@
 # Limited test keys
 
+Alpha.8 also provides a separate [test-owner-signed grant path](OWNER_SIGNED_GRANTS.md), with both-key verification and its own record/domain format. The unsigned local permission experiment described below remains supported; it must not be treated as owner approval.
+
 Status: alpha.7 local experiment. A permission limits a temporary test key to public CAWs, a total gross-fee budget and a validity interval. It is created by an **unsigned local fixture control**, not by an authenticated NFT owner. No real funds, wallet, chain or external authority provider is involved.
 
 ## Source and proposal

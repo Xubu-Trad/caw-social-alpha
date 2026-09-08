@@ -7,6 +7,7 @@ import {createDemoSigner} from './signatures.mjs';
 import {createSignedLedger} from './signed-ledger.mjs';
 import {createLabRecordCheckpoint,verifyLabRecord,LAB_RECORD_LIMITS} from './signed-record.mjs';
 import {bindDelegation} from './delegation.mjs';
+import {createOwnerGrantSigner,makeOwnerGrant,verifyOwnerGrant} from './owner-grant.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -288,13 +289,16 @@ function renderSignatureLab(){
   const savedFingerprint=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved record fingerprint',spellcheck:false});
   const savedBinding=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved test-key binding',spellcheck:false});
   const savedPermission=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved permission',spellcheck:false});
+  const savedOwner=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved test-owner authority',spellcheck:false});
+  const ownerPacketField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed test-owner grant',spellcheck:false});
   const recoveredField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Rebuilt copied ledger',spellcheck:false});
   const recoveryResult=el('div',{'aria-live':'polite'});
-  let signer=null,ledger=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
+  let signer=null,ownerSigner=null,ledger=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
   function recoveryChanged(){recoveryRevision+=1;recoveredField.value='';recoveryResult.replaceChildren();}
-  for(const field of [savedRecord,savedFingerprint,savedBinding,savedPermission])field.addEventListener('input',recoveryChanged);
+  for(const field of [savedRecord,savedFingerprint,savedBinding,savedPermission,savedOwner])field.addEventListener('input',recoveryChanged);
   function controls(){
     create.disabled=busy;
+    ownerLimited.disabled=busy;
     limited.disabled=busy;nextExample.disabled=busy||!packet||ledger?.status().closed||ledger?.status().epoch!==labEpoch;
     revokeKey.disabled=busy||!ledger||ledger?.status().closed;
     for(const control of [check,accept,tamper])control.disabled=busy||!packet;
@@ -302,14 +306,15 @@ function renderSignatureLab(){
     prepareRecord.disabled=busy||!ledger;verifyRecord.disabled=busy;
   }
   function clear(){
-    generation+=1; signer?.revoke(); ledger?.revoke(); signer=null;ledger=null;packet='';packetField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
-    savedRecord.value='';savedFingerprint.value='';savedBinding.value='';savedPermission.value='';recoveryChanged();
+    generation+=1; signer?.revoke();ownerSigner?.revoke();ledger?.revoke();signer=null;ownerSigner=null;ledger=null;packet='';packetField.value='';ownerPacketField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
+    savedRecord.value='';savedFingerprint.value='';savedBinding.value='';savedPermission.value='';savedOwner.value='';recoveryChanged();
   }
   function showLedger(){
     const current=ledger.status();ledgerField.value=ledger.snapshot();
     ledgerSummary.replaceChildren(el('h3',{},'Copied ledger'),details([['Copied balance',money(current.balance)],['Controller',current.controller],
       ['Ownership epoch',current.epoch],['Next action number',current.nextNonce],['Total copied events',current.events],['Signatures accepted here',current.acceptedSignatures],
       ['Key status',current.closed?'Revoked locally':'Check validity when accepting'],
+      ...(current.ownerGrantRequired?[['Grant evidence','Test-owner signature required at acceptance']]:[]),
       ...(current.delegation?[['Permission scope','Public CAWs only'],['Permission budget',money(current.delegation.permission.budget)],
         ['Permission used',money(current.delegation.spent)],['Permission remaining',money(current.delegation.remaining)]]:[])]));
   }
@@ -322,7 +327,7 @@ function renderSignatureLab(){
     catch(error){if(mounted&&(target!==recoveryResult||recoveryVersion===recoveryRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
     finally{busy=false;if(mounted)controls();}
   }
-  async function startExample(usePermission){
+  async function startExample(usePermission,useOwner=false){
     clear(); const current=generation;
     result.replaceChildren(el('p',{},'Preparing a temporary test key…'));summary.replaceChildren();
     const nextSigner=await createDemoSigner();
@@ -331,9 +336,20 @@ function renderSignatureLab(){
     const now=Math.floor(Date.now()/1000),permission=usePermission?{scope:'caw',budget:(2n*BigInt(DEMO_FEES.caw)).toString(),notBefore:now,expiresAt:now+300}:undefined;
     const initial=usePermission?createState(seed):state,owner=initial.accounts[account.name];
     let binding={domain:'lab-'+crypto.randomUUID(),account:owner.name,controller:owner.controller,epoch:owner.epoch,publicKey:signer.publicKey};
-    if(permission)binding=await bindDelegation(binding,permission);
+    let ownerAuthorization;
+    if(useOwner){
+      const nextOwner=await createOwnerGrantSigner();
+      if(!mounted||current!==generation){nextOwner.revoke();return;}ownerSigner=nextOwner;
+      const authority={domain:'owner-lab-'+crypto.randomUUID(),account:owner.name,controller:owner.controller,epoch:owner.epoch,publicKey:ownerSigner.publicKey};
+      const ownerPacket=await ownerSigner.sign(makeOwnerGrant(authority,signer.publicKey,permission));
+      if(!mounted||current!==generation)return;
+      ownerSigner.revoke();ownerSigner=null;
+      const verified=await verifyOwnerGrant(ownerPacket,authority);
+      if(!mounted||current!==generation)return;
+      binding=verified.binding;ownerAuthorization={packet:ownerPacket,authority};ownerPacketField.value=ownerPacket;
+    }else if(permission)binding=await bindDelegation(binding,permission);
     if(!mounted||current!==generation)return;
-    ledger=createSignedLedger(initial,binding,()=>Math.floor(Date.now()/1000),permission);
+    ledger=createSignedLedger(initial,binding,()=>Math.floor(Date.now()/1000),permission,ownerAuthorization);
     labEpoch=owner.epoch;
     const action={account:owner.name,controller:owner.controller,deployment:'unconnected-lab',domain:binding.domain,epoch:owner.epoch,
       expiresAt:now+300,fee:DEMO_FEES.caw,kind:'caw',network:'simulation',nonce:owner.nonce,notBefore:now,
@@ -343,10 +359,11 @@ function renderSignatureLab(){
     packet=signed;packetField.value=packet;
     showLedger();
     summary.replaceChildren(details([['Account',account.name],['Example action','Public CAW'],['Example cost',money(action.fee)],['Action number',action.nonce],['Valid for','Five minutes']]));
-    result.replaceChildren(el('p',{class:'check-result'},permission?'Limited test key prepared on a fresh fixture: two public CAWs, 10,000 synthetic CAW total, five minutes. This is an unsigned local grant control; no owner authorization is proven.':'Example signed. The copied ledger is unchanged until you accept it.'));
+    result.replaceChildren(el('p',{class:'check-result'},useOwner?'Test-owner grant signed and checked. A separate spending key may post two public CAWs within five minutes. Acceptance verifies both signatures. The supplied test-owner key does not prove NFT ownership.':permission?'Limited test key prepared on a fresh fixture: two public CAWs, 10,000 synthetic CAW total, five minutes. This is an unsigned local grant control; no owner authorization is proven.':'Example signed. The copied ledger is unchanged until you accept it.'));
   }
   const create=button('Create signed example',()=>work(()=>startExample(false)),'primary');
   const limited=button('Create limited permission',()=>work(()=>startExample(true)));
+  const ownerLimited=button('Create owner-signed permission',()=>work(()=>startExample(true,true)));
   const nextExample=button('Sign next example',()=>work(async()=>{
     const current=generation,captured=ledger.exportRecord(),status=ledger.status(),now=Math.floor(Date.now()/1000);
     const signed=await signer.sign({account:status.account,controller:status.controller,deployment:'unconnected-lab',domain:captured.binding.domain,epoch:status.epoch,
@@ -385,18 +402,20 @@ function renderSignatureLab(){
     const checkpoint=await createLabRecordCheckpoint(captured.recordText,captured.canonicalText);
     if(!mounted||current!==generation||revision!==recoveryRevision)return;
     savedRecord.value=captured.recordText;savedFingerprint.value=JSON.stringify(checkpoint);savedBinding.value=JSON.stringify(captured.binding);savedPermission.value=captured.delegation?JSON.stringify(captured.delegation):'';recoveredField.value='';
-    recoveryResult.replaceChildren(el('p',{},'Snapshot prepared. Copy the record, fingerprint, test-key binding and any permission before leaving. Keep trust values separately; later actions are not added automatically.'));
+    savedOwner.value=captured.ownerAuthority?JSON.stringify(captured.ownerAuthority):'';
+    recoveryResult.replaceChildren(el('p',{},'Snapshot prepared. Copy the record and all populated trust fields before leaving. Keep fingerprint, key bindings and permission separately; later actions are not added automatically.'));
   },recoveryResult,'Record preparation failed. '));
   const verifyRecord=button('Verify saved record',()=>work(async()=>{
     const current=generation,revision=recoveryRevision;recoveredField.value='';recoveryResult.replaceChildren();
-    if(savedFingerprint.value.length>1024||savedBinding.value.length>1024||savedPermission.value.length>1024)throw new Error('Fingerprint, binding or permission exceeds the local input bound.');
-    const checked=await verifyLabRecord(savedRecord.value,JSON.parse(savedFingerprint.value),JSON.parse(savedBinding.value),savedPermission.value?JSON.parse(savedPermission.value):undefined);
+    if([savedFingerprint,savedBinding,savedPermission,savedOwner].some(field=>field.value.length>1024))throw new Error('A saved trust field exceeds the local input bound.');
+    const checked=await verifyLabRecord(savedRecord.value,JSON.parse(savedFingerprint.value),JSON.parse(savedBinding.value),savedPermission.value?JSON.parse(savedPermission.value):undefined,savedOwner.value?JSON.parse(savedOwner.value):undefined);
     if(!mounted||current!==generation||revision!==recoveryRevision)return;
     recoveredField.value=checked.canonicalText;
     recoveryResult.replaceChildren(el('p',{class:'check-result'},'Saved fingerprints match. '+checked.signedActions+' signed CAW(s) checked; '+checked.fixtureTransfers+
       ' unsigned controller change(s) and '+checked.inheritedEvents+' inherited event(s) replayed. Commons is unchanged.'),
       ...(checked.delegation?[el('p',{class:'check-result'},'Permission checked: '+money(checked.delegation.spent)+' used; '+money(checked.delegation.remaining)+' remaining in the saved copy.')]:[]),
-      el('p',{class:'source-note'},'This checks supplied test trust and recorded time windows. It does not prove owner approval, account ownership, later revocation or historical clock accuracy.'));
+      ...(checked.ownerGrantVerified?[el('p',{class:'check-result'},'Test-owner grant signature verified against the separately supplied authority.')]:[]),
+      el('p',{class:'source-note'},'This checks supplied test trust and recorded time windows. It does not prove real NFT-owner approval, account ownership, later revocation or historical clock accuracy.'));
   },recoveryResult,'Record rejected. '));
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
@@ -406,16 +425,19 @@ function renderSignatureLab(){
     el('details',{},el('summary',{},'Try a limited test key'),
       el('p',{},'Proposed safeguard: public CAWs only, a 10,000 synthetic CAW budget and five-minute expiry. Creating it starts a fresh fixture copy. No withdrawal or account-transfer permission is granted.'),
       el('p',{class:'small muted'},'Accept two examples, then sign a third to check the limit. Revoke the key or change copied control to check invalidation. Each new copy has independent counters; this does not provide durable replay protection.'),
-      el('div',{class:'pending-actions'},limited,nextExample,revokeKey)),
+      el('p',{class:'small muted'},'Owner-signed mode uses two temporary keys: one approves the grant, the other signs posts. The ordinary limited-permission button retains the unsigned fixture comparison.'),
+      el('div',{class:'pending-actions'},ownerLimited,limited,nextExample,revokeKey)),
     el('details',{},el('summary',{},'Inspect signed bytes'),packetField),
+    el('details',{},el('summary',{},'Inspect test-owner grant'),ownerPacketField),
     el('details',{},el('summary',{},'Inspect copied ledger'),ledgerField),
     el('details',{},el('summary',{},'Save and verify a signed record'),
-      el('p',{},'Prepare this copy or paste a saved lab record, its separately retained fingerprint, test-key binding and any permission. Verification only rebuilds a result for inspection.'),
+      el('p',{},'Prepare this copy or paste a saved record with its separately retained fingerprint, spending-key binding, permission and test-owner authority when present. Verification only rebuilds a result for inspection.'),
       el('p',{class:'small muted'},'Up to 64 added events and 2 MiB of record text. A new example or leaving Identity clears these fields. No file is saved automatically.'),
       prepareRecord,el('label',{class:'field-label'},'Saved signed record',savedRecord),
       el('label',{class:'field-label'},'Saved record fingerprint',savedFingerprint),
       el('label',{class:'field-label'},'Saved test-key binding',savedBinding),
-      el('label',{class:'field-label'},'Saved permission · leave empty for an ordinary signed record',savedPermission),verifyRecord,recoveryResult,
+      el('label',{class:'field-label'},'Saved permission · leave empty for an ordinary signed record',savedPermission),
+      el('label',{class:'field-label'},'Saved test-owner authority · only for owner-signed records',savedOwner),verifyRecord,recoveryResult,
       el('details',{},el('summary',{},'Inspect rebuilt result'),recoveredField)),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
     el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));

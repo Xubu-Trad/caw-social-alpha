@@ -3,9 +3,11 @@
 import {applyAction,canonicalExport,countCharacters,rebuild} from './model.mjs';
 import {createActionVerifier} from './signatures.mjs';
 import {copyDelegation,checkDelegation,bindDelegation} from './delegation.mjs';
+import {readOwnerGrant,copyOwnerAuthority,verifyOwnerBinding} from './owner-grant.mjs';
 
 const FORMAT='caw-signed-lab-record-v1',CHECKPOINT='caw-signed-lab-checkpoint-v1';
 const DELEGATED_FORMAT='caw-delegated-lab-record-v1';
+const OWNER_FORMAT='caw-owner-granted-lab-record-v1';
 export const LAB_RECORD_LIMITS=Object.freeze({maxBytes:2*1024*1024,maxEntries:64});
 const encoder=new TextEncoder();
 function ensure(condition,code,message){if(condition)return;const error=new Error(message);error.code=code;throw error;}
@@ -44,21 +46,23 @@ function entryCopy(value){
   return Object.freeze(entry);
 }
 function recordCopy(text){
-  bytes(text,LAB_RECORD_LIMITS.maxBytes);const parsed=parse(text),delegated=parsed?.format===DELEGATED_FORMAT;
-  const value=fields(parsed,delegated?['format','initialHistory','delegation','entries']:['format','initialHistory','entries']);
+  bytes(text,LAB_RECORD_LIMITS.maxBytes);const parsed=parse(text),ownerGranted=parsed?.format===OWNER_FORMAT,delegated=ownerGranted||parsed?.format===DELEGATED_FORMAT;
+  const value=fields(parsed,ownerGranted?['format','initialHistory','delegation','ownerGrant','entries']:delegated?['format','initialHistory','delegation','entries']:['format','initialHistory','entries']);
   ensure((value.format===FORMAT||delegated)&&Array.isArray(value.entries)&&value.entries.length<=LAB_RECORD_LIMITS.maxEntries,'INVALID_RECORD','Unsupported record format or entry count.');
   // JSON.parse supplies dense data arrays; entry validation rejects all extras.
   modelHistory(value.initialHistory);
-  const record={format:value.format,initialHistory:value.initialHistory,...(delegated?{delegation:copyDelegation(value.delegation)}:{}),entries:value.entries.map(entryCopy)};
+  if(ownerGranted)readOwnerGrant(value.ownerGrant);
+  const record={format:value.format,initialHistory:value.initialHistory,...(delegated?{delegation:copyDelegation(value.delegation)}:{}),...(ownerGranted?{ownerGrant:value.ownerGrant}:{}),entries:value.entries.map(entryCopy)};
   ensure(JSON.stringify(record)===text,'NON_CANONICAL_RECORD','Use the exact canonical record bytes.');return record;
 }
 export function copyLabBinding(value){
   const binding=fields(value,['domain','account','controller','epoch','publicKey'],'INVALID_BINDING');
   const validator=createActionVerifier({...binding,nextNonce:0});validator.revoke();return Object.freeze(binding);
 }
-export function createLabRecord(initialHistory,delegation){
+export function createLabRecord(initialHistory,delegation,ownerGrant){
   modelHistory(initialHistory);const permission=delegation===undefined?undefined:copyDelegation(delegation);
-  const text=JSON.stringify({format:permission?DELEGATED_FORMAT:FORMAT,initialHistory,...(permission?{delegation:permission}:{}),entries:[]});
+  ensure(ownerGrant===undefined||permission,'OWNER_GRANT_REQUIRED','An owner grant requires a permission.');if(ownerGrant!==undefined)readOwnerGrant(ownerGrant);
+  const text=JSON.stringify({format:ownerGrant!==undefined?OWNER_FORMAT:permission?DELEGATED_FORMAT:FORMAT,initialHistory,...(permission?{delegation:permission}:{}),...(ownerGrant!==undefined?{ownerGrant}:{}),entries:[]});
   bytes(text,LAB_RECORD_LIMITS.maxBytes);return text;
 }
 export function appendLabRecord(text,entry){
@@ -83,14 +87,18 @@ export async function createLabRecordCheckpoint(recordText,finalHistory){
   const sha256=await hash(recordBytes),finalHistorySha256=await hash(finalBytes);
   return checkpointCopy({format:CHECKPOINT,entryCount:record.entries.length,byteLength:recordBytes.byteLength,sha256,finalHistorySha256});
 }
-export async function verifyLabRecord(recordText,expectedCheckpoint,binding,delegation){
+export async function verifyLabRecord(recordText,expectedCheckpoint,binding,delegation,ownerAuthority){
   // Copy independent trust before any digest/verification yields to the caller.
   const checkpoint=checkpointCopy(expectedCheckpoint),trusted=copyLabBinding(binding),record=recordCopy(recordText);
   const permission=delegation===undefined?undefined:copyDelegation(delegation);
+  const owner=ownerAuthority===undefined?undefined:copyOwnerAuthority(ownerAuthority);
+  ensure(Boolean(owner)===Object.hasOwn(record,'ownerGrant')&&Boolean(owner)===trusted.domain.startsWith('ownergrant-'),
+    'OWNER_GRANT_REQUIRED','Supply independent test-owner authority for the owner-signed record; it cannot be downgraded.');
   ensure(Boolean(permission)===Boolean(record.delegation)&&(!permission||JSON.stringify(permission)===JSON.stringify(record.delegation)),
     'PERMISSION_MISMATCH','Supply the separately retained permission for this record; it must match exactly.');
   ensure(permission||!trusted.domain.startsWith('grant-'),'PERMISSION_REQUIRED','A grant-domain key requires its permission even in historical inspection.');
-  if(permission)ensure((await bindDelegation(trusted,permission)).domain===trusted.domain,'PERMISSION_BINDING','The signed domain must commit to the supplied permission and test key.');
+  if(owner)await verifyOwnerBinding({packet:record.ownerGrant,authority:owner},trusted,permission);
+  else if(permission)ensure((await bindDelegation(trusted,permission)).domain===trusted.domain,'PERMISSION_BINDING','The signed domain must commit to the supplied permission and test key.');
   const recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxBytes);
   ensure(record.entries.length===checkpoint.entryCount&&recordBytes.byteLength===checkpoint.byteLength,'CHECKPOINT_MISMATCH','Record length or entry count differs from the saved fingerprint.');
   ensure(await hash(recordBytes)===checkpoint.sha256,'CHECKPOINT_MISMATCH','Record bytes differ from the separately saved fingerprint.');
@@ -120,5 +128,6 @@ export async function verifyLabRecord(recordText,expectedCheckpoint,binding,dele
   ensure(await hash(bytes(canonicalText,1024*1024))===checkpoint.finalHistorySha256,'FINAL_HISTORY_MISMATCH','Rebuilt history differs from the separately saved final fingerprint.');
   return Object.freeze({canonicalText,checkpoint,signedActions,fixtureTransfers,inheritedEvents,
     entryCount:record.entries.length,recordedTimesAreProof:false,ownershipProven:false,
+    ...(owner?{ownerGrantVerified:true}:{}),
     ...(permission?{delegation:Object.freeze({permission,spent,remaining:(BigInt(permission.budget)-BigInt(spent)).toString()})}:{})});
 }

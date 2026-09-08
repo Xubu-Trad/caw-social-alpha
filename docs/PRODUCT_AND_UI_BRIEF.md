@@ -1,4 +1,4 @@
-> Permission revision: [Limited test keys](DELEGATED_PERMISSIONS.md) now bind scope, gross-fee budget and validity into the signed domain. Creation is an unsigned fixture control, not NFT-owner authorization. Delegated recovery requires the separately retained permission. All source conflicts remain open; earlier reviews below are historical.
+> Alpha.8 revision: [Owner-signed grants](OWNER_SIGNED_GRANTS.md) let a supplied test-owner key approve exact scope, budget and validity for a separate spending key. Live acceptance and recovery check both signatures and independent trust values. The unsigned limited-permission comparison remains available. Real NFT authority and persistent grant lifecycle remain unimplemented. All source conflicts remain open; earlier reviews below are historical.
 
 > Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
 

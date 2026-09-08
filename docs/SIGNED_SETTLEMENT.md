@@ -1,5 +1,7 @@
 # One signature. One copied-ledger result.
 
+Alpha.8's [owner-granted path](OWNER_SIGNED_GRANTS.md) checks two signatures: a test owner approves the grant and a separate key signs the post. Both checks precede the existing atomic commit. The ordinary single-action and unsigned limited-permission paths below remain supported.
+
 ## Alpha.7 limited permission
 
 An optional [limited test-key permission](DELEGATED_PERMISSIONS.md) now joins the same synchronous model/record commit. Its gross spending advances only on successful acceptance. It starts on a fresh fixture, binds terms into the signed domain, and remains an unsigned local grant control. Ordinary copied-ledger behavior below is preserved.
@@ -16,7 +18,7 @@ Alpha.5 connected the [local signature format](SIGNATURE_LAB.md) to the existing
 6. Create another fresh copy, change its controller and verify. The old key must fail. This controller change is an explicit unsigned fixture control; it does not transfer an NFT.
 7. Inspect the copied ledger. Leave Identity and return: the copy and temporary key are discarded. Readers still shows the original Commons history.
 
-Creating a fresh example resets the copy to current Commons state with a fresh key and domain. It is not a continuation or recovery of the previous copy. The packet is read-only and uses fixed synthetic text.
+The ordinary **Create signed example** button resets the copy to current Commons state with a fresh key and domain. Both limited-permission modes instead start from the original fixture. None continues or recovers the previous copy. The packet is read-only and uses fixed synthetic text.
 
 ## Acceptance boundary
 
@@ -34,7 +36,7 @@ A successful check reserves nothing. Acceptance can still fail because of expiry
 
 The active economics and accounting model are unchanged from alpha.3. Fixed stake weights, payer exclusion, dust handling, costs, pending-action order and the 420-code-point limit retain their existing provisional status. A successful signed example does not resolve any of the [15 source conflicts](../sources/SPEC_CONFLICTS.md), including C-005, C-007 and C-009.
 
-The adapter has no wallet, NFT ownership lookup, delegated spending budget, contract-wallet support, blockchain, shared state, network, disk persistence or finality. Another independently created ledger can accept the same packet if given the same test binding and initial state. Reloading does not establish durable replay protection. A local revision is not a block height or consensus decision.
+The adapter has no wallet, NFT ownership lookup, contract-wallet support, blockchain, shared state, network, disk persistence or finality. Its delegated budgets apply only within each local copy. Another independently created ledger can accept the same packet if given the same test binding, applicable grant evidence and initial state. Reloading does not establish durable replay protection. A local revision is not a block height or consensus decision.
 
 The ordinary copied export remains unsigned synthetic model history. The new, separately versioned [recovery record](SIGNED_RECORD_RECOVERY.md) preserves exact signed packets and recorded local times alongside explicit unsigned fixture changes. It is checked against a separately retained fingerprint and externally supplied test binding. It does not prove historical time or real ownership. The live signature count excludes inherited Commons events and unsigned controller changes; those events are not authenticated by replay.
 

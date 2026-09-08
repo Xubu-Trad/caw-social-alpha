@@ -1,5 +1,7 @@
 # A signed action, checked before acceptance
 
+[Test-owner-signed grants](OWNER_SIGNED_GRANTS.md) now authorize a separate spending key under exact limited terms. The delegate action format is unchanged; a distinct owner-grant signature prefix and reserved action domain prevent silent downgrade. These keys are synthetic and do not authenticate real NFT ownership.
+
 ## Alpha.7 permission experiment
 
 [Limited test keys](DELEGATED_PERMISSIONS.md) add a separate permission-controlled path. The Ed25519 action format is unchanged; its signed domain commits to the exact permission, key and account. Signature validity alone does not prove owner consent or permission to spend.
@@ -15,7 +17,7 @@ account, controller, deployment, domain, epoch, expiresAt, fee,
 kind, network, nonce, notBefore, scenario, text, version
 ```
 
-The network is `simulation`, deployment is `unconnected-lab`, version is `1`, kind is `caw`, scenario is `appendix-demo-v1`, and fee is the fixed synthetic CAW fee. The domain is a local session label, not a verified website origin. The UI generates a fresh label and key when explicitly requested. Only CAW examples are supported: Like, ReCAW, Follow, transfers, deposits and withdrawals are outside this lab.
+The network is `simulation`, deployment is `unconnected-lab`, version is `1`, kind is `caw`, scenario is `appendix-demo-v1`, and fee is the fixed synthetic CAW fee. The domain is a local session label, not a verified website origin. The UI generates a fresh label and key when explicitly requested. This action format supports only CAW examples: signed Like, ReCAW, Follow, transfer, deposit and withdrawal actions are unsupported. The lab also exposes an unsigned controller-change test and the separate alpha.8 owner-grant format.
 
 Text retains exact valid Unicode, with the existing provisional 420-code-point limit. Noncanonical JSON whitespace, reordered fields, duplicate fields, alternate JSON encodings, unknown fields and malformed strings are rejected at the packet boundary. Whitespace inside the signed text is preserved. The packet cap is 8 KiB; a validity interval is at most five minutes. Validity uses `notBefore <= now < expiresAt`. Action numbers are 0–255, with 256 representing an exhausted verifier. Those bounds are local choices, not manifesto constants.
 
