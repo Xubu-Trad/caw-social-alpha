@@ -1,5 +1,7 @@
 # Identity, authorization and private-message keys
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 Alpha.8 adds [test-owner-signed grants](OWNER_SIGNED_GRANTS.md). A separately supplied owner test key approves exact limited terms for another key; both signatures are checked before copied settlement. Real NFT/wallet ownership, persistent grant lifecycle and production authorization remain unimplemented. The earlier unsigned-grant experiment below remains available for comparison.
 
 The earlier [limited test-key experiment](DELEGATED_PERMISSIONS.md) enforces a proposed scope, gross-fee budget, signed permission commitment and expiry in a copied fixture. Its comparison path uses an unsigned local grant control. Production ownership-based delegation remains unimplemented; the alpha.8 extension above verifies only supplied test-owner authority. Existing design requirements below retain that production boundary.

@@ -1,5 +1,7 @@
 # Limited test keys
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 Alpha.8 also provides a separate [test-owner-signed grant path](OWNER_SIGNED_GRANTS.md), with both-key verification and its own record/domain format. The unsigned local permission experiment described below remains supported; it must not be treated as owner approval.
 
 Status: alpha.7 local experiment. A permission limits a temporary test key to public CAWs, a total gross-fee budget and a validity interval. It is created by an **unsigned local fixture control**, not by an authenticated NFT owner. No real funds, wallet, chain or external authority provider is involved.

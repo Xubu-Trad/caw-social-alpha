@@ -4,6 +4,8 @@ import {copyDelegation} from './delegation.mjs';
 import {DEMO_FEES} from './economics.mjs';
 const PREFIX='CAW_LOCAL_OWNER_GRANT_V1\n',encoder=new TextEncoder();
 const GRANT_FIELDS=['version','network','deployment','scenario','fee','ownerDomain','account','controller','epoch','ownerKey','delegateKey','scope','budget','notBefore','expiresAt'];
+const REVOCATION_PREFIX='CAW_LOCAL_OWNER_REVOCATION_V1\n';
+const REVOCATION_FIELDS=['version','network','deployment','scenario','ownerDomain','account','controller','epoch','ownerKey','grantDomain'];
 function ensure(ok,code,message){if(ok)return;const error=new Error(message);error.code=code;throw error;}
 function fields(value,keys){
   ensure(value!==null&&typeof value==='object'&&!Array.isArray(value),'INVALID_OWNER_GRANT','Expected plain grant data.');
@@ -45,6 +47,26 @@ export function copyOwnerAuthorization(value){
   const auth=fields(value,['packet','authority']);readOwnerGrant(auth.packet);
   return Object.freeze({packet:auth.packet,authority:copyOwnerAuthority(auth.authority)});
 }
+function revocationCopy(value){
+  const revocation=fields(value,REVOCATION_FIELDS);
+  ensure(revocation.version===1&&revocation.network==='simulation'&&revocation.deployment==='unconnected-lab'&&revocation.scenario==='appendix-demo-v1',
+    'INVALID_OWNER_REVOCATION','Unsupported cancellation context.');
+  copyOwnerAuthority({domain:revocation.ownerDomain,account:revocation.account,controller:revocation.controller,epoch:revocation.epoch,publicKey:revocation.ownerKey});
+  ensure(typeof revocation.grantDomain==='string'&&/^ownergrant-[0-9a-f]{64}(?![\s\S])/.test(revocation.grantDomain),
+    'INVALID_OWNER_REVOCATION','Cancellation must name an exact owner-grant domain.');
+  return Object.freeze(revocation);
+}
+export function makeOwnerRevocation(authority,grantDomain){
+  const owner=copyOwnerAuthority(authority);
+  return revocationCopy({version:1,network:'simulation',deployment:'unconnected-lab',scenario:'appendix-demo-v1',
+    ownerDomain:owner.domain,account:owner.account,controller:owner.controller,epoch:owner.epoch,ownerKey:owner.publicKey,grantDomain});
+}
+export function readOwnerRevocation(text){
+  ensure(typeof text==='string'&&text.length<=8192&&encoder.encode(text).byteLength<=8192,'INVALID_OWNER_REVOCATION','Cancellation packet exceeds 8 KiB.');
+  let parsed;try{parsed=JSON.parse(text);}catch{ensure(false,'INVALID_OWNER_REVOCATION','Cancellation packet is not JSON.');}
+  const value=fields(parsed,['revocation','signature']),packet=Object.freeze({revocation:revocationCopy(value.revocation),signature:value.signature});
+  hex(packet.signature,64);ensure(JSON.stringify(packet)===text,'NON_CANONICAL_REVOCATION','Use the exact canonical signed cancellation.');return packet;
+}
 export async function createOwnerGrantSigner(){
   const subtle=engine();let pair;
   try{pair=await subtle.generateKey({name:'Ed25519'},false,['sign','verify']);}catch{ensure(false,'CRYPTO_UNAVAILABLE','Native Ed25519 owner signing is unavailable.');}
@@ -56,6 +78,12 @@ export async function createOwnerGrantSigner(){
       ensure(grant.ownerKey===publicKey,'WRONG_OWNER_KEY','This grant names another test-owner key.');
       const signature=toHex(await subtle.sign('Ed25519',privateKey,encoder.encode(PREFIX+JSON.stringify(grant))));
       ensure(!closed,'REVOKED','The test-owner signer closed during signing.');return JSON.stringify({grant,signature});
+    },
+    async signRevocation(value){
+      ensure(!closed,'REVOKED','The test-owner signer is closed.');const revocation=revocationCopy(value);
+      ensure(revocation.ownerKey===publicKey,'WRONG_OWNER_KEY','This cancellation names another test-owner key.');
+      const signature=toHex(await subtle.sign('Ed25519',privateKey,encoder.encode(REVOCATION_PREFIX+JSON.stringify(revocation))));
+      ensure(!closed,'REVOKED','The test-owner signer closed during signing.');return JSON.stringify({revocation,signature});
     },
     revoke(){closed=true;privateKey=null;}
   });
@@ -76,4 +104,13 @@ export async function verifyOwnerBinding(auth,binding,permission){
   const checked=await verifyOwnerGrant(owned.packet,owned.authority);
   ensure(JSON.stringify(checked.binding)===JSON.stringify(trusted)&&JSON.stringify(checked.delegation)===JSON.stringify(terms),
     'OWNER_GRANT_MISMATCH','The delegate binding or permission differs from the owner-signed grant.');return checked;
+}
+export async function verifyOwnerRevocation(text,ownerAuthority,grantDomain){
+  // The caller establishes the verified grant domain; cancellation cannot choose it.
+  const authority=copyOwnerAuthority(ownerAuthority),expected=makeOwnerRevocation(authority,grantDomain),packet=readOwnerRevocation(text),subtle=engine();
+  ensure(JSON.stringify(packet.revocation)===JSON.stringify(expected),'WRONG_REVOCATION_AUTHORITY','The cancellation differs from this grant and separately trusted owner.');
+  const key=await subtle.importKey('raw',hex(authority.publicKey,32),'Ed25519',false,['verify']);
+  ensure(await subtle.verify('Ed25519',key,hex(packet.signature,64),encoder.encode(REVOCATION_PREFIX+JSON.stringify(packet.revocation))),
+    'INVALID_REVOCATION_SIGNATURE','The test-owner cancellation signature is invalid.');
+  return packet.revocation;
 }

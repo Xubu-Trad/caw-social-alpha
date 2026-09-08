@@ -1,5 +1,7 @@
 # One signature. One copied-ledger result.
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 Alpha.8's [owner-granted path](OWNER_SIGNED_GRANTS.md) checks two signatures: a test owner approves the grant and a separate key signs the post. Both checks precede the existing atomic commit. The ordinary single-action and unsigned limited-permission paths below remain supported.
 
 ## Alpha.7 limited permission

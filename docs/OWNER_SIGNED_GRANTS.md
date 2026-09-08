@@ -1,10 +1,12 @@
 # Two keys. One limited grant.
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 Alpha.8 lets a temporary **test-owner key** sign a permission for a separate **spending key**. Acceptance checks the grant signature against independently supplied test-owner authority, checks the spending signature, then applies the existing budget and ledger rules together. Neither test key establishes real NFT ownership.
 
 ## Try it in Identity
 
-Open **Test a signed action → Try a limited test key → Create owner-signed permission**. The app creates two distinct non-extractable Ed25519 keys and a fresh fixture copy. The test-owner key signs a grant for two public CAWs, a gross budget of 10,000 synthetic CAW, and a five-minute window. The app then closes that signing handle; closing it does not revoke an already signed grant.
+Open **Test a signed action → Try a limited test key → Create owner-signed permission**. The app creates two distinct non-extractable Ed25519 keys and a fresh fixture copy. The test-owner key signs a grant for two public CAWs, a gross budget of 10,000 synthetic CAW, and a five-minute window. In alpha.9 it stays temporarily available in this view to sign cancellation; cancellation, local closure, reset or leaving closes the handle. Closing it alone does not revoke an already signed grant.
 
 Accept the first example, sign and accept the second, then sign a third to check budget rejection. **Revoke test key** closes future acceptance in this copied ledger. **Change copied controller** is an explicitly unsigned fixture control that changes the epoch and invalidates the old grant. The grant does not allow withdrawals or transfers.
 
@@ -37,7 +39,7 @@ The signed ledger's optional fifth argument is `{packet, authority}`. Owner-gran
 
 Each live check verifies the owner grant, compares its exact binding/terms, and verifies the delegated action. The final synchronous guard checks closure, revision, account controller/epoch and action time. Permission checking enforces the full action window and gross budget. Record append must succeed before model, budget, record and revision commit together. Checks reserve nothing and failures consume nothing. A transfer or closure during either native signature check cannot be overwritten by the pending post.
 
-This remains one grant per fresh copied fixture. Existing events cannot be imported to reset a grant. Separate fresh copies still have independent counters. There is no production grant installation, owner-signed revocation, persistent spent/revoked registry, reorganization handling or durable distributed replay protection.
+This remains one grant per fresh copied fixture. Existing events cannot be imported to reset a grant. Separate fresh copies still have independent counters. Signed cancellation now exists within the local copy and v2 record. There is no production grant installation, persistent spent/revoked registry, reorganization handling or durable distributed replay protection.
 
 ## Historical record
 
@@ -51,7 +53,7 @@ Owner-granted history uses a separate format, `caw-owner-granted-lab-record-v1`,
 
 Recovery takes record, retained checkpoint, spending-key binding, retained permission and independent test-owner authority. It verifies the grant once, checks every spending signature and every recorded time/budget against its immutable terms, and compares the exact reconstructed final history. Relabeling a record as ordinary or unsigned delegated cannot bypass the reserved owner-domain rule, including for an empty record or a newly generated fingerprint.
 
-Record time is supplied historical data, not a time attestation. A record can still verify after its live copy was closed; later revocation is not recorded or proven. Replacing all independently trusted inputs can select a different internally consistent history. No successful recovery grants present-day access or proves permanent availability.
+Record time is supplied historical data, not a time attestation. A record can still verify after its live copy was closed. Owner v1 has no cancellation entry; v2 preserves and verifies one terminal signed cancellation. Neither can prove absence of a newer cancellation outside that snapshot. Replacing all independently trusted inputs can select a different internally consistent history. No successful recovery grants present-day access or proves permanent availability.
 
 ## Source and remaining work
 

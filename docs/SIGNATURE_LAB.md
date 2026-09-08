@@ -1,5 +1,7 @@
 # A signed action, checked before acceptance
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 [Test-owner-signed grants](OWNER_SIGNED_GRANTS.md) now authorize a separate spending key under exact limited terms. The delegate action format is unchanged; a distinct owner-grant signature prefix and reserved action domain prevent silent downgrade. These keys are synthetic and do not authenticate real NFT ownership.
 
 ## Alpha.7 permission experiment

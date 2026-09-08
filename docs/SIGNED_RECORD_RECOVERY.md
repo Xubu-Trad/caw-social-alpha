@@ -1,5 +1,7 @@
 # Keep the words. Rebuild the receipt.
 
+Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
+
 Alpha.8 adds [owner-granted records](OWNER_SIGNED_GRANTS.md) with the exact signed test-owner grant and a fifth, separately retained owner-authority input. It verifies owner approval by that supplied test key, not real NFT ownership or later revocation. The earlier two formats below retain their distinct verification rules.
 
 ## Alpha.7 permission extension
@@ -33,7 +35,7 @@ The fingerprint format is `caw-signed-lab-checkpoint-v1`. Native SHA-256 covers 
 
 The independent test binding contains only `domain`, `account`, `controller`, `epoch` and `publicKey`. Both the binding and fingerprint are copied before asynchronous verification begins. The imported record cannot nominate its own trusted key or replace that captured binding midway through verification.
 
-Bounds are local implementation choices: at most 64 added events, 2 MiB of UTF-8 record JSON, 1 MiB per underlying model history and the existing 8 KiB signed-packet bound. Escaping the initial history inside the record counts toward the 2 MiB limit. Canonical encoding, exact fields, dense ordered entries and valid Unicode are required. These limits do not change the manifesto.
+Ordinary record bounds are local implementation choices: at most 64 model-changing entries, 2 MiB of UTF-8 record JSON, 1 MiB per underlying model history and the existing 8 KiB signed-packet bound. Owner v2 reserves a 65th terminal cancellation entry and 16 KiB for it. Escaping the initial history inside the record counts toward its byte limit. Canonical encoding, exact fields, dense ordered entries and valid Unicode are required. These limits do not change the manifesto.
 
 ## Atomic capture and replay
 

@@ -7,7 +7,7 @@ import {createDemoSigner} from './signatures.mjs';
 import {createSignedLedger} from './signed-ledger.mjs';
 import {createLabRecordCheckpoint,verifyLabRecord,LAB_RECORD_LIMITS} from './signed-record.mjs';
 import {bindDelegation} from './delegation.mjs';
-import {createOwnerGrantSigner,makeOwnerGrant,verifyOwnerGrant} from './owner-grant.mjs';
+import {createOwnerGrantSigner,makeOwnerGrant,verifyOwnerGrant,makeOwnerRevocation} from './owner-grant.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -285,12 +285,13 @@ function renderSignatureLab(){
   const ledgerField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Copied lab ledger',spellcheck:false});
   const summary=el('div');
   const ledgerSummary=el('div');
-  const savedRecord=el('textarea',{class:'data-field',maxlength:LAB_RECORD_LIMITS.maxBytes,'aria-label':'Saved signed record',spellcheck:false});
+  const savedRecord=el('textarea',{class:'data-field',maxlength:LAB_RECORD_LIMITS.maxRevokedBytes,'aria-label':'Saved signed record',spellcheck:false});
   const savedFingerprint=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved record fingerprint',spellcheck:false});
   const savedBinding=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved test-key binding',spellcheck:false});
   const savedPermission=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved permission',spellcheck:false});
   const savedOwner=el('textarea',{class:'data-field',maxlength:1024,'aria-label':'Saved test-owner authority',spellcheck:false});
   const ownerPacketField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed test-owner grant',spellcheck:false});
+  const cancellationField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed owner cancellation',spellcheck:false});
   const recoveredField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Rebuilt copied ledger',spellcheck:false});
   const recoveryResult=el('div',{'aria-live':'polite'});
   let signer=null,ownerSigner=null,ledger=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
@@ -301,19 +302,20 @@ function renderSignatureLab(){
     ownerLimited.disabled=busy;
     limited.disabled=busy;nextExample.disabled=busy||!packet||ledger?.status().closed||ledger?.status().epoch!==labEpoch;
     revokeKey.disabled=busy||!ledger||ledger?.status().closed;
+    cancelOwner.disabled=busy||!ownerSigner||!ledger||ledger?.status().closed;
     for(const control of [check,accept,tamper])control.disabled=busy||!packet;
     transfer.disabled=busy||!packet||ledger?.status().closed||ledger?.status().epoch!==labEpoch;
     prepareRecord.disabled=busy||!ledger;verifyRecord.disabled=busy;
   }
   function clear(){
-    generation+=1; signer?.revoke();ownerSigner?.revoke();ledger?.revoke();signer=null;ownerSigner=null;ledger=null;packet='';packetField.value='';ownerPacketField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
+    generation+=1; signer?.revoke();ownerSigner?.revoke();ledger?.revoke();signer=null;ownerSigner=null;ledger=null;packet='';packetField.value='';ownerPacketField.value='';cancellationField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
     savedRecord.value='';savedFingerprint.value='';savedBinding.value='';savedPermission.value='';savedOwner.value='';recoveryChanged();
   }
   function showLedger(){
     const current=ledger.status();ledgerField.value=ledger.snapshot();
     ledgerSummary.replaceChildren(el('h3',{},'Copied ledger'),details([['Copied balance',money(current.balance)],['Controller',current.controller],
       ['Ownership epoch',current.epoch],['Next action number',current.nextNonce],['Total copied events',current.events],['Signatures accepted here',current.acceptedSignatures],
-      ['Key status',current.closed?'Revoked locally':'Check validity when accepting'],
+      ['Key status',current.ownerRevoked?'Owner cancellation recorded':current.closed?'Closed locally, without signed cancellation':'Check validity when accepting'],
       ...(current.ownerGrantRequired?[['Grant evidence','Test-owner signature required at acceptance']]:[]),
       ...(current.delegation?[['Permission scope','Public CAWs only'],['Permission budget',money(current.delegation.permission.budget)],
         ['Permission used',money(current.delegation.spent)],['Permission remaining',money(current.delegation.remaining)]]:[])]));
@@ -343,7 +345,6 @@ function renderSignatureLab(){
       const authority={domain:'owner-lab-'+crypto.randomUUID(),account:owner.name,controller:owner.controller,epoch:owner.epoch,publicKey:ownerSigner.publicKey};
       const ownerPacket=await ownerSigner.sign(makeOwnerGrant(authority,signer.publicKey,permission));
       if(!mounted||current!==generation)return;
-      ownerSigner.revoke();ownerSigner=null;
       const verified=await verifyOwnerGrant(ownerPacket,authority);
       if(!mounted||current!==generation)return;
       binding=verified.binding;ownerAuthorization={packet:ownerPacket,authority};ownerPacketField.value=ownerPacket;
@@ -373,8 +374,17 @@ function renderSignatureLab(){
     summary.replaceChildren(details([['Account',status.account],['Example action','Public CAW'],['Action number',status.nextNonce]]));
     result.replaceChildren(el('p',{},'Next example signed. Acceptance still checks the current permission, balance and action number.'));
   }));
-  const revokeKey=button('Revoke test key',()=>{if(busy||!ledger)return;ledger.revoke();signer?.revoke();showLedger();controls();
-    result.replaceChildren(el('p',{},'Test key revoked in this copy. Pending or future acceptance must fail; saved historical records remain available for inspection.'));});
+  const cancelOwner=button('Sign owner cancellation',()=>work(async()=>{
+    const current=generation,capturedLedger=ledger,captured=capturedLedger.exportRecord();
+    const cancellation=await ownerSigner.signRevocation(makeOwnerRevocation(captured.ownerAuthority,captured.binding.domain));
+    if(!mounted||current!==generation)return;
+    await capturedLedger.applyOwnerRevocation(cancellation);
+    if(!mounted||current!==generation)return;
+    ownerSigner.revoke();ownerSigner=null;signer?.revoke();cancellationField.value=cancellation;showLedger();
+    result.replaceChildren(el('p',{class:'check-result'},'Owner cancellation signed, verified and recorded. This copy cannot accept more posts. Balance, spending and action number are unchanged. Prepare a new recovery record to retain the cancellation. Older snapshots do not reveal it.'));
+  },result,'Cancellation rejected. '));
+  const revokeKey=button('Revoke test key',()=>{if(busy||!ledger)return;ledger.revoke();signer?.revoke();ownerSigner?.revoke();ownerSigner=null;showLedger();controls();
+    result.replaceChildren(el('p',{},'Test key closed in this copy without a signed cancellation. Pending or future acceptance must fail here; saved historical records remain available for inspection.'));});
   const check=button('Verify example',()=>work(async()=>{
     const current=generation;await ledger.check(packet);
     if(mounted&&current===generation)result.replaceChildren(el('p',{class:'check-result'},'Signature and accounting checks passed. The copied ledger is unchanged.'));
@@ -415,7 +425,8 @@ function renderSignatureLab(){
       ' unsigned controller change(s) and '+checked.inheritedEvents+' inherited event(s) replayed. Commons is unchanged.'),
       ...(checked.delegation?[el('p',{class:'check-result'},'Permission checked: '+money(checked.delegation.spent)+' used; '+money(checked.delegation.remaining)+' remaining in the saved copy.')]:[]),
       ...(checked.ownerGrantVerified?[el('p',{class:'check-result'},'Test-owner grant signature verified against the separately supplied authority.')]:[]),
-      el('p',{class:'source-note'},'This checks supplied test trust and recorded time windows. It does not prove real NFT-owner approval, account ownership, later revocation or historical clock accuracy.'));
+      ...(checked.ownerGrantVerified?[el('p',{class:checked.ownerRevoked?'notice':'source-note'},checked.ownerRevoked?'Signed owner cancellation verified. This saved grant is cancelled; no later entry is allowed.':'No signed cancellation in this snapshot. This does not establish that the grant is still active.')]:[]),
+      el('p',{class:'source-note'},'This checks supplied test trust and recorded time windows. It does not prove real NFT-owner approval, account ownership, absence of a newer cancellation or historical clock accuracy.'));
   },recoveryResult,'Record rejected. '));
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
@@ -425,14 +436,14 @@ function renderSignatureLab(){
     el('details',{},el('summary',{},'Try a limited test key'),
       el('p',{},'Proposed safeguard: public CAWs only, a 10,000 synthetic CAW budget and five-minute expiry. Creating it starts a fresh fixture copy. No withdrawal or account-transfer permission is granted.'),
       el('p',{class:'small muted'},'Accept two examples, then sign a third to check the limit. Revoke the key or change copied control to check invalidation. Each new copy has independent counters; this does not provide durable replay protection.'),
-      el('p',{class:'small muted'},'Owner-signed mode uses two temporary keys: one approves the grant, the other signs posts. The ordinary limited-permission button retains the unsigned fixture comparison.'),
-      el('div',{class:'pending-actions'},ownerLimited,limited,nextExample,revokeKey)),
+      el('p',{class:'small muted'},'Owner-signed mode uses two temporary keys: one approves and can cancel the grant, the other signs posts. The owner key stays only in this view until cancellation, reset or leaving. The ordinary limited-permission button retains the unsigned fixture comparison.'),
+      el('div',{class:'pending-actions'},ownerLimited,limited,nextExample,cancelOwner,revokeKey)),
     el('details',{},el('summary',{},'Inspect signed bytes'),packetField),
-    el('details',{},el('summary',{},'Inspect test-owner grant'),ownerPacketField),
+    el('details',{},el('summary',{},'Inspect test-owner grant'),ownerPacketField,el('label',{class:'field-label'},'Signed owner cancellation',cancellationField)),
     el('details',{},el('summary',{},'Inspect copied ledger'),ledgerField),
     el('details',{},el('summary',{},'Save and verify a signed record'),
       el('p',{},'Prepare this copy or paste a saved record with its separately retained fingerprint, spending-key binding, permission and test-owner authority when present. Verification only rebuilds a result for inspection.'),
-      el('p',{class:'small muted'},'Up to 64 added events and 2 MiB of record text. A new example or leaving Identity clears these fields. No file is saved automatically.'),
+      el('p',{class:'small muted'},'Up to 64 model events and 2 MiB, with one terminal owner cancellation and 16 KiB reserved for it. A new example or leaving Identity clears these fields. No file is saved automatically.'),
       prepareRecord,el('label',{class:'field-label'},'Saved signed record',savedRecord),
       el('label',{class:'field-label'},'Saved record fingerprint',savedFingerprint),
       el('label',{class:'field-label'},'Saved test-key binding',savedBinding),

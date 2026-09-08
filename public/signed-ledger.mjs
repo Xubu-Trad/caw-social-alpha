@@ -3,7 +3,7 @@ import { applyAction, previewAction, canonicalExport, rebuild } from './model.mj
 import { createActionVerifier } from './signatures.mjs';
 import {copyLabBinding,createLabRecord,appendLabRecord} from './signed-record.mjs';
 import {copyDelegation,checkDelegation,bindDelegation} from './delegation.mjs';
-import {copyOwnerAuthorization,verifyOwnerBinding} from './owner-grant.mjs';
+import {copyOwnerAuthorization,verifyOwnerBinding,readOwnerRevocation,verifyOwnerRevocation} from './owner-grant.mjs';
 
 function ensure(condition, code, message) {
   if (condition) return;
@@ -17,7 +17,7 @@ function freeze(value) {
 export function createSignedLedger(initialState, binding, clock=()=>Math.floor(Date.now()/1000), delegation, ownerAuthorization) {
   // Validate and rebuild before owning a private copy; no caller can edit it.
   const initialHistory=canonicalExport(initialState),envelope=JSON.parse(initialHistory);
-  let state=rebuild(envelope.seed,envelope),revision=0,closed=false,acceptedSignatures=0;
+  let state=rebuild(envelope.seed,envelope),revision=0,closed=false,acceptedSignatures=0,ownerRevoked=false;
   const permission=delegation===undefined?undefined:copyDelegation(delegation);
   const ownerAuth=ownerAuthorization===undefined?undefined:copyOwnerAuthorization(ownerAuthorization);
   ensure(!ownerAuth||permission,'OWNER_GRANT_REQUIRED','An owner-signed grant requires an explicit permission.');
@@ -71,12 +71,23 @@ export function createSignedLedger(initialState, binding, clock=()=>Math.floor(D
   return Object.freeze({
     check(text){return process(text,false);},
     accept(text){return process(text,true);},
+    async applyOwnerRevocation(text){
+      active();ensure(ownerAuth,'OWNER_GRANT_REQUIRED','Signed cancellation requires an owner-granted copy.');
+      readOwnerRevocation(text);const expectedRevision=revision;
+      await verifyOwnerBinding(ownerAuth,trusted,permission);
+      await verifyOwnerRevocation(text,ownerAuth.authority,trusted.domain);
+      active();ensure(revision===expectedRevision,'STATE_CHANGED','The copied ledger changed during cancellation verification. Retry against its current record.');
+      const nextRecord=appendLabRecord(recordText,{kind:'signed-owner-revocation',packet:text});
+      // Cancellation changes only the journal and grant status. No action nonce or fee.
+      recordText=nextRecord;ownerRevoked=true;closed=true;revision+=1;
+      return Object.freeze({ownerRevoked:true,grantDomain:trusted.domain});
+    },
     snapshot(){return canonicalExport(state);},
     exportRecord(){return Object.freeze({recordText,canonicalText:canonicalExport(state),binding:trusted,...(permission?{delegation:permission}:{}),...(ownerAuth?{ownerAuthority:ownerAuth.authority}:{})});},
     status(){const account=state.accounts[trusted.account];return Object.freeze({closed,revision,acceptedSignatures,
       account:account.name,controller:account.controller,epoch:account.epoch,nextNonce:account.nonce,
       balance:account.balance,events:state.events.length,...(permission?{delegation:Object.freeze({permission,spent,remaining:(BigInt(permission.budget)-BigInt(spent)).toString()})}:{}),
-      ...(ownerAuth?{ownerGrantRequired:true}:{})});},
+      ...(ownerAuth?{ownerGrantRequired:true,ownerRevoked}:{})});},
     // Explicit fixture control, never a signed transfer or NFT ownership proof.
     simulateTransfer(newController){
       active();const account=state.accounts[trusted.account];

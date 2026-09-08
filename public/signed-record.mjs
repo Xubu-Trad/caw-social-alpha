@@ -3,12 +3,13 @@
 import {applyAction,canonicalExport,countCharacters,rebuild} from './model.mjs';
 import {createActionVerifier} from './signatures.mjs';
 import {copyDelegation,checkDelegation,bindDelegation} from './delegation.mjs';
-import {readOwnerGrant,copyOwnerAuthority,verifyOwnerBinding} from './owner-grant.mjs';
+import {readOwnerGrant,copyOwnerAuthority,verifyOwnerBinding,readOwnerRevocation,verifyOwnerRevocation} from './owner-grant.mjs';
 
 const FORMAT='caw-signed-lab-record-v1',CHECKPOINT='caw-signed-lab-checkpoint-v1';
 const DELEGATED_FORMAT='caw-delegated-lab-record-v1';
 const OWNER_FORMAT='caw-owner-granted-lab-record-v1';
-export const LAB_RECORD_LIMITS=Object.freeze({maxBytes:2*1024*1024,maxEntries:64});
+const REVOKED_OWNER_FORMAT='caw-owner-granted-lab-record-v2';
+export const LAB_RECORD_LIMITS=Object.freeze({maxBytes:2*1024*1024,maxEntries:64,maxRevokedBytes:2*1024*1024+16*1024,maxRevokedEntries:65});
 const encoder=new TextEncoder();
 function ensure(condition,code,message){if(condition)return;const error=new Error(message);error.code=code;throw error;}
 function fields(value,keys,code='INVALID_RECORD'){
@@ -40,19 +41,27 @@ function entryCopy(value){
   if(kind.value==='signed-caw'){
     const entry=fields(value,['kind','packet','acceptedAt']);bytes(entry.packet,8192);integer(entry.acceptedAt,253402300799);return Object.freeze(entry);
   }
+  if(kind.value==='signed-owner-revocation'){
+    const entry=fields(value,['kind','packet']);readOwnerRevocation(entry.packet);return Object.freeze(entry);
+  }
   ensure(kind.value==='unsigned-fixture-transfer','INVALID_RECORD','Unsupported lab record entry.');
   const entry=fields(value,['kind','newController']);
   ensure(typeof entry.newController==='string'&&/^device-[a-z0-9][a-z0-9-]{0,39}(?![\s\S])/.test(entry.newController),'INVALID_RECORD','Expected a synthetic controller label.');
   return Object.freeze(entry);
 }
 function recordCopy(text){
-  bytes(text,LAB_RECORD_LIMITS.maxBytes);const parsed=parse(text),ownerGranted=parsed?.format===OWNER_FORMAT,delegated=ownerGranted||parsed?.format===DELEGATED_FORMAT;
+  const reserved=typeof text==='string'&&text.startsWith('{"format":"'+REVOKED_OWNER_FORMAT+'",');
+  bytes(text,reserved?LAB_RECORD_LIMITS.maxRevokedBytes:LAB_RECORD_LIMITS.maxBytes);const parsed=parse(text),revoked=parsed?.format===REVOKED_OWNER_FORMAT,ownerGranted=parsed?.format===OWNER_FORMAT||revoked,delegated=ownerGranted||parsed?.format===DELEGATED_FORMAT;
+  bytes(text,revoked?LAB_RECORD_LIMITS.maxRevokedBytes:LAB_RECORD_LIMITS.maxBytes);
   const value=fields(parsed,ownerGranted?['format','initialHistory','delegation','ownerGrant','entries']:delegated?['format','initialHistory','delegation','entries']:['format','initialHistory','entries']);
-  ensure((value.format===FORMAT||delegated)&&Array.isArray(value.entries)&&value.entries.length<=LAB_RECORD_LIMITS.maxEntries,'INVALID_RECORD','Unsupported record format or entry count.');
+  ensure((value.format===FORMAT||delegated)&&Array.isArray(value.entries)&&value.entries.length<=(revoked?LAB_RECORD_LIMITS.maxRevokedEntries:LAB_RECORD_LIMITS.maxEntries),'INVALID_RECORD','Unsupported record format or entry count.');
   // JSON.parse supplies dense data arrays; entry validation rejects all extras.
   modelHistory(value.initialHistory);
   if(ownerGranted)readOwnerGrant(value.ownerGrant);
   const record={format:value.format,initialHistory:value.initialHistory,...(delegated?{delegation:copyDelegation(value.delegation)}:{}),...(ownerGranted?{ownerGrant:value.ownerGrant}:{}),entries:value.entries.map(entryCopy)};
+  const cancellations=record.entries.filter(entry=>entry.kind==='signed-owner-revocation');
+  ensure(value.format===REVOKED_OWNER_FORMAT?cancellations.length===1&&record.entries.at(-1).kind==='signed-owner-revocation':cancellations.length===0,
+    'INVALID_REVOCATION_RECORD','Only owner record v2 supports exactly one final cancellation; nothing may follow it.');
   ensure(JSON.stringify(record)===text,'NON_CANONICAL_RECORD','Use the exact canonical record bytes.');return record;
 }
 export function copyLabBinding(value){
@@ -66,13 +75,18 @@ export function createLabRecord(initialHistory,delegation,ownerGrant){
   bytes(text,LAB_RECORD_LIMITS.maxBytes);return text;
 }
 export function appendLabRecord(text,entry){
-  const record=recordCopy(text);ensure(record.entries.length<LAB_RECORD_LIMITS.maxEntries,'RECORD_LIMIT','This lab preserves at most 64 added events.');
-  record.entries.push(entryCopy(entry));const next=JSON.stringify(record);bytes(next,LAB_RECORD_LIMITS.maxBytes);return next;
+  const record=recordCopy(text);
+  ensure(record.format!==REVOKED_OWNER_FORMAT,'GRANT_REVOKED','No entry may follow owner cancellation.');
+  const nextEntry=entryCopy(entry);
+  if(nextEntry.kind==='signed-owner-revocation'){
+    ensure(record.format===OWNER_FORMAT,'OWNER_GRANT_REQUIRED','Only an owner-granted record may contain signed cancellation.');record.format=REVOKED_OWNER_FORMAT;
+  }else ensure(record.entries.length<LAB_RECORD_LIMITS.maxEntries,'RECORD_LIMIT','This lab preserves at most 64 model-changing entries plus one owner cancellation.');
+  record.entries.push(nextEntry);const next=JSON.stringify(record);bytes(next,record.format===REVOKED_OWNER_FORMAT?LAB_RECORD_LIMITS.maxRevokedBytes:LAB_RECORD_LIMITS.maxBytes);return next;
 }
 function checkpointCopy(value){
   const copy=fields(value,['format','entryCount','byteLength','sha256','finalHistorySha256'],'INVALID_CHECKPOINT');
   ensure(copy.format===CHECKPOINT,'INVALID_CHECKPOINT','Unsupported saved fingerprint format.');
-  integer(copy.entryCount,LAB_RECORD_LIMITS.maxEntries);integer(copy.byteLength,LAB_RECORD_LIMITS.maxBytes);
+  integer(copy.entryCount,LAB_RECORD_LIMITS.maxRevokedEntries);integer(copy.byteLength,LAB_RECORD_LIMITS.maxRevokedBytes);
   for(const key of ['sha256','finalHistorySha256'])ensure(typeof copy[key]==='string'&&/^[0-9a-f]{64}(?![\s\S])/.test(copy[key]),'INVALID_CHECKPOINT','Expected an exact SHA-256 fingerprint.');
   return Object.freeze(copy);
 }
@@ -81,7 +95,7 @@ async function hash(value){
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',value)),byte=>byte.toString(16).padStart(2,'0')).join('');
 }
 export async function createLabRecordCheckpoint(recordText,finalHistory){
-  const record=recordCopy(recordText),recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxBytes);
+  const record=recordCopy(recordText),recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxRevokedBytes);
   modelHistory(finalHistory);const finalBytes=bytes(finalHistory,1024*1024);
   // Capture both immutable strings before yielding; hashing does not certify them.
   const sha256=await hash(recordBytes),finalHistorySha256=await hash(finalBytes);
@@ -99,16 +113,20 @@ export async function verifyLabRecord(recordText,expectedCheckpoint,binding,dele
   ensure(permission||!trusted.domain.startsWith('grant-'),'PERMISSION_REQUIRED','A grant-domain key requires its permission even in historical inspection.');
   if(owner)await verifyOwnerBinding({packet:record.ownerGrant,authority:owner},trusted,permission);
   else if(permission)ensure((await bindDelegation(trusted,permission)).domain===trusted.domain,'PERMISSION_BINDING','The signed domain must commit to the supplied permission and test key.');
-  const recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxBytes);
+  const recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxRevokedBytes);
   ensure(record.entries.length===checkpoint.entryCount&&recordBytes.byteLength===checkpoint.byteLength,'CHECKPOINT_MISMATCH','Record length or entry count differs from the saved fingerprint.');
   ensure(await hash(recordBytes)===checkpoint.sha256,'CHECKPOINT_MISMATCH','Record bytes differ from the separately saved fingerprint.');
-  let state=modelHistory(record.initialHistory),signedActions=0,fixtureTransfers=0,spent='0';
+  let state=modelHistory(record.initialHistory),signedActions=0,fixtureTransfers=0,spent='0',ownerRevocations=0;
   const inheritedEvents=state.events.length;
   ensure(!permission||inheritedEvents===0,'PERMISSION_HISTORY','A delegated record must start from a fresh fixture.');
   ensure(Object.hasOwn(state.accounts,trusted.account),'UNKNOWN_ACCOUNT','The bound account is absent from the initial history.');
   const initial=state.accounts[trusted.account];
   ensure(initial.controller===trusted.controller&&initial.epoch===trusted.epoch,'WRONG_AUTHORITY','The separate test binding does not match the initial account.');
   for(const entry of record.entries){
+    if(entry.kind==='signed-owner-revocation'){
+      ensure(owner,'OWNER_GRANT_REQUIRED','Cancellation requires independent owner authority.');
+      await verifyOwnerRevocation(entry.packet,owner,trusted.domain);ownerRevocations+=1;continue;
+    }
     const account=state.accounts[trusted.account];let intent;
     if(entry.kind==='signed-caw'){
       ensure(account.controller===trusted.controller&&account.epoch===trusted.epoch,'WRONG_AUTHORITY','A signed action uses authority invalidated by a fixture transfer.');
@@ -124,10 +142,10 @@ export async function verifyLabRecord(recordText,expectedCheckpoint,binding,dele
     state=applyAction(state,intent);
   }
   const canonicalText=canonicalExport(state);
-  ensure(state.events.length===inheritedEvents+record.entries.length,'RECORD_MISMATCH','Record entries do not cover the complete added event suffix.');
+  ensure(state.events.length===inheritedEvents+record.entries.length-ownerRevocations,'RECORD_MISMATCH','Record entries do not cover the complete added event suffix.');
   ensure(await hash(bytes(canonicalText,1024*1024))===checkpoint.finalHistorySha256,'FINAL_HISTORY_MISMATCH','Rebuilt history differs from the separately saved final fingerprint.');
   return Object.freeze({canonicalText,checkpoint,signedActions,fixtureTransfers,inheritedEvents,
     entryCount:record.entries.length,recordedTimesAreProof:false,ownershipProven:false,
-    ...(owner?{ownerGrantVerified:true}:{}),
+    ...(owner?{ownerGrantVerified:true,ownerRevoked:ownerRevocations===1,ownerRevocations}:{}),
     ...(permission?{delegation:Object.freeze({permission,spent,remaining:(BigInt(permission.budget)-BigInt(spent)).toString()})}:{})});
 }
