@@ -1,5 +1,7 @@
 # Keep the words. Rebuild the receipt.
 
+Alpha.10 adds [retained-checkpoint comparison](CHECKPOINT_CONTINUITY.md). A verified snapshot can be held as an in-memory anchor. Candidate history must match or extend its exact ordered record to advance it; rollback and conflict leave the anchor unchanged. This does not establish global freshness or restore live authority.
+
 Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
 
 Alpha.8 adds [owner-granted records](OWNER_SIGNED_GRANTS.md) with the exact signed test-owner grant and a fifth, separately retained owner-authority input. It verifies owner approval by that supplied test key, not real NFT ownership or later revocation. The earlier two formats below retain their distinct verification rules.

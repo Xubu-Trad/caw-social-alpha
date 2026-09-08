@@ -1,5 +1,7 @@
 # Two keys. One limited grant.
 
+Alpha.10 adds [retained-checkpoint comparison](CHECKPOINT_CONTINUITY.md). A verified snapshot can be held as an in-memory anchor. Candidate history must match or extend its exact ordered record to advance it; rollback and conflict leave the anchor unchanged. This does not establish global freshness or restore live authority.
+
 Alpha.9 adds [signed owner cancellation](OWNER_CANCELLATION.md). The owner key remains temporarily available in Identity to cancel its exact grant. Cancellation closes the copy and is verified in owner record v2; it changes no balance or model nonce. Older snapshots cannot prove that no newer cancellation exists.
 
 Alpha.8 lets a temporary **test-owner key** sign a permission for a separate **spending key**. Acceptance checks the grant signature against independently supplied test-owner authority, checks the spending signature, then applies the existing budget and ledger rules together. Neither test key establishes real NFT ownership.

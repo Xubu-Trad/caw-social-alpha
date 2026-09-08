@@ -20,6 +20,7 @@ const ROUTES = new Map([
   ['/signed-record.mjs', [new URL('./public/signed-record.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/delegation.mjs', [new URL('./public/delegation.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/owner-grant.mjs', [new URL('./public/owner-grant.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
+  ['/checkpoint-continuity.mjs', [new URL('./public/checkpoint-continuity.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/fixtures.json', [new URL('./public/fixtures.json', import.meta.url), 'application/json; charset=utf-8']],
   ['/media.mjs', [new URL('./public/media.mjs', import.meta.url), 'text/javascript; charset=utf-8']],
   ['/deployment.mjs', [new URL('./public/deployment.mjs', import.meta.url), 'text/javascript; charset=utf-8']],

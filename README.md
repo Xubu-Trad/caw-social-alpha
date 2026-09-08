@@ -33,6 +33,7 @@ Open **http://127.0.0.1:4173/website.html** for the alpha website or **http://12
 - [Try a limited test key](docs/DELEGATED_PERMISSIONS.md): public CAWs only, a fixed total budget, expiry and revocation in a fresh fixture copy.
 - [Inspect an owner-signed grant](docs/OWNER_SIGNED_GRANTS.md): one test key approves exact permission for another. Acceptance and recovery verify both signatures against separately supplied authority; real NFT ownership remains unimplemented.
 - [Cancel a test permission](docs/OWNER_CANCELLATION.md): signed owner cancellation closes the copy and survives record verification. An older snapshot does not establish current permission.
+- [Compare retained checkpoints](docs/CHECKPOINT_CONTINUITY.md): inspect exact history, preserve spending and cancellation, and reject older or conflicting replacements.
 - Ledger compares source payment descriptions without changing active settlement; see [economic scenarios](docs/ECONOMIC_SCENARIOS.md).
 
 The accounting model uses **provisional appendix settings**. Main-text and appendix allocations differ; stake eligibility, rounding, repeat actions and character counting also require decisions. Passing tests does not resolve these conflicts.

@@ -8,6 +8,7 @@ import {createSignedLedger} from './signed-ledger.mjs';
 import {createLabRecordCheckpoint,verifyLabRecord,LAB_RECORD_LIMITS} from './signed-record.mjs';
 import {bindDelegation} from './delegation.mjs';
 import {createOwnerGrantSigner,makeOwnerGrant,verifyOwnerGrant,makeOwnerRevocation} from './owner-grant.mjs';
+import {createCheckpointTracker} from './checkpoint-continuity.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -294,8 +295,10 @@ function renderSignatureLab(){
   const cancellationField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Signed owner cancellation',spellcheck:false});
   const recoveredField=el('textarea',{class:'data-field',readonly:true,'aria-label':'Rebuilt copied ledger',spellcheck:false});
   const recoveryResult=el('div',{'aria-live':'polite'});
-  let signer=null,ownerSigner=null,ledger=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
-  function recoveryChanged(){recoveryRevision+=1;recoveredField.value='';recoveryResult.replaceChildren();}
+  const comparisonResult=el('div',{'aria-live':'polite'}),anchorSummary=el('div');
+  const anchorFingerprint=el('textarea',{class:'data-field',readonly:true,'aria-label':'Retained anchor fingerprint',spellcheck:false});
+  let signer=null,ownerSigner=null,ledger=null,comparison=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
+  function recoveryChanged(){recoveryRevision+=1;comparison?.invalidatePending();recoveredField.value='';recoveryResult.replaceChildren();comparisonResult.replaceChildren();}
   for(const field of [savedRecord,savedFingerprint,savedBinding,savedPermission,savedOwner])field.addEventListener('input',recoveryChanged);
   function controls(){
     create.disabled=busy;
@@ -306,8 +309,10 @@ function renderSignatureLab(){
     for(const control of [check,accept,tamper])control.disabled=busy||!packet;
     transfer.disabled=busy||!packet||ledger?.status().closed||ledger?.status().epoch!==labEpoch;
     prepareRecord.disabled=busy||!ledger;verifyRecord.disabled=busy;
+    keepAnchor.disabled=busy||Boolean(comparison);inspectAnchor.disabled=busy||!comparison;advanceAnchor.disabled=busy||!comparison;clearAnchor.disabled=busy||!comparison;
   }
   function clear(){
+    comparison?.close();comparison=null;anchorSummary.replaceChildren();anchorFingerprint.value='';comparisonResult.replaceChildren();
     generation+=1; signer?.revoke();ownerSigner?.revoke();ledger?.revoke();signer=null;ownerSigner=null;ledger=null;packet='';packetField.value='';ownerPacketField.value='';cancellationField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
     savedRecord.value='';savedFingerprint.value='';savedBinding.value='';savedPermission.value='';savedOwner.value='';recoveryChanged();
   }
@@ -326,7 +331,7 @@ function renderSignatureLab(){
     const recoveryVersion=recoveryRevision;
     busy=true;controls();
     try{await operation();}
-    catch(error){if(mounted&&(target!==recoveryResult||recoveryVersion===recoveryRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
+    catch(error){if(mounted&&(![recoveryResult,comparisonResult].includes(target)||recoveryVersion===recoveryRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
     finally{busy=false;if(mounted)controls();}
   }
   async function startExample(usePermission,useOwner=false){
@@ -411,6 +416,7 @@ function renderSignatureLab(){
     recoveredField.value='';recoveryResult.replaceChildren();
     const checkpoint=await createLabRecordCheckpoint(captured.recordText,captured.canonicalText);
     if(!mounted||current!==generation||revision!==recoveryRevision)return;
+    comparison?.invalidatePending();comparisonResult.replaceChildren();
     savedRecord.value=captured.recordText;savedFingerprint.value=JSON.stringify(checkpoint);savedBinding.value=JSON.stringify(captured.binding);savedPermission.value=captured.delegation?JSON.stringify(captured.delegation):'';recoveredField.value='';
     savedOwner.value=captured.ownerAuthority?JSON.stringify(captured.ownerAuthority):'';
     recoveryResult.replaceChildren(el('p',{},'Snapshot prepared. Copy the record and all populated trust fields before leaving. Keep fingerprint, key bindings and permission separately; later actions are not added automatically.'));
@@ -428,6 +434,42 @@ function renderSignatureLab(){
       ...(checked.ownerGrantVerified?[el('p',{class:checked.ownerRevoked?'notice':'source-note'},checked.ownerRevoked?'Signed owner cancellation verified. This saved grant is cancelled; no later entry is allowed.':'No signed cancellation in this snapshot. This does not establish that the grant is still active.')]:[]),
       el('p',{class:'source-note'},'This checks supplied test trust and recorded time windows. It does not prove real NFT-owner approval, account ownership, absence of a newer cancellation or historical clock accuracy.'));
   },recoveryResult,'Record rejected. '));
+  function showAnchor(){
+    const value=comparison.status();anchorFingerprint.value=JSON.stringify(value.checkpoint);
+    anchorSummary.replaceChildren(details([['Retained record entries',value.entryCount],['Verified CAWs',value.signedActions],['Unsigned control changes',value.fixtureTransfers],['Inherited events',value.inheritedEvents],
+      ...(value.delegation?[['Retained spending',money(value.delegation.spent)]]:[]),
+      ...(Object.hasOwn(value,'ownerRevoked')?[['Retained cancellation',value.ownerRevoked?'Signed cancellation recorded':'None in this snapshot; current permission unknown']]:[])]));
+  }
+  function recoveryInputs(){
+    if([savedFingerprint,savedBinding,savedPermission,savedOwner].some(field=>field.value.length>1024))throw new Error('A saved trust field exceeds the local input bound.');
+    return {text:savedRecord.value,checkpoint:JSON.parse(savedFingerprint.value),binding:JSON.parse(savedBinding.value),
+      permission:savedPermission.value?JSON.parse(savedPermission.value):undefined,owner:savedOwner.value?JSON.parse(savedOwner.value):undefined};
+  }
+  const keepAnchor=button('Keep as comparison anchor',()=>work(async()=>{
+    if(comparison)throw new Error('Clear the existing anchor explicitly before choosing another baseline.');
+    const current=generation,revision=recoveryRevision,input=recoveryInputs();
+    const created=await createCheckpointTracker(input.text,input.checkpoint,input.binding,input.permission,input.owner);
+    if(!mounted||current!==generation||revision!==recoveryRevision){created.close();return;}
+    comparison=created;showAnchor();comparisonResult.replaceChildren(el('p',{},'Verified snapshot retained in this view. Paste or prepare a candidate record and its fingerprint to compare. Clearing this anchor removes the baseline; it is not saved automatically.'));
+  },comparisonResult,'Anchor rejected. '));
+  function showComparison(checked,advanced){
+    const messages={same:'Matches the retained checkpoint.',extension:'Verified extension: '+(checked.candidateEntries-checked.anchorEntries)+' added record entry or entries.',
+      rollback:'Older record. It cannot replace the retained anchor.',conflict:'Conflicting history. No preferred history has been chosen.'};
+    comparisonResult.replaceChildren(el('p',{class:['rollback','conflict'].includes(checked.relation)?'notice error':'check-result'},messages[checked.relation]),
+      el('p',{},advanced?'The verified extension is now the retained anchor. Spending and cancellation are carried forward.':'The retained anchor is unchanged.'),
+      details([['Compared anchor entries',checked.anchorEntries],['Candidate entries',checked.candidateEntries],['Identical starting entries',checked.commonPrefixEntries],['Candidate unsigned control changes',checked.candidate.fixtureTransfers],['Candidate inherited events',checked.candidate.inheritedEvents]]),
+      el('p',{class:'source-note'},'This comparison uses your retained history and its original trust values. It does not establish the latest network state or restore permission to spend.'));
+  }
+  async function compareCandidate(advance){
+    const current=generation,revision=recoveryRevision,tracker=comparison;
+    if(savedFingerprint.value.length>1024)throw new Error('The candidate fingerprint exceeds the local input bound.');
+    const checked=await tracker[advance?'advance':'inspect'](savedRecord.value,JSON.parse(savedFingerprint.value));
+    if(!mounted||current!==generation||revision!==recoveryRevision||comparison!==tracker)return;
+    showAnchor();showComparison(checked,checked.advanced);
+  }
+  const inspectAnchor=button('Compare with anchor',()=>work(()=>compareCandidate(false),comparisonResult,'Comparison rejected. '));
+  const advanceAnchor=button('Advance to verified extension',()=>work(()=>compareCandidate(true),comparisonResult,'Advance rejected. '));
+  const clearAnchor=button('Clear comparison anchor',()=>{if(busy)return;comparison?.close();comparison=null;anchorFingerprint.value='';anchorSummary.replaceChildren();comparisonResult.replaceChildren(el('p',{},'Comparison baseline cleared. No anchor is retained.'));controls();});
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
     el('p',{},'A temporary key signs a fixed example for a copy of this demo ledger. Acceptance spends synthetic CAW and adds a post only in that copy. No wallet or real payment; these keys do not prove account ownership.'),
@@ -449,7 +491,12 @@ function renderSignatureLab(){
       el('label',{class:'field-label'},'Saved test-key binding',savedBinding),
       el('label',{class:'field-label'},'Saved permission · leave empty for an ordinary signed record',savedPermission),
       el('label',{class:'field-label'},'Saved test-owner authority · only for owner-signed records',savedOwner),verifyRecord,recoveryResult,
-      el('details',{},el('summary',{},'Inspect rebuilt result'),recoveredField)),
+      el('details',{},el('summary',{},'Inspect rebuilt result'),recoveredField),
+      el('details',{},el('summary',{},'Compare with a retained checkpoint'),
+        el('p',{},'First paste the snapshot and independent trust values you want to retain, then keep it as the anchor. Next replace the record and fingerprint with a candidate. Comparison keeps the anchor’s original key and permission values, even if other fields above change.'),
+        el('p',{class:'small muted'},'Only an exact match or a verified extension can advance the anchor. A new example, clearing the anchor or leaving Identity discards this in-memory baseline. Retain its original five fields separately if you need it again.'),
+        el('div',{class:'pending-actions'},keepAnchor,inspectAnchor,advanceAnchor,clearAnchor),anchorSummary,
+        el('label',{class:'field-label'},'Retained anchor fingerprint',anchorFingerprint),comparisonResult)),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
     el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
 }

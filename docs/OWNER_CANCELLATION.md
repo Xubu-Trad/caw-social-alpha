@@ -1,5 +1,7 @@
 # Permission can end. Keep the evidence.
 
+Alpha.10 adds [retained-checkpoint comparison](CHECKPOINT_CONTINUITY.md). A verified snapshot can be held as an in-memory anchor. Candidate history must match or extend its exact ordered record to advance it; rollback and conflict leave the anchor unchanged. This does not establish global freshness or restore live authority.
+
 Alpha.9 adds signed cancellation to the local two-key experiment. The test owner can cancel one exact grant. The copied ledger verifies the owner grant and cancellation, records the cancellation, then refuses future posts. Cancellation spends no CAW and changes no model nonce, post, balance or fee allocation.
 
 This is supplied test-key authority. It does not prove NFT ownership or publish cancellation to a network. Old snapshots cannot reveal a cancellation added later. A valid snapshot with no cancellation is not proof that the grant remains active.

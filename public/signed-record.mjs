@@ -90,6 +90,9 @@ function checkpointCopy(value){
   for(const key of ['sha256','finalHistorySha256'])ensure(typeof copy[key]==='string'&&/^[0-9a-f]{64}(?![\s\S])/.test(copy[key]),'INVALID_CHECKPOINT','Expected an exact SHA-256 fingerprint.');
   return Object.freeze(copy);
 }
+// Plain immutable views for the separate checkpoint comparison experiment.
+export function copyLabCheckpoint(value){return checkpointCopy(value);}
+export function readLabRecord(text){const record=recordCopy(text);Object.freeze(record.entries);return Object.freeze(record);}
 async function hash(value){
   ensure(globalThis.crypto?.subtle,'CRYPTO_UNAVAILABLE','Native SHA-256 is unavailable.');
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',value)),byte=>byte.toString(16).padStart(2,'0')).join('');
