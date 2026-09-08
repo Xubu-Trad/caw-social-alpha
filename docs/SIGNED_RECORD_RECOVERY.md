@@ -1,5 +1,9 @@
 # Keep the words. Rebuild the receipt.
 
+## Alpha.7 permission extension
+
+[Delegated records](DELEGATED_PERMISSIONS.md) use the separate `caw-delegated-lab-record-v1` format and require a separately retained permission as a fourth trust input. Verification recomputes its signed domain and gross spending. Ordinary records below keep their original format. Any `grant-` binding requires a permission; dropping it cannot select the ordinary path. Input edits invalidate prior and pending verification results. Later revocation and owner approval remain unproven.
+
 Alpha.6 preserves the copied ledger's exact signed packets and recorded local acceptance times. A separate verifier checks those signatures, replays every added event in order and compares the rebuilt model history with a separately saved fingerprint. Verification produces an inspection result; it never restores authority or changes Commons.
 
 ## Use the recovery panel
@@ -43,4 +47,4 @@ A valid signature establishes that the supplied key signed those bytes. It does 
 
 A recorded time inside a signed validity window is not proof that acceptance actually happened at that historical time. Someone who supplies a different internally consistent record **and a newly trusted fingerprint** can change unsigned assumptions or omit history. Retaining the original fingerprint separately is essential to detecting changes relative to that original snapshot. Neither a hash nor this lab guarantees completeness, publication, permanence or consensus.
 
-This is an in-memory, synthetic recovery format, with no file persistence, encrypted storage, wallet/NFT authentication, delegated spending, production custody or distributed replay protection. It uses the same accounting model as the writer and is not an independent implementation. All 59 requirements and 15 source conflicts retain their existing status. See [validation](VALIDATION.md) for executed checks and omissions.
+This is an in-memory, synthetic recovery format, with no file persistence, encrypted storage, wallet/NFT authentication, production delegated spending, production custody or distributed replay protection. It uses the same accounting model as the writer and is not an independent implementation. All 59 requirements and 15 source conflicts retain their existing status. See [validation](VALIDATION.md) for executed checks and omissions.

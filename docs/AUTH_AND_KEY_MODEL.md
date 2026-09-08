@@ -1,5 +1,7 @@
 # Identity, authorization and private-message keys
 
+The [limited test-key experiment](DELEGATED_PERMISSIONS.md) now enforces a proposed scope, gross-fee budget, signed permission commitment and expiry in a copied fixture. Grant creation is an unsigned local control; authoritative ownership and owner-signed delegation remain unimplemented. Existing design requirements below retain that production boundary.
+
 Status: PROPOSED production design. The separate [signature lab](SIGNATURE_LAB.md) exercises ephemeral Ed25519 signing, exact action binding, expiry and revocation. Its [copied ledger](SIGNED_SETTLEMENT.md) applies verified CAWs and advances the model nonce atomically. It neither authenticates wallets/NFT owners nor encrypts messages. Commons settlement remains unsigned and synthetic.
 
 ## Separate authorities

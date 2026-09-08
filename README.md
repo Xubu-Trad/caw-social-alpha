@@ -29,7 +29,8 @@ Open **http://127.0.0.1:4173/website.html** for the alpha website or **http://12
 - Bounded local media preview, with no upload or media attachment to settlement.
 - Portable website/app assets and a deterministic SHA-256 build manifest.
 - Identity includes [signed settlement in a copied ledger](docs/SIGNED_SETTLEMENT.md): check exact words, allocate the synthetic fee once, and reject changed text or stale controllers.
-- [Recover a signed lab record](docs/SIGNED_RECORD_RECOVERY.md) with a separately retained fingerprint and test-key binding; inspect the rebuilt result without changing Commons.
+- [Recover a signed lab record](docs/SIGNED_RECORD_RECOVERY.md) with separately retained trust values; inspect the rebuilt result without changing Commons.
+- [Try a limited test key](docs/DELEGATED_PERMISSIONS.md): public CAWs only, a fixed total budget, expiry and revocation in a fresh fixture copy. These are proposed safeguards, not owner-signed grants.
 - Ledger compares source payment descriptions without changing active settlement; see [economic scenarios](docs/ECONOMIC_SCENARIOS.md).
 
 The accounting model uses **provisional appendix settings**. Main-text and appendix allocations differ; stake eligibility, rounding, repeat actions and character counting also require decisions. Passing tests does not resolve these conflicts.

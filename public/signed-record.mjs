@@ -2,8 +2,10 @@
 // not proof of NFT ownership, historical clock accuracy, finality or availability.
 import {applyAction,canonicalExport,countCharacters,rebuild} from './model.mjs';
 import {createActionVerifier} from './signatures.mjs';
+import {copyDelegation,checkDelegation,bindDelegation} from './delegation.mjs';
 
 const FORMAT='caw-signed-lab-record-v1',CHECKPOINT='caw-signed-lab-checkpoint-v1';
+const DELEGATED_FORMAT='caw-delegated-lab-record-v1';
 export const LAB_RECORD_LIMITS=Object.freeze({maxBytes:2*1024*1024,maxEntries:64});
 const encoder=new TextEncoder();
 function ensure(condition,code,message){if(condition)return;const error=new Error(message);error.code=code;throw error;}
@@ -42,18 +44,23 @@ function entryCopy(value){
   return Object.freeze(entry);
 }
 function recordCopy(text){
-  bytes(text,LAB_RECORD_LIMITS.maxBytes);const value=fields(parse(text),['format','initialHistory','entries']);
-  ensure(value.format===FORMAT&&Array.isArray(value.entries)&&value.entries.length<=LAB_RECORD_LIMITS.maxEntries,'INVALID_RECORD','Unsupported record format or entry count.');
+  bytes(text,LAB_RECORD_LIMITS.maxBytes);const parsed=parse(text),delegated=parsed?.format===DELEGATED_FORMAT;
+  const value=fields(parsed,delegated?['format','initialHistory','delegation','entries']:['format','initialHistory','entries']);
+  ensure((value.format===FORMAT||delegated)&&Array.isArray(value.entries)&&value.entries.length<=LAB_RECORD_LIMITS.maxEntries,'INVALID_RECORD','Unsupported record format or entry count.');
   // JSON.parse supplies dense data arrays; entry validation rejects all extras.
   modelHistory(value.initialHistory);
-  const record={format:FORMAT,initialHistory:value.initialHistory,entries:value.entries.map(entryCopy)};
+  const record={format:value.format,initialHistory:value.initialHistory,...(delegated?{delegation:copyDelegation(value.delegation)}:{}),entries:value.entries.map(entryCopy)};
   ensure(JSON.stringify(record)===text,'NON_CANONICAL_RECORD','Use the exact canonical record bytes.');return record;
 }
 export function copyLabBinding(value){
   const binding=fields(value,['domain','account','controller','epoch','publicKey'],'INVALID_BINDING');
   const validator=createActionVerifier({...binding,nextNonce:0});validator.revoke();return Object.freeze(binding);
 }
-export function createLabRecord(initialHistory){modelHistory(initialHistory);const text=JSON.stringify({format:FORMAT,initialHistory,entries:[]});bytes(text,LAB_RECORD_LIMITS.maxBytes);return text;}
+export function createLabRecord(initialHistory,delegation){
+  modelHistory(initialHistory);const permission=delegation===undefined?undefined:copyDelegation(delegation);
+  const text=JSON.stringify({format:permission?DELEGATED_FORMAT:FORMAT,initialHistory,...(permission?{delegation:permission}:{}),entries:[]});
+  bytes(text,LAB_RECORD_LIMITS.maxBytes);return text;
+}
 export function appendLabRecord(text,entry){
   const record=recordCopy(text);ensure(record.entries.length<LAB_RECORD_LIMITS.maxEntries,'RECORD_LIMIT','This lab preserves at most 64 added events.');
   record.entries.push(entryCopy(entry));const next=JSON.stringify(record);bytes(next,LAB_RECORD_LIMITS.maxBytes);return next;
@@ -76,14 +83,20 @@ export async function createLabRecordCheckpoint(recordText,finalHistory){
   const sha256=await hash(recordBytes),finalHistorySha256=await hash(finalBytes);
   return checkpointCopy({format:CHECKPOINT,entryCount:record.entries.length,byteLength:recordBytes.byteLength,sha256,finalHistorySha256});
 }
-export async function verifyLabRecord(recordText,expectedCheckpoint,binding){
+export async function verifyLabRecord(recordText,expectedCheckpoint,binding,delegation){
   // Copy independent trust before any digest/verification yields to the caller.
   const checkpoint=checkpointCopy(expectedCheckpoint),trusted=copyLabBinding(binding),record=recordCopy(recordText);
+  const permission=delegation===undefined?undefined:copyDelegation(delegation);
+  ensure(Boolean(permission)===Boolean(record.delegation)&&(!permission||JSON.stringify(permission)===JSON.stringify(record.delegation)),
+    'PERMISSION_MISMATCH','Supply the separately retained permission for this record; it must match exactly.');
+  ensure(permission||!trusted.domain.startsWith('grant-'),'PERMISSION_REQUIRED','A grant-domain key requires its permission even in historical inspection.');
+  if(permission)ensure((await bindDelegation(trusted,permission)).domain===trusted.domain,'PERMISSION_BINDING','The signed domain must commit to the supplied permission and test key.');
   const recordBytes=bytes(recordText,LAB_RECORD_LIMITS.maxBytes);
   ensure(record.entries.length===checkpoint.entryCount&&recordBytes.byteLength===checkpoint.byteLength,'CHECKPOINT_MISMATCH','Record length or entry count differs from the saved fingerprint.');
   ensure(await hash(recordBytes)===checkpoint.sha256,'CHECKPOINT_MISMATCH','Record bytes differ from the separately saved fingerprint.');
-  let state=modelHistory(record.initialHistory),signedActions=0,fixtureTransfers=0;
+  let state=modelHistory(record.initialHistory),signedActions=0,fixtureTransfers=0,spent='0';
   const inheritedEvents=state.events.length;
+  ensure(!permission||inheritedEvents===0,'PERMISSION_HISTORY','A delegated record must start from a fresh fixture.');
   ensure(Object.hasOwn(state.accounts,trusted.account),'UNKNOWN_ACCOUNT','The bound account is absent from the initial history.');
   const initial=state.accounts[trusted.account];
   ensure(initial.controller===trusted.controller&&initial.epoch===trusted.epoch,'WRONG_AUTHORITY','The separate test binding does not match the initial account.');
@@ -93,6 +106,7 @@ export async function verifyLabRecord(recordText,expectedCheckpoint,binding){
       ensure(account.controller===trusted.controller&&account.epoch===trusted.epoch,'WRONG_AUTHORITY','A signed action uses authority invalidated by a fixture transfer.');
       const verifier=createActionVerifier({...trusted,nextNonce:account.nonce},()=>entry.acceptedAt);let action;
       try{action=await verifier.check(entry.packet);}finally{verifier.revoke();}
+      if(permission)spent=checkDelegation(permission,spent,action,entry.acceptedAt);
       intent={id:'signed-'+action.account+'-'+action.nonce,kind:'caw',actor:action.account,controller:action.controller,epoch:action.epoch,nonce:action.nonce,text:action.text};
       signedActions+=1;
     }else{
@@ -105,5 +119,6 @@ export async function verifyLabRecord(recordText,expectedCheckpoint,binding){
   ensure(state.events.length===inheritedEvents+record.entries.length,'RECORD_MISMATCH','Record entries do not cover the complete added event suffix.');
   ensure(await hash(bytes(canonicalText,1024*1024))===checkpoint.finalHistorySha256,'FINAL_HISTORY_MISMATCH','Rebuilt history differs from the separately saved final fingerprint.');
   return Object.freeze({canonicalText,checkpoint,signedActions,fixtureTransfers,inheritedEvents,
-    entryCount:record.entries.length,recordedTimesAreProof:false,ownershipProven:false});
+    entryCount:record.entries.length,recordedTimesAreProof:false,ownershipProven:false,
+    ...(permission?{delegation:Object.freeze({permission,spent,remaining:(BigInt(permission.budget)-BigInt(spent)).toString()})}:{})});
 }

@@ -1,3 +1,5 @@
+> Permission revision: [Limited test keys](DELEGATED_PERMISSIONS.md) now bind scope, gross-fee budget and validity into the signed domain. Creation is an unsigned fixture control, not NFT-owner authorization. Delegated recovery requires the separately retained permission. All source conflicts remain open; earlier reviews below are historical.
+
 > Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
 
 > Signed settlement revision: [Identity verifies and applies CAWs in an isolated copied ledger](SIGNED_SETTLEMENT.md). Commons remains unsigned and synthetic. This does not authenticate NFT ownership or preserve signed archival history. Earlier reviews below are historical; [current validation](VALIDATION.md) controls test claims. All production conflicts remain unchanged.

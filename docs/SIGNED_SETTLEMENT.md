@@ -1,5 +1,9 @@
 # One signature. One copied-ledger result.
 
+## Alpha.7 limited permission
+
+An optional [limited test-key permission](DELEGATED_PERMISSIONS.md) now joins the same synchronous model/record commit. Its gross spending advances only on successful acceptance. It starts on a fresh fixture, binds terms into the signed domain, and remains an unsigned local grant control. Ordinary copied-ledger behavior below is preserved.
+
 Alpha.5 connected the [local signature format](SIGNATURE_LAB.md) to the existing synthetic accounting model. Alpha.6 also preserves a [separate recovery record](SIGNED_RECORD_RECOVERY.md). Identity lets a reader create a signed example, check it, and accept it in a separate copy of the current demo ledger. The copied balance, post, fee allocation, receipt, nonce and recovery record change together. Commons does not change.
 
 ## Reproduce in the interface

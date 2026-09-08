@@ -1,5 +1,9 @@
 # A signed action, checked before acceptance
 
+## Alpha.7 permission experiment
+
+[Limited test keys](DELEGATED_PERMISSIONS.md) add a separate permission-controlled path. The Ed25519 action format is unchanged; its signed domain commits to the exact permission, key and account. Signature validity alone does not prove owner consent or permission to spend.
+
 The Identity view contains a separate local signature lab. It signs a fixed synthetic CAW and checks it against a separately held test-key binding. Alpha.5 adds a [copied ledger](SIGNED_SETTLEMENT.md): acceptance updates its synthetic balance, post, receipt and action number together. Commons remains unchanged. This is a proposed authorization experiment, not the CAW wallet format or an adopted protocol rule.
 
 ## What the signature covers
