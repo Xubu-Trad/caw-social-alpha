@@ -1,0 +1,111 @@
+{
+  "format": "caw-independent-history-fixture-v1",
+  "notice": "PUBLIC SYNTHETIC TEST MATERIAL. The disclosed deterministic Ed25519 seed is for tests only; never use it for a wallet, production account, funds or confidential messages.",
+  "public_test_material": true,
+  "not_a_wallet_or_production_key": true,
+  "public_test_seed_hex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+  "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+  "binding": {
+    "domain": "independent-history",
+    "account": "pioneer",
+    "controller": "device-a",
+    "epoch": 0,
+    "publicKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+  },
+  "acceptedAt": 1700000000,
+  "seed": {
+    "version": 1,
+    "scenario": "appendix-demo-v1",
+    "accounts": [
+      {
+        "name": "pioneer",
+        "controller": "device-a",
+        "balance": "20000000000000000000000",
+        "stake": "3"
+      },
+      {
+        "name": "signal",
+        "controller": "device-b",
+        "balance": "20000000000000000000000",
+        "stake": "1"
+      },
+      {
+        "name": "keeper",
+        "controller": "device-c",
+        "balance": "20000000000000000000000",
+        "stake": "2"
+      }
+    ],
+    "posts": []
+  },
+  "texts": [
+    "CAW one.",
+    "CAW two: é 🐦."
+  ],
+  "actions": [
+    {
+      "account": "pioneer",
+      "controller": "device-a",
+      "deployment": "unconnected-lab",
+      "domain": "independent-history",
+      "epoch": 0,
+      "expiresAt": 1700000120,
+      "fee": "5000000000000000000000",
+      "kind": "caw",
+      "network": "simulation",
+      "nonce": 0,
+      "notBefore": 1700000000,
+      "scenario": "appendix-demo-v1",
+      "text": "CAW one.",
+      "version": 1
+    },
+    {
+      "account": "pioneer",
+      "controller": "device-a",
+      "deployment": "unconnected-lab",
+      "domain": "independent-history",
+      "epoch": 0,
+      "expiresAt": 1700000120,
+      "fee": "5000000000000000000000",
+      "kind": "caw",
+      "network": "simulation",
+      "nonce": 1,
+      "notBefore": 1700000000,
+      "scenario": "appendix-demo-v1",
+      "text": "CAW two: é 🐦.",
+      "version": 1
+    }
+  ],
+  "canonical_actions": [
+    "{\"account\":\"pioneer\",\"controller\":\"device-a\",\"deployment\":\"unconnected-lab\",\"domain\":\"independent-history\",\"epoch\":0,\"expiresAt\":1700000120,\"fee\":\"5000000000000000000000\",\"kind\":\"caw\",\"network\":\"simulation\",\"nonce\":0,\"notBefore\":1700000000,\"scenario\":\"appendix-demo-v1\",\"text\":\"CAW one.\",\"version\":1}",
+    "{\"account\":\"pioneer\",\"controller\":\"device-a\",\"deployment\":\"unconnected-lab\",\"domain\":\"independent-history\",\"epoch\":0,\"expiresAt\":1700000120,\"fee\":\"5000000000000000000000\",\"kind\":\"caw\",\"network\":\"simulation\",\"nonce\":1,\"notBefore\":1700000000,\"scenario\":\"appendix-demo-v1\",\"text\":\"CAW two: é 🐦.\",\"version\":1}"
+  ],
+  "initial_history": "{\"events\":[],\"expectedEventCount\":0,\"scenario\":\"appendix-demo-v1\",\"seed\":{\"accounts\":[{\"balance\":\"20000000000000000000000\",\"controller\":\"device-a\",\"name\":\"pioneer\",\"stake\":\"3\"},{\"balance\":\"20000000000000000000000\",\"controller\":\"device-b\",\"name\":\"signal\",\"stake\":\"1\"},{\"balance\":\"20000000000000000000000\",\"controller\":\"device-c\",\"name\":\"keeper\",\"stake\":\"2\"}],\"posts\":[],\"scenario\":\"appendix-demo-v1\",\"version\":1},\"snapshot\":{\"accounts\":{\"keeper\":{\"balance\":\"20000000000000000000000\",\"controller\":\"device-c\",\"epoch\":0,\"name\":\"keeper\",\"nonce\":0,\"stake\":\"2\"},\"pioneer\":{\"balance\":\"20000000000000000000000\",\"controller\":\"device-a\",\"epoch\":0,\"name\":\"pioneer\",\"nonce\":0,\"stake\":\"3\"},\"signal\":{\"balance\":\"20000000000000000000000\",\"controller\":\"device-b\",\"epoch\":0,\"name\":\"signal\",\"nonce\":0,\"stake\":\"1\"}},\"follows\":[],\"likes\":[],\"poolDust\":\"0\",\"posts\":[],\"recaws\":[],\"receipts\":[]},\"version\":1}",
+  "expected_final_history": "{\"events\":[{\"intent\":{\"actor\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"id\":\"signed-pioneer-0\",\"kind\":\"caw\",\"nonce\":0,\"text\":\"CAW one.\"},\"receipt\":{\"actor\":\"pioneer\",\"allocations\":[{\"account\":\"keeper\",\"amount\":\"3333333333333333333333\",\"reason\":\"stake-pool\"},{\"account\":\"signal\",\"amount\":\"1666666666666666666666\",\"reason\":\"stake-pool\"}],\"characterCount\":8,\"eventIndex\":1,\"fee\":\"5000000000000000000000\",\"id\":\"signed-pioneer-0\",\"kind\":\"caw\",\"nextEpoch\":0,\"nextNonce\":1,\"poolAmount\":\"5000000000000000000000\",\"poolDustAdded\":\"1\",\"postId\":\"post-signed-pioneer-0\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true,\"text\":\"CAW one.\"},\"sequence\":1,\"version\":1},{\"intent\":{\"actor\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"id\":\"signed-pioneer-1\",\"kind\":\"caw\",\"nonce\":1,\"text\":\"CAW two: é 🐦.\"},\"receipt\":{\"actor\":\"pioneer\",\"allocations\":[{\"account\":\"keeper\",\"amount\":\"3333333333333333333333\",\"reason\":\"stake-pool\"},{\"account\":\"signal\",\"amount\":\"1666666666666666666666\",\"reason\":\"stake-pool\"}],\"characterCount\":14,\"eventIndex\":2,\"fee\":\"5000000000000000000000\",\"id\":\"signed-pioneer-1\",\"kind\":\"caw\",\"nextEpoch\":0,\"nextNonce\":2,\"poolAmount\":\"5000000000000000000000\",\"poolDustAdded\":\"1\",\"postId\":\"post-signed-pioneer-1\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true,\"text\":\"CAW two: é 🐦.\"},\"sequence\":2,\"version\":1},{\"intent\":{\"actor\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"id\":\"transfer-pioneer-2\",\"kind\":\"transfer\",\"newController\":\"device-next\",\"nonce\":2},\"receipt\":{\"actor\":\"pioneer\",\"allocations\":[],\"characterCount\":0,\"eventIndex\":3,\"fee\":\"0\",\"id\":\"transfer-pioneer-2\",\"kind\":\"transfer\",\"newController\":\"device-next\",\"nextEpoch\":1,\"nextNonce\":3,\"poolAmount\":\"0\",\"poolDustAdded\":\"0\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true},\"sequence\":3,\"version\":1}],\"expectedEventCount\":3,\"scenario\":\"appendix-demo-v1\",\"seed\":{\"accounts\":[{\"balance\":\"20000000000000000000000\",\"controller\":\"device-a\",\"name\":\"pioneer\",\"stake\":\"3\"},{\"balance\":\"20000000000000000000000\",\"controller\":\"device-b\",\"name\":\"signal\",\"stake\":\"1\"},{\"balance\":\"20000000000000000000000\",\"controller\":\"device-c\",\"name\":\"keeper\",\"stake\":\"2\"}],\"posts\":[],\"scenario\":\"appendix-demo-v1\",\"version\":1},\"snapshot\":{\"accounts\":{\"keeper\":{\"balance\":\"26666666666666666666666\",\"controller\":\"device-c\",\"epoch\":0,\"name\":\"keeper\",\"nonce\":0,\"stake\":\"2\"},\"pioneer\":{\"balance\":\"10000000000000000000000\",\"controller\":\"device-next\",\"epoch\":1,\"name\":\"pioneer\",\"nonce\":3,\"stake\":\"3\"},\"signal\":{\"balance\":\"23333333333333333333332\",\"controller\":\"device-b\",\"epoch\":0,\"name\":\"signal\",\"nonce\":0,\"stake\":\"1\"}},\"follows\":[],\"likes\":[],\"poolDust\":\"2\",\"posts\":[{\"author\":\"pioneer\",\"id\":\"post-signed-pioneer-0\",\"simulated\":true,\"text\":\"CAW one.\",\"time\":\"Local session\"},{\"author\":\"pioneer\",\"id\":\"post-signed-pioneer-1\",\"simulated\":true,\"text\":\"CAW two: é 🐦.\",\"time\":\"Local session\"}],\"recaws\":[],\"receipts\":[{\"actor\":\"pioneer\",\"allocations\":[{\"account\":\"keeper\",\"amount\":\"3333333333333333333333\",\"reason\":\"stake-pool\"},{\"account\":\"signal\",\"amount\":\"1666666666666666666666\",\"reason\":\"stake-pool\"}],\"characterCount\":8,\"eventIndex\":1,\"fee\":\"5000000000000000000000\",\"id\":\"signed-pioneer-0\",\"kind\":\"caw\",\"nextEpoch\":0,\"nextNonce\":1,\"poolAmount\":\"5000000000000000000000\",\"poolDustAdded\":\"1\",\"postId\":\"post-signed-pioneer-0\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true,\"text\":\"CAW one.\"},{\"actor\":\"pioneer\",\"allocations\":[{\"account\":\"keeper\",\"amount\":\"3333333333333333333333\",\"reason\":\"stake-pool\"},{\"account\":\"signal\",\"amount\":\"1666666666666666666666\",\"reason\":\"stake-pool\"}],\"characterCount\":14,\"eventIndex\":2,\"fee\":\"5000000000000000000000\",\"id\":\"signed-pioneer-1\",\"kind\":\"caw\",\"nextEpoch\":0,\"nextNonce\":2,\"poolAmount\":\"5000000000000000000000\",\"poolDustAdded\":\"1\",\"postId\":\"post-signed-pioneer-1\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true,\"text\":\"CAW two: é 🐦.\"},{\"actor\":\"pioneer\",\"allocations\":[],\"characterCount\":0,\"eventIndex\":3,\"fee\":\"0\",\"id\":\"transfer-pioneer-2\",\"kind\":\"transfer\",\"newController\":\"device-next\",\"nextEpoch\":1,\"nextNonce\":3,\"poolAmount\":\"0\",\"poolDustAdded\":\"0\",\"scenario\":\"appendix-demo-v1\",\"simulated\":true}]},\"version\":1}",
+  "expected": {
+    "entryCount": 3,
+    "signedActions": 2,
+    "fixtureTransfers": 1,
+    "inheritedEvents": 0,
+    "balances": {
+      "pioneer": "10000000000000000000000",
+      "signal": "23333333333333333333332",
+      "keeper": "26666666666666666666666"
+    },
+    "poolDust": "2",
+    "pioneerController": "device-next",
+    "pioneerEpoch": 1,
+    "pioneerNextNonce": 3,
+    "perPostCredits": {
+      "keeper": "3333333333333333333333",
+      "signal": "1666666666666666666666"
+    },
+    "perPostDust": "1",
+    "characterCounts": [
+      8,
+      14
+    ]
+  },
+  "calculation": "Each CAW deducts exactly 5000 * 10^18 from pioneer. Pioneer is excluded from the pool despite weight 3. Other fixed weights are signal=1, keeper=2. Floor shares are 1666666666666666666666 and 3333333333333333333333 base units, leaving 1 dust unit per post. Two posts double those literal credits and dust. The unsigned fixture transfer costs zero, moves no balances and advances pioneer nonce 2 to 3 and epoch 0 to 1. These values and final history were authored independently of application code.",
+  "packet_recipe": "At supervised runtime only, native node:crypto signs CAW_LOCAL_SIGNED_ACTION_V1 plus newline plus each literal canonical_actions string, using the disclosed test seed. Build the ordinary record-v1 with the literal initial_history, those two signed-caw entries at acceptedAt, then an unsigned-fixture-transfer to device-next. SHA-256 of record and expected_final_history supplies the separate synthetic comparison checkpoint; it does not prove ownership, latest state or availability."
+}
