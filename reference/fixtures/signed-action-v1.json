@@ -1,0 +1,37 @@
+{
+  "format": "caw-independent-signed-action-fixture-v1",
+  "notice": "PUBLIC SYNTHETIC TEST MATERIAL. The disclosed deterministic Ed25519 seed is only for unit tests. Never use it for a wallet, account, real funds, production identity or confidential messages.",
+  "public_test_material": true,
+  "not_a_wallet_or_production_key": true,
+  "public_test_seed_hex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+  "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+  "now": 1700000000,
+  "trusted": {
+    "domain": "caw-independent-fixture",
+    "account": "alpha",
+    "controller": "device-alpha",
+    "epoch": 2,
+    "nextNonce": 7,
+    "publicKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+  },
+  "action": {
+    "account": "alpha",
+    "controller": "device-alpha",
+    "deployment": "unconnected-lab",
+    "domain": "caw-independent-fixture",
+    "epoch": 2,
+    "expiresAt": 1700000120,
+    "fee": "5000000000000000000000",
+    "kind": "caw",
+    "network": "simulation",
+    "nonce": 7,
+    "notBefore": 1700000000,
+    "scenario": "appendix-demo-v1",
+    "text": "Exact bytes: café, café, 🐦.\nKeep \"CAW\".",
+    "version": 1
+  },
+  "canonical_action": "{\"account\":\"alpha\",\"controller\":\"device-alpha\",\"deployment\":\"unconnected-lab\",\"domain\":\"caw-independent-fixture\",\"epoch\":2,\"expiresAt\":1700000120,\"fee\":\"5000000000000000000000\",\"kind\":\"caw\",\"network\":\"simulation\",\"nonce\":7,\"notBefore\":1700000000,\"scenario\":\"appendix-demo-v1\",\"text\":\"Exact bytes: café, café, 🐦.\\nKeep \\\"CAW\\\".\",\"version\":1}",
+  "signing_text": "CAW_LOCAL_SIGNED_ACTION_V1\n{\"account\":\"alpha\",\"controller\":\"device-alpha\",\"deployment\":\"unconnected-lab\",\"domain\":\"caw-independent-fixture\",\"epoch\":2,\"expiresAt\":1700000120,\"fee\":\"5000000000000000000000\",\"kind\":\"caw\",\"network\":\"simulation\",\"nonce\":7,\"notBefore\":1700000000,\"scenario\":\"appendix-demo-v1\",\"text\":\"Exact bytes: café, café, 🐦.\\nKeep \\\"CAW\\\".\",\"version\":1}",
+  "signing_utf8_hex": "4341575f4c4f43414c5f5349474e45445f414354494f4e5f56310a7b226163636f756e74223a22616c706861222c22636f6e74726f6c6c6572223a226465766963652d616c706861222c226465706c6f796d656e74223a22756e636f6e6e65637465642d6c6162222c22646f6d61696e223a226361772d696e646570656e64656e742d66697874757265222c2265706f6368223a322c22657870697265734174223a313730303030303132302c22666565223a2235303030303030303030303030303030303030303030222c226b696e64223a22636177222c226e6574776f726b223a2273696d756c6174696f6e222c226e6f6e6365223a372c226e6f744265666f7265223a313730303030303030302c227363656e6172696f223a22617070656e6469782d64656d6f2d7631222c2274657874223a2245786163742062797465733a20636166c3a92c2063616665cc812c20f09f90a62e5c6e4b656570205c224341575c222e222c2276657273696f6e223a317d",
+  "packet_recipe": "At supervised test execution, node:crypto signs the fixed signing_utf8_hex bytes directly. Ed25519 with this public fixed seed produces a deterministic packet. Expected canonical and signing bytes are literal fixture data, not output from either application implementation."
+}
