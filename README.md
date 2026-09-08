@@ -37,6 +37,8 @@ Open **http://127.0.0.1:4173/website.html** for the alpha website or **http://12
 - [Carry a verified anchor](docs/ANCHOR_PACKAGE.md): keep exact evidence with a separate fingerprint; import a comparison tracker without restoring a live grant.
 - [Cross-check signed messages](docs/INDEPENDENT_ACTION_READER.md): a separately written reader verifies the same fixed format without importing application helpers.
 - [Recompute a signed history](docs/INDEPENDENT_HISTORY_READER.md): a separate reader checks balances, fee distributions and exact records for the supported test format.
+- [Check delegated permission](docs/INDEPENDENT_PERMISSION_READER.md): independently verify exact grant terms, spending limits and recorded cancellation.
+- [Understand current authority](docs/AUTHORITY_AND_FRESHNESS.md): what historical proof establishes, and which live-state inputs remain unimplemented.
 - Ledger compares source payment descriptions without changing active settlement; see [economic scenarios](docs/ECONOMIC_SCENARIOS.md).
 
 The accounting model uses **provisional appendix settings**. Main-text and appendix allocations differ; stake eligibility, rounding, repeat actions and character counting also require decisions. Passing tests does not resolve these conflicts.

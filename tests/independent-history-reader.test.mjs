@@ -75,7 +75,7 @@ test('history reader has independent replay and accounting without application i
   const source = readFileSync(new URL('../reference/independent-history-reader.mjs', import.meta.url), 'utf8');
   const imports = [...source.matchAll(/\bfrom\s*['"]([^'"]+)['"]/g)].map(match => match[1]);
   assert.ok(imports.length > 0);
-  assert.ok(imports.every(name => ['node:crypto', 'node:buffer', './independent-action-reader.mjs'].includes(name)), imports.join(', '));
+  assert.ok(imports.every(name => ['node:crypto', 'node:buffer', './independent-action-reader.mjs', './independent-permission-reader.mjs'].includes(name)), imports.join(', '));
   assert.doesNotMatch(source, /\bimport\s*\(|\brequire\s*\(/);
 });
 

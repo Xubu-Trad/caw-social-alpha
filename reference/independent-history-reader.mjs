@@ -3,9 +3,14 @@
 import { createHash } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { inspectSignedAction } from './independent-action-reader.mjs';
+import { copyPermissionTerms, copyPermissionAuthority, inspectDelegatedPermission,
+  inspectOwnerGrant, inspectOwnerCancellation } from './independent-permission-reader.mjs';
 
 const RECORD_FORMAT = 'caw-signed-lab-record-v1';
 const CHECKPOINT_FORMAT = 'caw-signed-lab-checkpoint-v1';
+const DELEGATED_FORMAT = 'caw-delegated-lab-record-v1';
+const OWNER_FORMAT = 'caw-owner-granted-lab-record-v1';
+const CANCELLED_FORMAT = 'caw-owner-granted-lab-record-v2';
 const SCENARIO = 'appendix-demo-v1';
 const RECORD_BYTES = 2 * 1024 * 1024;
 const MODEL_BYTES = 1024 * 1024;
@@ -189,10 +194,11 @@ function exportModel(model) {
       recaws: [], poolDust: model.poolDust.toString(), receipts: model.receipts } });
 }
 
-function checkpointInput(input) {
+function checkpointInput(input, allowCancellation = false) {
   const c = data(input, CHECKPOINT_KEYS);
   if (c.format !== CHECKPOINT_FORMAT) reject('CHECKPOINT');
-  integer(c.entryCount, 64); integer(c.byteLength, RECORD_BYTES);
+  integer(c.entryCount, allowCancellation ? 65 : 64);
+  integer(c.byteLength, RECORD_BYTES + (allowCancellation ? 16384 : 0));
   digestText(c.sha256); digestText(c.finalHistorySha256);
   return Object.freeze({ format: c.format, entryCount: c.entryCount, byteLength: c.byteLength,
     sha256: c.sha256, finalHistorySha256: c.finalHistorySha256 });
@@ -235,15 +241,65 @@ function recordInput(text) {
   return { ...record, byteLength: length };
 }
 
-function settle(model, trusted, entry) {
+function grantedRecordInput(text) {
+  const reserved = typeof text === 'string' && text.startsWith('{"format":"' + CANCELLED_FORMAT + '",');
+  const length = boundedText(text, RECORD_BYTES + (reserved ? 16384 : 0));
+  const parsed = parse(text);
+  if (parsed === null || typeof parsed !== 'object' ||
+      ![DELEGATED_FORMAT, OWNER_FORMAT, CANCELLED_FORMAT].includes(parsed.format)) reject('FORMAT');
+  const ownerMode = parsed.format !== DELEGATED_FORMAT, cancelledMode = parsed.format === CANCELLED_FORMAT;
+  boundedText(text, RECORD_BYTES + (cancelledMode ? 16384 : 0));
+  const required = ownerMode ? ['format', 'initialHistory', 'delegation', 'ownerGrant', 'entries'] :
+    ['format', 'initialHistory', 'delegation', 'entries'];
+  const r = data(parsed, required);
+  boundedText(r.initialHistory, MODEL_BYTES);
+  const permission = copyPermissionTerms(r.delegation);
+  if (ownerMode) boundedText(r.ownerGrant, 8192);
+  array(r.entries, cancelledMode ? 65 : 64);
+  const entries = r.entries.map(input => {
+    if (input === null || typeof input !== 'object') reject('SCHEMA');
+    if (input.kind === 'signed-caw') {
+      const entry = data(input, ['kind', 'packet', 'acceptedAt']);
+      boundedText(entry.packet, 8192); integer(entry.acceptedAt, 253402300799);
+      return { kind: 'signed-caw', packet: entry.packet, acceptedAt: entry.acceptedAt };
+    }
+    if (input.kind === 'unsigned-fixture-transfer') {
+      const entry = data(input, ['kind', 'newController']);
+      controller(entry.newController);
+      return { kind: 'unsigned-fixture-transfer', newController: entry.newController };
+    }
+    if (input.kind === 'signed-owner-revocation') {
+      const entry = data(input, ['kind', 'packet']);
+      boundedText(entry.packet, 8192);
+      return { kind: 'signed-owner-revocation', packet: entry.packet };
+    }
+    reject('FORMAT');
+  });
+  const cancellations = entries.filter(entry => entry.kind === 'signed-owner-revocation').length;
+  if (cancelledMode ? cancellations !== 1 || entries.at(-1)?.kind !== 'signed-owner-revocation' : cancellations !== 0) reject('CANCELLATION');
+  const record = { format: r.format, initialHistory: r.initialHistory, delegation: permission,
+    ...(ownerMode ? { ownerGrant: r.ownerGrant } : {}), entries };
+  if (JSON.stringify(record) !== text) reject('CANONICAL');
+  return { ...record, ownerMode, byteLength: length };
+}
+
+function settle(model, trusted, entry, permission = undefined, spent = 0n) {
   const payer = model.accounts.get(trusted.account);
   const transferring = entry.kind === 'unsigned-fixture-transfer';
-  let text = '', characterCount = 0;
+  let text = '', characterCount = 0, nextSpent = spent;
   if (transferring) {
     if (entry.newController === payer.controller) reject('TRANSFER');
   } else {
     if (payer.controller !== trusted.controller || payer.epoch !== trusted.epoch) reject('AUTHORITY');
     const result = inspectSignedAction(entry.packet, { ...trusted, nextNonce: payer.nonce }, entry.acceptedAt);
+    if (permission) {
+      const action = result.action;
+      if (action.kind !== permission.scope) reject('PERMISSION_SCOPE');
+      if (action.notBefore < permission.notBefore || action.expiresAt > permission.expiresAt ||
+          entry.acceptedAt < permission.notBefore || entry.acceptedAt >= permission.expiresAt) reject('PERMISSION_WINDOW');
+      nextSpent = spent + BigInt(action.fee);
+      if (nextSpent > BigInt(permission.budget)) reject('PERMISSION_BUDGET');
+    }
     text = result.action.text;
     characterCount = scalars(text);
   }
@@ -294,6 +350,7 @@ function settle(model, trusted, entry) {
   }
   model.receipts.push(receipt);
   model.events.push({ version: 1, sequence: model.events.length + 1, intent, receipt });
+  return nextSpent;
 }
 
 /** Verify/recompute the ordinary fresh-record subset without consuming anything. */
@@ -319,4 +376,49 @@ export function inspectSignedHistory(recordText, expectedCheckpoint, binding) {
   return Object.freeze({ canonicalText, checkpoint, signedActions, fixtureTransfers,
     inheritedEvents: 0, entryCount: record.entries.length, recordedTimesAreProof: false,
     ownershipProven: false, authorityProven: false, freshnessProven: false, livePermissionRestored: false });
+}
+
+/** Inspect separate permission/owner trust; never restore a usable grant.
+ * Exactly four arguments for delegated v1; exactly five for owner v1 or v2.
+ */
+export function inspectGrantedHistory(recordText, expectedCheckpoint, binding, permission, ownerAuthority) {
+  if (arguments.length !== 4 && arguments.length !== 5) reject('SCHEMA');
+  // Capture every independently supplied scalar record before hashing/replay.
+  const checkpoint = checkpointInput(expectedCheckpoint, true);
+  const trusted = copyPermissionAuthority(binding), terms = copyPermissionTerms(permission);
+  const owner = arguments.length === 5 ? copyPermissionAuthority(ownerAuthority) : undefined;
+  const record = grantedRecordInput(recordText);
+  if (record.ownerMode !== Boolean(owner) || record.ownerMode !== trusted.domain.startsWith('ownergrant-')) reject('FORMAT');
+  if (JSON.stringify(record.delegation) !== JSON.stringify(terms)) reject('PERMISSION_MISMATCH');
+  if (owner) {
+    const grant = inspectOwnerGrant(record.ownerGrant, owner);
+    if (JSON.stringify(grant.binding) !== JSON.stringify(trusted) ||
+        JSON.stringify(grant.permission) !== JSON.stringify(terms)) reject('OWNER_GRANT');
+  } else inspectDelegatedPermission(trusted, terms);
+  if (record.byteLength !== checkpoint.byteLength || record.entries.length !== checkpoint.entryCount ||
+      hash(recordText) !== checkpoint.sha256) reject('CHECKPOINT');
+  const model = initialModel(record.initialHistory);
+  const account = model.accounts.get(trusted.account);
+  if (!account || account.controller !== trusted.controller || account.epoch !== trusted.epoch) reject('AUTHORITY');
+  let canonicalText = exportModel(model), signedActions = 0, fixtureTransfers = 0, ownerRevocations = 0, spent = 0n;
+  for (const entry of record.entries) {
+    if (entry.kind === 'signed-owner-revocation') {
+      // Cancellation is untimed and refers to retained original owner/grant
+      // authority, even after a fixture transfer changes model control.
+      inspectOwnerCancellation(entry.packet, owner, trusted.domain);
+      ownerRevocations += 1;
+      continue;
+    }
+    spent = settle(model, trusted, entry, terms, spent);
+    if (entry.kind === 'signed-caw') signedActions += 1;
+    else fixtureTransfers += 1;
+    canonicalText = exportModel(model);
+  }
+  if (model.events.length !== record.entries.length - ownerRevocations) reject('SETTLEMENT');
+  if (hash(canonicalText) !== checkpoint.finalHistorySha256) reject('FINAL_HISTORY');
+  return Object.freeze({ canonicalText, checkpoint, signedActions, fixtureTransfers,
+    inheritedEvents: 0, entryCount: record.entries.length, recordedTimesAreProof: false,
+    ownershipProven: false, authorityProven: false, freshnessProven: false, livePermissionRestored: false,
+    delegation: Object.freeze({ permission: terms, spent: spent.toString(), remaining: (BigInt(terms.budget) - spent).toString() }),
+    ...(owner ? { ownerGrantVerified: true, ownerRevoked: ownerRevocations === 1, ownerRevocations } : {}) });
 }

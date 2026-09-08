@@ -1,0 +1,108 @@
+{
+  "format": "caw-independent-permission-history-fixture-v1",
+  "notice": "PUBLIC SYNTHETIC TEST MATERIAL. Both disclosed deterministic Ed25519 seeds are for tests only. Never use them for a wallet, production account, funds or confidential messages.",
+  "public_test_material": true,
+  "not_a_wallet_or_production_key": true,
+  "history_fixture": "history-v1.json",
+  "reuse": "Use that fixture verbatim for the source seed, initial history, exact two post texts and final accounting history with one unsigned fixture transfer. Cancellation adds a journal entry only, no model event or fee.",
+  "delegate": {
+    "public_test_seed_hex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+    "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+  },
+  "owner": {
+    "public_test_seed_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+    "public_key_hex": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c"
+  },
+  "permission": {
+    "scope": "caw",
+    "budget": "10000000000000000000000",
+    "notBefore": 1700000000,
+    "expiresAt": 1700000120
+  },
+  "owner_authority": {
+    "domain": "independent-owner",
+    "account": "pioneer",
+    "controller": "device-a",
+    "epoch": 0,
+    "publicKey": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c"
+  },
+  "delegated_binding": {
+    "domain": "grant-423ec4c859b78c9b7a8f1988c0a8b762ad0c1c4d1e7f8500f45158b08c5b25ab",
+    "account": "pioneer",
+    "controller": "device-a",
+    "epoch": 0,
+    "publicKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+  },
+  "owner_granted_binding": {
+    "domain": "ownergrant-230c0df5d219224fecd0d6d15229ae6959c68e63889cf928ab84b91420b054cb",
+    "account": "pioneer",
+    "controller": "device-a",
+    "epoch": 0,
+    "publicKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+  },
+  "delegation": {
+    "canonical_body": "{\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"publicKey\":\"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a\",\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"fee\":\"5000000000000000000000\",\"scope\":\"caw\",\"budget\":\"10000000000000000000000\",\"notBefore\":1700000000,\"expiresAt\":1700000120}",
+    "commitment_text": "CAW_LOCAL_DELEGATION_V1\n{\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"publicKey\":\"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a\",\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"fee\":\"5000000000000000000000\",\"scope\":\"caw\",\"budget\":\"10000000000000000000000\",\"notBefore\":1700000000,\"expiresAt\":1700000120}",
+    "commitment_utf8_hex": "4341575f4c4f43414c5f44454c45474154494f4e5f56310a7b226163636f756e74223a2270696f6e656572222c22636f6e74726f6c6c6572223a226465766963652d61222c2265706f6368223a302c227075626c69634b6579223a2264373561393830313832623130616237643534626665643363393634303733613065653137326633646161363233323561663032316136386637303735313161222c226e6574776f726b223a2273696d756c6174696f6e222c226465706c6f796d656e74223a22756e636f6e6e65637465642d6c6162222c227363656e6172696f223a22617070656e6469782d64656d6f2d7631222c22666565223a2235303030303030303030303030303030303030303030222c2273636f7065223a22636177222c22627564676574223a223130303030303030303030303030303030303030303030222c226e6f744265666f7265223a313730303030303030302c22657870697265734174223a313730303030303132307d",
+    "byte_length": 368,
+    "sha256": "423ec4c859b78c9b7a8f1988c0a8b762ad0c1c4d1e7f8500f45158b08c5b25ab"
+  },
+  "grant": {
+    "body": {
+      "version": 1,
+      "network": "simulation",
+      "deployment": "unconnected-lab",
+      "scenario": "appendix-demo-v1",
+      "fee": "5000000000000000000000",
+      "ownerDomain": "independent-owner",
+      "account": "pioneer",
+      "controller": "device-a",
+      "epoch": 0,
+      "ownerKey": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+      "delegateKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+      "scope": "caw",
+      "budget": "10000000000000000000000",
+      "notBefore": 1700000000,
+      "expiresAt": 1700000120
+    },
+    "canonical_body": "{\"version\":1,\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"fee\":\"5000000000000000000000\",\"ownerDomain\":\"independent-owner\",\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"ownerKey\":\"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c\",\"delegateKey\":\"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a\",\"scope\":\"caw\",\"budget\":\"10000000000000000000000\",\"notBefore\":1700000000,\"expiresAt\":1700000120}",
+    "signing_text": "CAW_LOCAL_OWNER_GRANT_V1\n{\"version\":1,\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"fee\":\"5000000000000000000000\",\"ownerDomain\":\"independent-owner\",\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"ownerKey\":\"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c\",\"delegateKey\":\"d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a\",\"scope\":\"caw\",\"budget\":\"10000000000000000000000\",\"notBefore\":1700000000,\"expiresAt\":1700000120}",
+    "signing_utf8_hex": "4341575f4c4f43414c5f4f574e45525f4752414e545f56310a7b2276657273696f6e223a312c226e6574776f726b223a2273696d756c6174696f6e222c226465706c6f796d656e74223a22756e636f6e6e65637465642d6c6162222c227363656e6172696f223a22617070656e6469782d64656d6f2d7631222c22666565223a2235303030303030303030303030303030303030303030222c226f776e6572446f6d61696e223a22696e646570656e64656e742d6f776e6572222c226163636f756e74223a2270696f6e656572222c22636f6e74726f6c6c6572223a226465766963652d61222c2265706f6368223a302c226f776e65724b6579223a2233643430313763336538343338393561393262373061613734643162376562633963393832636366326563343936386363306364353566313261663436363063222c2264656c65676174654b6579223a2264373561393830313832623130616237643534626665643363393634303733613065653137326633646161363233323561663032316136386637303735313161222c2273636f7065223a22636177222c22627564676574223a223130303030303030303030303030303030303030303030222c226e6f744265666f7265223a313730303030303030302c22657870697265734174223a313730303030303132307d",
+    "byte_length": 495,
+    "sha256": "230c0df5d219224fecd0d6d15229ae6959c68e63889cf928ab84b91420b054cb"
+  },
+  "cancellation": {
+    "body": {
+      "version": 1,
+      "network": "simulation",
+      "deployment": "unconnected-lab",
+      "scenario": "appendix-demo-v1",
+      "ownerDomain": "independent-owner",
+      "account": "pioneer",
+      "controller": "device-a",
+      "epoch": 0,
+      "ownerKey": "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+      "grantDomain": "ownergrant-230c0df5d219224fecd0d6d15229ae6959c68e63889cf928ab84b91420b054cb"
+    },
+    "canonical_body": "{\"version\":1,\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"ownerDomain\":\"independent-owner\",\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"ownerKey\":\"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c\",\"grantDomain\":\"ownergrant-230c0df5d219224fecd0d6d15229ae6959c68e63889cf928ab84b91420b054cb\"}",
+    "signing_text": "CAW_LOCAL_OWNER_REVOCATION_V1\n{\"version\":1,\"network\":\"simulation\",\"deployment\":\"unconnected-lab\",\"scenario\":\"appendix-demo-v1\",\"ownerDomain\":\"independent-owner\",\"account\":\"pioneer\",\"controller\":\"device-a\",\"epoch\":0,\"ownerKey\":\"3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c\",\"grantDomain\":\"ownergrant-230c0df5d219224fecd0d6d15229ae6959c68e63889cf928ab84b91420b054cb\"}",
+    "signing_utf8_hex": "4341575f4c4f43414c5f4f574e45525f5245564f434154494f4e5f56310a7b2276657273696f6e223a312c226e6574776f726b223a2273696d756c6174696f6e222c226465706c6f796d656e74223a22756e636f6e6e65637465642d6c6162222c227363656e6172696f223a22617070656e6469782d64656d6f2d7631222c226f776e6572446f6d61696e223a22696e646570656e64656e742d6f776e6572222c226163636f756e74223a2270696f6e656572222c22636f6e74726f6c6c6572223a226465766963652d61222c2265706f6368223a302c226f776e65724b6579223a2233643430313763336538343338393561393262373061613734643162376562633963393832636366326563343936386363306364353566313261663436363063222c226772616e74446f6d61696e223a226f776e65726772616e742d32333063306466356432313932323466656364306436643135323239616536393539633638653633383839636639323861623834623931343230623035346362227d",
+    "byte_length": 385
+  },
+  "expected": {
+    "budget": "10000000000000000000000",
+    "spent": "10000000000000000000000",
+    "remaining": "0",
+    "modelEvents": 3,
+    "pioneerNextNonce": 3,
+    "pioneerEpoch": 1,
+    "poolDust": "2",
+    "delegatedEntries": 3,
+    "ownerGrantedEntries": 3,
+    "cancelledEntries": 4,
+    "ownerRevocations": 1,
+    "cancellationFee": "0",
+    "cancellationAdditionalModelEvents": 0
+  },
+  "packet_recipe": "At supervised runtime only, node:crypto signs each literal grant/cancellation signing_utf8_hex with the public owner test seed. Delegate action text uses the alpha13 action fields with only domain replaced by the fixed commitment above, then signs with the delegate test seed. Neither native signature generation nor matching replay authenticates live NFT ownership, historical time, latest permission or permanent availability."
+}
