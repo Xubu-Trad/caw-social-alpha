@@ -1,0 +1,808 @@
+{
+  "format": "caw-ethereum-proof-fixtures-v1",
+  "synthetic": true,
+  "notice": "Constructed test tries, not observations of a deployed CAW contract or a live chain.",
+  "oracle": "Original Python Keccak/RLP/trie construction, separate from the JavaScript verifier. SHA3 padding variant cross-checked with Python hashlib for all 13 hash inputs. Ethereum empty/abc fixed Keccak vectors also checked.",
+  "hash_vectors": [
+    {
+      "input": "0x",
+      "expected": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "input": "0x00",
+      "expected": "0xbc36789e7a1e281436464229828f817d6612f7b477d66591ff96a9e064bcc98a"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e",
+      "expected": "0x3e50547cf72e8583ee91462f9d99fe624f53282f78e1a5ec2347b1d0123d0d9b"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+      "expected": "0x8ae1aa597fa146ebd3aa2ceddf360668dea5e526567e92b0321816a4e895bd2d"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f30313233343536",
+      "expected": "0x797f92d5e159d80a886c0a7802a255b475a1e8e473e8cf4345144824a2aee79c"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f3031323334353637",
+      "expected": "0x0d0bf4902a749dee22eae5f1b6e2b867ba696ce9be7632eba14315ac09bd1856"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80818283848586",
+      "expected": "0xcbdfd9dee5faad3818d6b06f95a219fd290b0e1706f6a82e5a595b9ce9faca62"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f8081828384858687",
+      "expected": "0x7ce759f1ab7f9ce437719970c26b0a66ff11fe3e38e17df89cf5d29c7d7f807e"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788",
+      "expected": "0xac73d4fae68b8453f764007c1a20ce95994187861f0c3227a3a8e99a73a3b1db"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f10111213",
+      "expected": "0x27eceb59ebc3dc8a04a5b135be641591a7278540e4556a2ba9f408194e666ec3"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f1011121314",
+      "expected": "0x8e2476e65823b24d96ebe239f2c1534cdf763e689e2410c3b1cb0c74e6177bfc"
+    },
+    {
+      "input": "0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fa000102030405060708090a0b0c0d0e0f10111213",
+      "expected": "0x8067fe24dad927632e32dcaf9b7958a5f301cfc4e37f419a08e059290be23370"
+    },
+    {
+      "input": "0x616263",
+      "expected": "0x4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"
+    }
+  ],
+  "trie_cases": [
+    {
+      "name": "empty",
+      "root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "key": "0x00",
+      "proof": [],
+      "expected": {
+        "exists": false,
+        "value": null
+      }
+    },
+    {
+      "name": "short-root-leaf",
+      "root": "0x35ada833c638a9a5d332f9bb7d8a879269a27077a0e31404ef20273bff0d80f6",
+      "key": "0x12",
+      "proof": [
+        "0xc482201261"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x61"
+      }
+    },
+    {
+      "name": "leaf-divergence",
+      "root": "0x35ada833c638a9a5d332f9bb7d8a879269a27077a0e31404ef20273bff0d80f6",
+      "key": "0x13",
+      "proof": [
+        "0xc482201261"
+      ],
+      "expected": {
+        "exists": false,
+        "value": null
+      }
+    },
+    {
+      "name": "rlp-value-55",
+      "root": "0xf928e5579f8cd8a3574f1510a9b2b0e0db31c6aa2dc3d714a7dbb1fec2ab5047",
+      "key": "0x12",
+      "proof": [
+        "0xf83b822012b776767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x76767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676"
+      }
+    },
+    {
+      "name": "rlp-value-56",
+      "root": "0xbe11bb7da7e48c39971a1a3ba6c1017c9bed959b38193ee987cae90514a75c5d",
+      "key": "0x12",
+      "proof": [
+        "0xf83d822012b8387676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x7676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676767676"
+      }
+    },
+    {
+      "name": "child-rlp-31",
+      "root": "0xf103e74045ac95d25fbc3ec526d7d1d4a0b07bbcd2cce428d23153d75bd4383e",
+      "key": "0x10",
+      "proof": [
+        "0xe211a069929e68e5c4a188c9e703998b852cb7027eb49c78f51f2b88e5b81c1637e69c",
+        "0xf1de209c76767676767676767676767676767676767676767676767676767676c2207a808080808080808080808080808080"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x76767676767676767676767676767676767676767676767676767676"
+      }
+    },
+    {
+      "name": "child-rlp-32",
+      "root": "0x6c71409fda095b42ec69ff56a6c8d24f16606d81387b489a6f8418fc624d3570",
+      "key": "0x10",
+      "proof": [
+        "0xe211a0c711a9021c789af57b7df1604f6dfc3a6ce3c2bfa346cb22c56e1559ae973982",
+        "0xf3a0dde6d16c7d46e5d942dd8c73e0d1ce5d31419d0226ad700708421f2b98e73631c2207a808080808080808080808080808080",
+        "0xdf209d7676767676767676767676767676767676767676767676767676767676"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x7676767676767676767676767676767676767676767676767676767676"
+      }
+    },
+    {
+      "name": "child-rlp-33",
+      "root": "0x33704d8e7e3d1b506fa39cc48e7d298306450fd1b6ddd370ba94bda67445e8ee",
+      "key": "0x10",
+      "proof": [
+        "0xe211a09e3ab3085b356898707fe4a7ef63414c4c97c86defd69083cc831de96700a1af",
+        "0xf3a03e772f8b7324445a1b26bd80569f2805d13ee446d0fe57447231a6f0f995e424c2207a808080808080808080808080808080",
+        "0xe0209e767676767676767676767676767676767676767676767676767676767676"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x767676767676767676767676767676767676767676767676767676767676"
+      }
+    },
+    {
+      "name": "words-do",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x646f",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080",
+        "0xe482006fa0d43b87fdcd4217013ccc92d04662e12d36e4cc25dc690077cd821a1956fc3e36",
+        "0xf3808080808080de17dc808080808080c63584636f696e8080808080808080808570757070798080808080808080808476657262"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x76657262"
+      }
+    },
+    {
+      "name": "words-dog",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x646f67",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080",
+        "0xe482006fa0d43b87fdcd4217013ccc92d04662e12d36e4cc25dc690077cd821a1956fc3e36",
+        "0xf3808080808080de17dc808080808080c63584636f696e8080808080808080808570757070798080808080808080808476657262"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x7075707079"
+      }
+    },
+    {
+      "name": "words-doge",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x646f6765",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080",
+        "0xe482006fa0d43b87fdcd4217013ccc92d04662e12d36e4cc25dc690077cd821a1956fc3e36",
+        "0xf3808080808080de17dc808080808080c63584636f696e8080808080808080808570757070798080808080808080808476657262"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x636f696e"
+      }
+    },
+    {
+      "name": "words-horse",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x686f727365",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x7374616c6c696f6e"
+      }
+    },
+    {
+      "name": "words-cat",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x636174",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080"
+      ],
+      "expected": {
+        "exists": false,
+        "value": null
+      }
+    },
+    {
+      "name": "words-dot",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x646f74",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080",
+        "0xe482006fa0d43b87fdcd4217013ccc92d04662e12d36e4cc25dc690077cd821a1956fc3e36",
+        "0xf3808080808080de17dc808080808080c63584636f696e8080808080808080808570757070798080808080808080808476657262"
+      ],
+      "expected": {
+        "exists": false,
+        "value": null
+      }
+    },
+    {
+      "name": "words-d",
+      "root": "0x5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84",
+      "key": "0x64",
+      "proof": [
+        "0xe216a0bd3ee507e6c67cfefca98f84be47c1bbc009315fabc4405db4ba32190374572a",
+        "0xf84080808080a094a9f95bd89698e4da1812e0518053813b4d5b87caaf6b3c6fa57e9e50c0ff68808080cf85206f727365887374616c6c696f6e8080808080808080",
+        "0xe482006fa0d43b87fdcd4217013ccc92d04662e12d36e4cc25dc690077cd821a1956fc3e36"
+      ],
+      "expected": {
+        "exists": false,
+        "value": null
+      }
+    },
+    {
+      "name": "empty-key-branch-value",
+      "root": "0xb6602b4373f42fbe422fbb125cf1f8863c431b55b9ac0fab18c80971fa3d87ca",
+      "key": "0x",
+      "proof": [
+        "0xdd80c730856f7468657280808080808080808080808080808576616c7565"
+      ],
+      "expected": {
+        "exists": true,
+        "value": "0x76616c7565"
+      }
+    }
+  ],
+  "state_cases": [
+    {
+      "name": "account-and-three-slots-plus-absence",
+      "trusted": {
+        "stateRoot": "0x1a7d313f8941c04585ac14f28868fdcb030e49107275b3327c3afe341d40ef0d",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000000000000000000000000000000000000000001",
+          "0x0000000000000000000000000000000000000000000000000000000000000002",
+          "0x0000000000000000000000000000000000000000000000000000000000000003"
+        ]
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x400",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x1",
+        "storageHash": "0xe40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889",
+        "accountProof": [
+          "0xe211a03adfcc5cb9c56008c3b8d79e714bb3f9270e3e63f8eb6736820463fe7a80fc4d",
+          "0xf85180808080a058fbcdc9f910589f1d10250ef0226d5c865d2f4636dd8d2a78742699daec5edf808080808080808080a0d9d74c192945143e50929625014b698ee4508e224e6cf5384aa4dcaa8ff05f798080",
+          "0xf86ba02068288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db848f84601820400a0e40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x1",
+            "proof": [
+              "0xf8718080a04fc5f13ab2f9ba0c2da88b0151ab0e7cf4d85d08cca45ccd923c6ab76323eb2880a05cec288029f80518906c03ad962a0d47ecdf98680e3d85558885e7f3e7ac4bee808080808080a07a5f39e651a804609ff1d0c175b812091aced1062bb9621410b25c07416837678080808080",
+              "0xe2a0390decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56301"
+            ]
+          },
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "value": "0x80",
+            "proof": [
+              "0xf8718080a04fc5f13ab2f9ba0c2da88b0151ab0e7cf4d85d08cca45ccd923c6ab76323eb2880a05cec288029f80518906c03ad962a0d47ecdf98680e3d85558885e7f3e7ac4bee808080808080a07a5f39e651a804609ff1d0c175b812091aced1062bb9621410b25c07416837678080808080",
+              "0xe4a0310e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6828180"
+            ]
+          },
+          {
+            "key": "0x2",
+            "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "proof": [
+              "0xf8718080a04fc5f13ab2f9ba0c2da88b0151ab0e7cf4d85d08cca45ccd923c6ab76323eb2880a05cec288029f80518906c03ad962a0d47ecdf98680e3d85558885e7f3e7ac4bee808080808080a07a5f39e651a804609ff1d0c175b812091aced1062bb9621410b25c07416837678080808080",
+              "0xf843a0305787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5acea1a0ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            ]
+          },
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000003",
+            "value": "0x0",
+            "proof": [
+              "0xf8718080a04fc5f13ab2f9ba0c2da88b0151ab0e7cf4d85d08cca45ccd923c6ab76323eb2880a05cec288029f80518906c03ad962a0d47ecdf98680e3d85558885e7f3e7ac4bee808080808080a07a5f39e651a804609ff1d0c175b812091aced1062bb9621410b25c07416837678080808080"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "accountExists": true,
+        "nonce": "0x1",
+        "balance": "0x400",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "storageHash": "0xe40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889",
+        "storage": [
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "value": "0x1",
+            "exists": true
+          },
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "value": "0x80",
+            "exists": true
+          },
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000002",
+            "value": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "exists": true
+          },
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000003",
+            "value": "0x0",
+            "exists": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "account-without-slots",
+      "trusted": {
+        "stateRoot": "0x1a7d313f8941c04585ac14f28868fdcb030e49107275b3327c3afe341d40ef0d",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": []
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x400",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x1",
+        "storageHash": "0xe40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889",
+        "accountProof": [
+          "0xe211a03adfcc5cb9c56008c3b8d79e714bb3f9270e3e63f8eb6736820463fe7a80fc4d",
+          "0xf85180808080a058fbcdc9f910589f1d10250ef0226d5c865d2f4636dd8d2a78742699daec5edf808080808080808080a0d9d74c192945143e50929625014b698ee4508e224e6cf5384aa4dcaa8ff05f798080",
+          "0xf86ba02068288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db848f84601820400a0e40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": []
+      },
+      "expected": {
+        "accountExists": true,
+        "nonce": "0x1",
+        "balance": "0x400",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "storageHash": "0xe40cfa6e82585cd6a378eb307a8731a7733fdf05b634bda2a7596e9239651889",
+        "storage": []
+      }
+    },
+    {
+      "name": "present-empty-storage",
+      "trusted": {
+        "stateRoot": "0x1a7d313f8941c04585ac14f28868fdcb030e49107275b3327c3afe341d40ef0d",
+        "address": "0x0000000000000000000000000000000000000020",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000020",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "accountProof": [
+          "0xe211a03adfcc5cb9c56008c3b8d79e714bb3f9270e3e63f8eb6736820463fe7a80fc4d",
+          "0xf85180808080a058fbcdc9f910589f1d10250ef0226d5c865d2f4636dd8d2a78742699daec5edf808080808080808080a0d9d74c192945143e50929625014b698ee4508e224e6cf5384aa4dcaa8ff05f798080",
+          "0xf869a020bfd7dbb6804351804443df01a482e6451912b884cd26b31504bb77bbec9862b846f8448080a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": []
+          }
+        ]
+      },
+      "expected": {
+        "accountExists": true,
+        "nonce": "0x0",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "storage": [
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "value": "0x0",
+            "exists": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "absent-account-empty-hash-defaults",
+      "trusted": {
+        "stateRoot": "0x1a7d313f8941c04585ac14f28868fdcb030e49107275b3327c3afe341d40ef0d",
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "accountProof": [
+          "0xe211a03adfcc5cb9c56008c3b8d79e714bb3f9270e3e63f8eb6736820463fe7a80fc4d"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": []
+          }
+        ]
+      },
+      "expected": {
+        "accountExists": false,
+        "nonce": "0x0",
+        "balance": "0x0",
+        "codeHash": null,
+        "storageHash": null,
+        "storage": [
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "value": "0x0",
+            "exists": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "absent-account-zero-hash-defaults",
+      "trusted": {
+        "stateRoot": "0x1a7d313f8941c04585ac14f28868fdcb030e49107275b3327c3afe341d40ef0d",
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "balance": "0x0",
+        "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "nonce": "0x0",
+        "storageHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "accountProof": [
+          "0xe211a03adfcc5cb9c56008c3b8d79e714bb3f9270e3e63f8eb6736820463fe7a80fc4d"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": []
+          }
+        ]
+      },
+      "expected": {
+        "accountExists": false,
+        "nonce": "0x0",
+        "balance": "0x0",
+        "codeHash": null,
+        "storageHash": null,
+        "storage": [
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "value": "0x0",
+            "exists": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty-state",
+      "trusted": {
+        "stateRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0xffffffffffffffffffffffffffffffffffffffff",
+        "balance": "0x0",
+        "codeHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "nonce": "0x0",
+        "storageHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "accountProof": [],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": []
+          }
+        ]
+      },
+      "expected": {
+        "accountExists": false,
+        "nonce": "0x0",
+        "balance": "0x0",
+        "codeHash": null,
+        "storageHash": null,
+        "storage": [
+          {
+            "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "value": "0x0",
+            "exists": false
+          }
+        ]
+      }
+    }
+  ],
+  "invalid_trie_cases": [
+    {
+      "name": "nonminimal-single-byte",
+      "root": "0xf4ee7f0101b05e0115df03fc35c8853c50d6a4adf67e9f1b64f762ea9a56c11e",
+      "key": "0x10",
+      "proof": [
+        "0xc58220108161"
+      ]
+    },
+    {
+      "name": "long-list-below56",
+      "root": "0x9023a9e1035e491abec7265fe3f5396133b99e41ed90750f0c99c182587fcf90",
+      "key": "0x10",
+      "proof": [
+        "0xf8022061"
+      ]
+    },
+    {
+      "name": "leading-zero-list-length",
+      "root": "0x962faced5d20e885faf7ad685a3a17895166f739f3aff288992ae8da269828a2",
+      "key": "0x10",
+      "proof": [
+        "0xf900022061"
+      ]
+    },
+    {
+      "name": "long-string-below56",
+      "root": "0xb96446cf9e1ccc2c609f9191d2fa5b69d2226d9d412ec56ef71daefaf7592cf6",
+      "key": "0x10",
+      "proof": [
+        "0xc4b8012061"
+      ]
+    },
+    {
+      "name": "truncated-list",
+      "root": "0x18a2f5c0de561a40d7d7805ab482128945e62916103a9453b7fd5e933d99cdf4",
+      "key": "0x10",
+      "proof": [
+        "0xc32061"
+      ]
+    },
+    {
+      "name": "trailing-item",
+      "root": "0xd048ff0403437f36b614b4aa62ec22cdc17627c84661b5fa00c76b43733c5d8b",
+      "key": "0x10",
+      "proof": [
+        "0xc48220106180"
+      ]
+    },
+    {
+      "name": "bad-hp-flag",
+      "root": "0x68d6b567ba539ff378ab90d9ea10d5685725e6d825f6a451351d3b008b399723",
+      "key": "0x10",
+      "proof": [
+        "0xc482601061"
+      ]
+    },
+    {
+      "name": "bad-even-hp-padding",
+      "root": "0x517bfe8c7e3e12e811572c957cf6499b3e3cc4bd6c6b82c97b538aed0b322f7b",
+      "key": "0x10",
+      "proof": [
+        "0xc22161"
+      ]
+    },
+    {
+      "name": "empty-extension-path",
+      "root": "0x586f998a5d829d1330926a96854c99608431cec3cd1466193b8f189f0053567c",
+      "key": "0x10",
+      "proof": [
+        "0xc600c482201061"
+      ]
+    },
+    {
+      "name": "empty-leaf-value",
+      "root": "0x84e58fb42be1718b1565680a010acddca6d7ceefe652ac0ab3e18fb2e1f37a7c",
+      "key": "0x10",
+      "proof": [
+        "0xc482201080"
+      ]
+    },
+    {
+      "name": "31byte-string-child",
+      "root": "0xde68856db62ee5491665f903d2d9159ee3c5834e1b7b78eeef62b7bc557d5051",
+      "key": "0x10",
+      "proof": [
+        "0xe1119f61616161616161616161616161616161616161616161616161616161616161"
+      ]
+    },
+    {
+      "name": "32byte-inline-child",
+      "root": "0x29ca014a71558782c8202446caf8bc01e3137bc40aecb0f0f379278432bef76b",
+      "key": "0x10",
+      "proof": [
+        "0xe111df309d7676767676767676767676767676767676767676767676767676767676"
+      ]
+    },
+    {
+      "name": "short-child-hashed",
+      "root": "0x4abdfc5060bdb2bcd5fed18c44e7d22b01f2f725c2ec6bd3d39e17f6f21b77f2",
+      "key": "0x10",
+      "proof": [
+        "0xe211a0a0a567fc88b3b775f0913ecd92c9dd4974ab52d132829c7531727fd9e0f6969c",
+        "0xc23076"
+      ]
+    }
+  ],
+  "invalid_state_cases": [
+    {
+      "name": "leading-zero-account-nonce",
+      "trusted": {
+        "stateRoot": "0x9b084a1743dacb3ec3416e41663bb4fb7767665b32971fb16b4f8ef884660987",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": []
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "accountProof": [
+          "0xf86aa1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db846f8440080a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": []
+      }
+    },
+    {
+      "name": "leading-zero-account-balance",
+      "trusted": {
+        "stateRoot": "0xac91afda6c94929bfe388c4376705d93f2161cd1c684dbfe22ff34ea47271bb1",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": []
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "accountProof": [
+          "0xf86aa1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db846f8448000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": []
+      }
+    },
+    {
+      "name": "short-account-codehash",
+      "trusted": {
+        "stateRoot": "0x02e038818e368634889eb024bd9b82d0ae428e5869c53d46121752227122ec56",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": []
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+        "accountProof": [
+          "0xf869a1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db845f8438080a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b4219fc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a4"
+        ],
+        "storageProof": []
+      }
+    },
+    {
+      "name": "nonminimal-storage-zero",
+      "trusted": {
+        "stateRoot": "0xe02e2342cd154613e608ca18d9d97c5071cb33dfd3dbe0d249873dbb12618ec0",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x6aabb4c03e6b8646f642672c0adef010c45164a7420da93c8161fad04bd9d772",
+        "accountProof": [
+          "0xf86aa1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db846f8448080a06aabb4c03e6b8646f642672c0adef010c45164a7420da93c8161fad04bd9d772a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": [
+              "0xe3a120290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56300"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "included-storage-zero",
+      "trusted": {
+        "stateRoot": "0x51a55dd1112eea0841150a35590af124fb958af4d31fa4ec9f7ca06e9c692090",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0xb9d1a401293d84978870a16d07fb2687c2fe446f94302b9b89d1fdfcc17f720e",
+        "accountProof": [
+          "0xf86aa1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db846f8448080a0b9d1a401293d84978870a16d07fb2687c2fe446f94302b9b89d1fdfcc17f720ea0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": [
+              "0xe4a120290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e5638180"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "storage-list-instead-of-integer",
+      "trusted": {
+        "stateRoot": "0xd90f195a778f8ba302bb9b237ce467b3876cc13b1ef7b6f78a058e5b5d17e4b8",
+        "address": "0x0000000000000000000000000000000000000001",
+        "storageKeys": [
+          "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      },
+      "proof": {
+        "address": "0x0000000000000000000000000000000000000001",
+        "balance": "0x0",
+        "codeHash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+        "nonce": "0x0",
+        "storageHash": "0x3c9c81c213d512ef0fd618ac328593ee71531587af1d57bcfd218c84101ad30c",
+        "accountProof": [
+          "0xf86aa1201468288056310c82aa4c01a7e12a10f8111a0560e72b700555479031b86c357db846f8448080a03c9c81c213d512ef0fd618ac328593ee71531587af1d57bcfd218c84101ad30ca0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+        ],
+        "storageProof": [
+          {
+            "key": "0x0",
+            "value": "0x0",
+            "proof": [
+              "0xe4a120290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56381c0"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

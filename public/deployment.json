@@ -1,6 +1,6 @@
 {
   "schema": "caw-alpha-environment/1",
-  "release": "0.1.0-alpha.14",
+  "release": "0.1.0-alpha.15",
   "mode": "simulation",
   "chainId": null,
   "contracts": {},

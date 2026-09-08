@@ -39,6 +39,7 @@ Open **http://127.0.0.1:4173/website.html** for the alpha website or **http://12
 - [Recompute a signed history](docs/INDEPENDENT_HISTORY_READER.md): a separate reader checks balances, fee distributions and exact records for the supported test format.
 - [Check delegated permission](docs/INDEPENDENT_PERMISSION_READER.md): independently verify exact grant terms, spending limits and recorded cancellation.
 - [Understand current authority](docs/AUTHORITY_AND_FRESHNESS.md): what historical proof establishes, and which live-state inputs remain unimplemented.
+- [Verify account and storage proofs](docs/ETHEREUM_STATE_PROOF.md): check exact values or absence against a separate Ethereum state root; root authenticity and freshness remain separate.
 - Ledger compares source payment descriptions without changing active settlement; see [economic scenarios](docs/ECONOMIC_SCENARIOS.md).
 
 The accounting model uses **provisional appendix settings**. Main-text and appendix allocations differ; stake eligibility, rounding, repeat actions and character counting also require decisions. Passing tests does not resolve these conflicts.

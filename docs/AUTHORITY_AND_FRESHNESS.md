@@ -1,6 +1,6 @@
 # Historical proof and current authority
 
-**Design proposal. No production authority source or finality rule is implemented or adopted here.** This document separates the evidence the alpha can check from the inputs a live protocol would need. It changes none of the 59 requirements or 15 open specification conflicts.
+**Authority design proposal, with a bounded offline state-proof component. No production authority source or finality rule is implemented or adopted here.** This document separates the evidence the alpha can check from the inputs a live protocol would need. It changes none of the 59 requirements or 15 open specification conflicts.
 
 ## What the source asks for
 
@@ -15,12 +15,13 @@ The pinned manifesto gives control of an account to its NFT owner (M-011), calls
 | Owner-signed test grant, separate owner key and permission | The selected key authorized those exact delegate terms | Current on-chain ownership, real balances or a live spending entitlement |
 | Valid cancellation for the same grant | Cancellation is present in this verified historical record | Whether an older record omitted a later cancellation, or when an untimed cancellation was published |
 | Retained comparison anchor | A candidate can be compared with that retained history | Whether either history is the canonical latest one |
+| Account/storage Merkle-Patricia proof and separately supplied state root | The selected values or their absence match that root under the supported proof profile | Whether the root is authentic, current, finalized, tied to a chosen deployment or describes the CAW NFT owner |
 
 The alpha's recorded acceptance time is an input checked against signed validity windows. A local clock label, a packet timestamp and a matching hash do not authenticate historical time. Its unsigned fixture transfer demonstrates consequences of changed control; it is not a real NFT transfer authorization.
 
 ## Proposed inputs before any live permission restoration
 
-A future verifier must receive evidence through a defined trust path, rather than letting the record choose its own authority. No adapter is implemented by this proposal.
+A future verifier must receive evidence through a defined trust path, rather than letting the record choose its own authority. The [offline proof reader](ETHEREUM_STATE_PROOF.md) checks a bounded Ethereum account/storage proof against a separate root. It makes no network request and implements none of the live authority adapter or root-acceptance policy described below.
 
 | Input | Required binding and check | Current status |
 | --- | --- | --- |
@@ -49,3 +50,9 @@ Source conflicts C-005, C-006 and C-009 address transferred account access, stor
 Availability needs a retention plan, independent copies, retrieval paths and a stated funding assumption. Integrity alone cannot make a website, domain, relay, application store or storage provider permanent. Describe the loss of each dependency and the recovery path; do not claim that no participant or infrastructure can ever fail.
 
 This proposal provides a boundary for further work. It does not authenticate real ownership, restore live authority, deploy contracts or establish perpetual service.
+
+## Implemented component and next boundary
+
+Alpha.15 introduces a separate Ethereum proof reader, fixed synthetic witnesses and an independently written Python construction oracle. It checks Keccak-256 links, canonical RLP, inclusion/absence, exact requested slots and RPC claims against values recovered from the authenticated paths. The [reader specification](ETHEREUM_STATE_PROOF.md) states strict local limits and supported input forms. Its examples are constructed tries, not observations of a deployed contract, and no live client interoperability run is claimed.
+
+That component does not accept a chain header, select a finality rule, determine the current block, interpret a contract storage layout or infer an NFT owner. Supplying a root for an older state can still yield a valid proof. A changed root without a matching witness fails, but an authentic latest root requires the separate trust path above. Next work must bind a root to a separately accepted header and deployment before interpreting its slots as CAW authority; freshness and simultaneous-spend rules remain later, distinct requirements.
