@@ -6,7 +6,7 @@ import { ASSETS, collectStatic } from '../scripts/build.mjs';
 test('portable static build is deterministic and excludes non-public source, research and runtime', async () => {
   const first = await collectStatic(), second = await collectStatic();
   assert.deepEqual(first, second);
-  assert.equal(first.length, 21);
+  assert.equal(first.length, 22);
   assert.equal(new Set(first.map(entry => entry.name)).size, first.length);
   for (const entry of first) assert.ok(!/[\\/]/.test(entry.name));
   for (const forbidden of ['server.mjs', 'package.json', 'README.md', '.env', 'node.exe']) assert.ok(!ASSETS.includes(forbidden));

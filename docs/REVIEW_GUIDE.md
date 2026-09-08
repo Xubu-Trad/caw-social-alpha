@@ -1,13 +1,13 @@
 # Review the alpha
 
-The review target is a synthetic frontend and reference model. It contains no Solidity implementation, wallet connector, signing service or production backend. All application code is in public/, server.mjs and scripts/; fifteen test files are in tests/.
+The review target is a synthetic frontend and reference model. It contains no Solidity implementation, wallet connector, signing service or production backend. All application code is in public/, server.mjs and scripts/; sixteen test files are in tests/.
 
 ## Reproduce
 
 With Node 24.20.0, from the repository root:
 
 ```sh
-node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs
+node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs
 node --max-old-space-size=128 scripts/build.mjs
 node --max-old-space-size=128 server.mjs
 ```
@@ -16,7 +16,7 @@ No dependency installation is required. The preview is at http://127.0.0.1:4173/
 
 Try a CAW through cost review, queue, submission and confirmation. Check that each pre-confirmation step leaves balances unchanged. Inspect receipts and switch identities. In Readers, compare synthetic reconstructions and export/copy the record. Refresh resets all demo data. Real signed-history authenticity is not provided by a self-consistent JSON export.
 
-The build writes only 19 explicit public assets plus SHA256SUMS.txt into dist/. It rejects unexpected existing output entries rather than deleting them. Run twice and compare the manifest. No wallet, host credentials, private research, runtime executable or selected media is packaged. Serve dist/ with an independently reviewed static host; ES modules are not a file:// installation.
+The build writes only 21 explicit public assets plus SHA256SUMS.txt into dist/. It rejects unexpected existing output entries rather than deleting them. Run twice and compare the manifest. No wallet, host credentials, private research, runtime executable or selected media is packaged. Serve dist/ with an independently reviewed static host; ES modules are not a file:// installation.
 
 ## Highest-value review
 

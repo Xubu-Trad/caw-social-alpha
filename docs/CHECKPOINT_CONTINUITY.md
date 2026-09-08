@@ -1,5 +1,7 @@
 # Compare the history. Keep the checkpoint.
 
+Alpha.11 adds a [portable anchor package](ANCHOR_PACKAGE.md) with a separately retained fingerprint. Import re-verifies the complete history and restores only an inspection anchor. It does not establish freshness or restore spending authority.
+
 Alpha.10 compares a candidate record against a verified snapshot you retain as an anchor. It verifies signatures, accounting and exact ordered history under the anchor's original trust values. An older or conflicting record cannot replace that anchor. This is a local inspection tool; it restores no signing key, ledger or permission to spend.
 
 ## Four outcomes

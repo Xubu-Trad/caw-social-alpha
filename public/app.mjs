@@ -9,6 +9,7 @@ import {createLabRecordCheckpoint,verifyLabRecord,LAB_RECORD_LIMITS} from './sig
 import {bindDelegation} from './delegation.mjs';
 import {createOwnerGrantSigner,makeOwnerGrant,verifyOwnerGrant,makeOwnerRevocation} from './owner-grant.mjs';
 import {createCheckpointTracker} from './checkpoint-continuity.mjs';
+import {createAnchorPackage,importAnchorPackage,ANCHOR_PACKAGE_LIMITS} from './anchor-package.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -297,7 +298,13 @@ function renderSignatureLab(){
   const recoveryResult=el('div',{'aria-live':'polite'});
   const comparisonResult=el('div',{'aria-live':'polite'}),anchorSummary=el('div');
   const anchorFingerprint=el('textarea',{class:'data-field',readonly:true,'aria-label':'Retained anchor fingerprint',spellcheck:false});
+  const portableText=el('textarea',{class:'data-field',maxlength:ANCHOR_PACKAGE_LIMITS.maxBytes,'aria-label':'Portable anchor package',spellcheck:false});
+  const portableDigest=el('input',{class:'data-field',maxlength:64,'aria-label':'Separate package fingerprint',spellcheck:false});
+  const portableResult=el('div',{'aria-live':'polite'});
+  let portableRevision=0,preparedPackage=null;
   let signer=null,ownerSigner=null,ledger=null,comparison=null,packet='',generation=0,recoveryRevision=0,labEpoch=account.epoch,mounted=true,busy=false;
+  function portableChanged(){portableRevision+=1;preparedPackage=null;portableResult.replaceChildren();if(mounted)controls();}
+  for(const field of [portableText,portableDigest])field.addEventListener('input',portableChanged);
   function recoveryChanged(){recoveryRevision+=1;comparison?.invalidatePending();recoveredField.value='';recoveryResult.replaceChildren();comparisonResult.replaceChildren();}
   for(const field of [savedRecord,savedFingerprint,savedBinding,savedPermission,savedOwner])field.addEventListener('input',recoveryChanged);
   function controls(){
@@ -310,9 +317,12 @@ function renderSignatureLab(){
     transfer.disabled=busy||!packet||ledger?.status().closed||ledger?.status().epoch!==labEpoch;
     prepareRecord.disabled=busy||!ledger;verifyRecord.disabled=busy;
     keepAnchor.disabled=busy||Boolean(comparison);inspectAnchor.disabled=busy||!comparison;advanceAnchor.disabled=busy||!comparison;clearAnchor.disabled=busy||!comparison;
+    preparePackage.disabled=busy||!comparison;restorePackage.disabled=busy||Boolean(comparison);
+    downloadPackage.disabled=busy||!preparedPackage;downloadDigest.disabled=busy||!preparedPackage;
   }
   function clear(){
     comparison?.close();comparison=null;anchorSummary.replaceChildren();anchorFingerprint.value='';comparisonResult.replaceChildren();
+    portableRevision+=1;preparedPackage=null;portableText.value='';portableDigest.value='';portableResult.replaceChildren();
     generation+=1; signer?.revoke();ownerSigner?.revoke();ledger?.revoke();signer=null;ownerSigner=null;ledger=null;packet='';packetField.value='';ownerPacketField.value='';cancellationField.value='';ledgerField.value='';ledgerSummary.replaceChildren();
     savedRecord.value='';savedFingerprint.value='';savedBinding.value='';savedPermission.value='';savedOwner.value='';recoveryChanged();
   }
@@ -328,10 +338,10 @@ function renderSignatureLab(){
   signatureCleanup=()=>{mounted=false;clear();};
   async function work(operation,target=result,prefix='Example rejected. '){
     if(busy)return;
-    const recoveryVersion=recoveryRevision;
+    const recoveryVersion=recoveryRevision,portableVersion=portableRevision;
     busy=true;controls();
     try{await operation();}
-    catch(error){if(mounted&&(![recoveryResult,comparisonResult].includes(target)||recoveryVersion===recoveryRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
+    catch(error){if(mounted&&(![recoveryResult,comparisonResult].includes(target)||recoveryVersion===recoveryRevision)&&(target!==portableResult||portableVersion===portableRevision))target.replaceChildren(el('p',{class:'notice error'},prefix+error.message));}
     finally{busy=false;if(mounted)controls();}
   }
   async function startExample(usePermission,useOwner=false){
@@ -470,6 +480,32 @@ function renderSignatureLab(){
   const inspectAnchor=button('Compare with anchor',()=>work(()=>compareCandidate(false),comparisonResult,'Comparison rejected. '));
   const advanceAnchor=button('Advance to verified extension',()=>work(()=>compareCandidate(true),comparisonResult,'Advance rejected. '));
   const clearAnchor=button('Clear comparison anchor',()=>{if(busy)return;comparison?.close();comparison=null;anchorFingerprint.value='';anchorSummary.replaceChildren();comparisonResult.replaceChildren(el('p',{},'Comparison baseline cleared. No anchor is retained.'));controls();});
+  const preparePackage=button('Prepare portable package',()=>work(async()=>{
+    const tracker=comparison,current=generation,revision=portableRevision,anchorRevision=tracker.status().revision;
+    const prepared=await createAnchorPackage(tracker.exportAnchor());
+    if(!mounted||current!==generation||revision!==portableRevision||comparison!==tracker||tracker.status().revision!==anchorRevision)return;
+    preparedPackage=prepared;portableText.value=prepared.packageText;portableDigest.value=prepared.sha256;
+    portableResult.replaceChildren(el('p',{},'Package verified and prepared. Download or copy it, and retain the fingerprint separately. Later anchor changes are not added to this package automatically.'));
+  },portableResult,'Package rejected. '));
+  function downloadPrepared(fingerprint){
+    if(busy||!preparedPackage)return;
+    const value=fingerprint?preparedPackage.sha256:preparedPackage.packageText;
+    const url=URL.createObjectURL(new Blob([value],{type:fingerprint?'text/plain':'application/json'}));
+    const link=el('a',{href:url,download:fingerprint?'caw-anchor.sha256':'caw-anchor.json'});document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  const downloadPackage=button('Download prepared package',()=>downloadPrepared(false));
+  const downloadDigest=button('Download separate fingerprint',()=>downloadPrepared(true));
+  const restorePackage=button('Import as comparison anchor',()=>work(async()=>{
+    if(comparison)throw new Error('Clear the current comparison anchor explicitly before importing another baseline.');
+    const current=generation,revision=portableRevision,recoveryVersion=recoveryRevision;
+    const imported=await importAnchorPackage(portableText.value,portableDigest.value);
+    if(!mounted||current!==generation||revision!==portableRevision||recoveryVersion!==recoveryRevision||comparison){imported.tracker.close();return;}
+    const retained=imported.tracker.exportAnchor();comparison=imported.tracker;recoveryRevision+=1;
+    savedRecord.value=retained.recordText;savedFingerprint.value=JSON.stringify(retained.checkpoint);savedBinding.value=JSON.stringify(retained.binding);
+    savedPermission.value=retained.delegation?JSON.stringify(retained.delegation):'';savedOwner.value=retained.ownerAuthority?JSON.stringify(retained.ownerAuthority):'';
+    recoveredField.value='';recoveryResult.replaceChildren();comparisonResult.replaceChildren();showAnchor();
+    portableResult.replaceChildren(el('p',{},'Package and complete record verified. Comparison anchor restored for inspection; no signing key or spending permission was restored. The selected package may still be older than unseen history.'));
+  },portableResult,'Import rejected. '));
   controls();
   return el('details',{class:'card signature-lab'},el('summary',{},'Test a signed action'),
     el('p',{},'A temporary key signs a fixed example for a copy of this demo ledger. Acceptance spends synthetic CAW and adds a post only in that copy. No wallet or real payment; these keys do not prove account ownership.'),
@@ -496,7 +532,13 @@ function renderSignatureLab(){
         el('p',{},'First paste the snapshot and independent trust values you want to retain, then keep it as the anchor. Next replace the record and fingerprint with a candidate. Comparison keeps the anchor’s original key and permission values, even if other fields above change.'),
         el('p',{class:'small muted'},'Only an exact match or a verified extension can advance the anchor. A new example, clearing the anchor or leaving Identity discards this in-memory baseline. Retain its original five fields separately if you need it again.'),
         el('div',{class:'pending-actions'},keepAnchor,inspectAnchor,advanceAnchor,clearAnchor),anchorSummary,
-        el('label',{class:'field-label'},'Retained anchor fingerprint',anchorFingerprint),comparisonResult)),
+        el('label',{class:'field-label'},'Retained anchor fingerprint',anchorFingerprint),comparisonResult,
+        el('details',{},el('summary',{},'Carry the anchor to another session'),
+          el('p',{},'Prepare a portable package of the retained record and its public trust values. Keep its fingerprint separately. To import, first clear the current anchor explicitly, then paste the exact package and your independently retained fingerprint.'),
+          el('div',{class:'pending-actions'},preparePackage,downloadPackage,downloadDigest),
+          el('label',{class:'field-label'},'Portable anchor package',portableText),
+          el('label',{class:'field-label'},'Separate package fingerprint',portableDigest),restorePackage,portableResult,
+          el('p',{class:'source-note'},'Downloads contain unencrypted synthetic evidence and public test keys. Nothing is saved automatically. A package and its editable fingerprint cannot establish the latest network state.')))),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
     el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
 }

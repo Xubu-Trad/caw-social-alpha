@@ -59,6 +59,7 @@ test('serves only the named public assets, with exact file bytes and MIME types'
     ['/delegation.mjs', 'delegation.mjs', 'text/javascript; charset=utf-8'],
     ['/owner-grant.mjs', 'owner-grant.mjs', 'text/javascript; charset=utf-8'],
     ['/checkpoint-continuity.mjs', 'checkpoint-continuity.mjs', 'text/javascript; charset=utf-8'],
+    ['/anchor-package.mjs', 'anchor-package.mjs', 'text/javascript; charset=utf-8'],
     ['/fixtures.json', 'fixtures.json', 'application/json; charset=utf-8'],
     ['/media.mjs', 'media.mjs', 'text/javascript; charset=utf-8'],
     ['/deployment.mjs', 'deployment.mjs', 'text/javascript; charset=utf-8'],
