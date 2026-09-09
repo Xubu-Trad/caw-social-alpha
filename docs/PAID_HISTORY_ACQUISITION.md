@@ -4,7 +4,7 @@ The writer can stop. The record must still be readable.
 
 Alpha.22 adds two separately authored collectors to the unchanged experimental paid-action contract. One fetches full blocks by number. The other walks parent hashes backward and fetches each transaction by hash. Both obtain receipts, cross-check unfiltered logs, read endpoint state and recheck the selected endpoints. Their collected histories agree exactly.
 
-This is a controlled local recovery result. Both collectors share one synthetic node, one bounded transport and one orchestrating Python process. It establishes recovery without the writer's saved transaction list; independent public providers, authenticated consensus and reorg recovery remain open under [issue #3](https://github.com/Xubu-Trad/caw-social-alpha/issues/3) and [issue #4](https://github.com/Xubu-Trad/caw-social-alpha/issues/4).
+This is a controlled local recovery result. Both collectors share one synthetic node, one bounded transport and one orchestrating Python process. It establishes recovery without the writer's saved transaction list; independent public providers, authenticated consensus and reorg recovery remain open under [issue #3](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues/3) and [issue #4](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues/4).
 
 ## What ran
 

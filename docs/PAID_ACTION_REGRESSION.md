@@ -2,7 +2,7 @@
 
 Keep the contract fixed. Challenge the interactions.
 
-Alpha.21 adds **72 local regression cases** against the unchanged alpha.20 `CawPaidActionProbe`. The fresh synthetic chain completed 208 transactions, including 11 accepted paid posts and 47 deliberately rejected case transactions. All 72 expected state transitions matched. [Issue #2](https://github.com/Xubu-Trad/caw-social-alpha/issues/2) remains open for review and further coverage.
+Alpha.21 adds **72 local regression cases** against the unchanged alpha.20 `CawPaidActionProbe`. The fresh synthetic chain completed 208 transactions, including 11 accepted paid posts and 47 deliberately rejected case transactions. All 72 expected state transitions matched. [Issue #2](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues/2) remains open for review and further coverage.
 
 This run uses an openly configurable synthetic token at the test token address. It is **not another execution of historical CAW token logic**. The [alpha.20 historical-token experiment](PAID_ACTION.md) remains separate and unchanged. Neither run is a production audit.
 

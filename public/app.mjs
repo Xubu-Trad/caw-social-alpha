@@ -540,7 +540,7 @@ function renderSignatureLab(){
           el('label',{class:'field-label'},'Separate package fingerprint',portableDigest),restorePackage,portableResult,
           el('p',{class:'source-note'},'Downloads contain unencrypted synthetic evidence and public test keys. Nothing is saved automatically. A package and its editable fingerprint cannot establish the latest network state.')))),
     el('p',{class:'source-note'},'Native Ed25519 signatures · local trust and clock · no Ethereum wallet compatibility or durable replay protection.'),
-    el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
+    el('a',{href:'https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/blob/main/docs/SIGNATURE_LAB.md',rel:'noreferrer noopener'},'Read the format, tests and limits'));
 }
 function renderAccount(){
   const account=state.accounts[selected];
@@ -604,7 +604,7 @@ function renderEconomicComparison(){
     el('div',{class:'form-row'},el('div',{class:'field'},el('label',{for:'comparison-action',class:'field-label'},'Action'),kind),
       el('div',{class:'field'},el('label',{for:'comparison-recipient',class:'field-label'},'Recipient'),target)),output,
     el('p',{class:'source-note'},'Direct credit and a recipient’s pool share are listed separately. Pool weights are fixed for this demo; the payer is excluded. C-002 and C-007 remain open.'),
-    el('a',{href:'https://github.com/Xubu-Trad/caw-social-alpha/blob/main/docs/ECONOMIC_SCENARIOS.md',rel:'noreferrer noopener'},'Read the source passages and assumptions'));
+    el('a',{href:'https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/blob/main/docs/ECONOMIC_SCENARIOS.md',rel:'noreferrer noopener'},'Read the source passages and assumptions'));
 }
 function renderReceipts(){
   const container=el('div',{},el('p',{class:'section-intro'},'Synthetic costs, recipients and controller changes. Every entry is local.'));

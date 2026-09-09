@@ -13,7 +13,7 @@ Both components live in this repository. These are project names; `.caw` does no
 
 **The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, funds, private messages or public media uploads are connected.
 
-**Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/caw-social-alpha/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/caw-social-alpha/issues), or follow the [current gates](docs/ROADMAP.md).
+**Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues), or follow the [current gates](docs/ROADMAP.md).
 
 The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits. Alpha.22 adds [two live acquisition paths](docs/PAID_HISTORY_ACQUISITION.md): both recover the same fresh history without the writer's saved transaction list.
 

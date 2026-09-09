@@ -2,7 +2,7 @@
 
 Start with the [pinned review baseline](docs/REVIEW_BASELINE.md), [review guide](docs/REVIEW_GUIDE.md), [requirements](sources/MANIFESTO_REQUIREMENTS.tsv) and [open conflicts](sources/SPEC_CONFLICTS.md). Public source publication is authorized for this alpha. No independent review or community acceptance is claimed.
 
-Choose an [open review issue](https://github.com/Xubu-Trad/caw-social-alpha/issues). Each has evidence and acceptance criteria; the [roadmap](docs/ROADMAP.md) groups the release gates. The two initial `good first issue` tasks gather Unicode examples and a clean offline-reader reproduction report. They do not delegate security decisions to beginners.
+Choose an [open review issue](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues). Each has evidence and acceptance criteria; the [roadmap](docs/ROADMAP.md) groups the release gates. The two initial `good first issue` tasks gather Unicode examples and a clean offline-reader reproduction report. They do not delegate security decisions to beginners.
 
 For a finding, give the commit, requirement or conflict ID, expected result, observed result and smallest reproduction. Separate source facts, inferences and proposals. Never post credentials, personal research, wallet keys or unrelated identifying information.
 
