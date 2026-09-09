@@ -1,8 +1,18 @@
 # cawmmunity.caw - decentralized - social
 
-Words first. Keep the receipt.
+i have started building a public implementation of the caw manifesto.
 
-A CAW conversation frontend and experimental protocol, guided by the manifesto and recovered R2. Community work, open for review.
+this is early community work. i am sharing it now because decentralization has to shape how we build, while assumptions can still be challenged and designs can still be replaced.
+
+i am asking the cawmmunity to build this with me. developers, reviewers, security researchers, wallet builders, indexer builders, frontend contributors and people who disagree with me. your input should help decide what this becomes. the goal is for the work to stand without xubu at its center.
+
+the recovered R2 points toward public contribution, peer review and agreement before release. that is the process this repository is trying to follow.
+
+the test we still need to pass is simple: xubu leaves and this website disappears. others can run compatible clients, recover the same public record, submit signed caws and withdraw their funds without my approval. **that is a design goal, not a capability established by this alpha.**
+
+bring code. bring criticism. bring failed reproductions. bring the thing i missed. start with an [open review issue](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues) or the [contribution guide](CONTRIBUTING.md).
+
+by teh ppl. for teh ppl.
 
 ![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha23.jpg)
 
