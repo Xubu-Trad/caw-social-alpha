@@ -6,6 +6,8 @@ A community implementation guided by the CAW manifesto and recovered R2. The web
 
 **The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, funds, private messages or public media uploads are connected.
 
+**Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/caw-social-alpha/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/caw-social-alpha/issues), or follow the [current gates](docs/ROADMAP.md).
+
 The latest protocol experiment settled **nine signed posts** using historical CAW token logic and fixed test NFT accounts. It joins current ownership, exact signed text, a 5,000 CAW fee, allocation and recorded history. Read [one signed, paid CAW](docs/PAID_ACTION.md) for the evidence and limits.
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)

@@ -1,0 +1,16 @@
+# Current gates
+
+Initial review: [alpha.20 at `91479b6dc8c9a264411d75177d43029e0266c354`](REVIEW_BASELINE.md). State recorded 2026-09-09. This is an evidence checklist, not a completion estimate.
+
+| Gate | Current state | Evidence needed next |
+| --- | --- | --- |
+| Public review | Baseline published; outside reproduction and agreement open | Reproducible findings, objections and a documented review/acceptance process |
+| Settlement safety | Local paid-action slice demonstrated; integrated hostile-callback and delegated-wallet coverage open | [Callback regression #2](https://github.com/Xubu-Trad/caw-social-alpha/issues/2), [wallet compatibility #6](https://github.com/Xubu-Trad/caw-social-alpha/issues/6) |
+| Independent recovery | Two reader implementations; one capture; reorg recovery open | [Independent acquisition #3](https://github.com/Xubu-Trad/caw-social-alpha/issues/3), [reorg reconstruction #4](https://github.com/Xubu-Trad/caw-social-alpha/issues/4) |
+| Specification and scale | Registration, economics and text rules unresolved | [C-001 registration #1](https://github.com/Xubu-Trad/caw-social-alpha/issues/1), [staking/distribution #5](https://github.com/Xubu-Trad/caw-social-alpha/issues/5), [submission/relay costs #7](https://github.com/Xubu-Trad/caw-social-alpha/issues/7), [420-character rule #8](https://github.com/Xubu-Trad/caw-social-alpha/issues/8) |
+| Public test candidate | Blocked | Review the preceding evidence, document relevant decisions/deviations, pin a new candidate and approve a bounded test plan with explicit failure criteria |
+| Production | Blocked | Resolve remaining [source conflicts](../sources/SPEC_CONFLICTS.md) and satisfy the full [protocol scope](PROTOCOL_V0_SCOPE.md), authority/dependency, availability, security and peer-review gates |
+
+First contributions: [Unicode examples #9](https://github.com/Xubu-Trad/caw-social-alpha/issues/9) and [clean offline-reader reproduction #10](https://github.com/Xubu-Trad/caw-social-alpha/issues/10). These gather evidence; they do not decide protocol rules.
+
+Labels identify the work: `review` for evidence and objections, `protocol` for behavior, `security` for adversarial properties, `reproduction` for repeatable results, `spec-decision` for unresolved source choices, and `good first issue` for bounded entry tasks. An issue closes on its stated acceptance evidence, with any source decision recorded separately. None of the ten issues being opened establishes acceptance or authorizes deployment.
