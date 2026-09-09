@@ -8,6 +8,8 @@ The initial community review target is **0.1.0-alpha.20**, fixed at:
 
 Git tree: `af574ac95d41176b6754c3abe60e4bb80f744976`. The commit was published on 2026-09-09. Later documentation commits do not move this review target or establish a new tested protocol version. Any later code candidate needs a separately identified commit and its own evidence.
 
+The current project name is **cawmmunity.caw - decentralized - social**. Its GitHub address remains `Xubu-Trad/caw-social-alpha` until the repository rename is completed. The clone URL below uses that working address; checking out the pinned commit preserves alpha.20's original files and naming.
+
 ## Reproduce this version
 
 In a fresh clone:

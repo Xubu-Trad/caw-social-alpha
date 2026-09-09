@@ -1,47 +1,29 @@
 {
-  "release": "0.1.0-alpha.22",
+  "release": "0.1.0-alpha.23",
   "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
+  "project": "cawmmunity.caw - decentralized - social",
+  "frontend": "cawmmunity.caw - decentralized - social - alpha",
+  "protocol": "cawmmunity.caw - decentralized - social - protocol",
   "tests": 401,
   "passed": 401,
   "failed": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
-  "pending": 0,
   "test_files": 27,
+  "new_tests": 0,
   "source_files": 145,
   "build_files": 22,
   "source_requirements": 59,
   "open_conflicts": 15,
-  "new_tests": 21,
-  "history_blocks": 20,
-  "history_transactions": 20,
-  "synthetic_transactions": 22,
-  "synthetic_paid_posts": 4,
-  "rejected_history_transactions": 3,
-  "collector_requests": {
-    "number": 67,
-    "hash": 104
-  },
-  "local_requests": 518,
-  "remote_requests": 0,
-  "python_reconstruction_positive_checks": 2,
-  "python_reconstruction_negative_checks": 8,
-  "paid_action_contract_changed": false,
-  "frontend_behavior_changed": false,
-  "independent_public_providers": false,
-  "consensus_authenticated": false,
-  "reorg_recovery_tested": false,
-  "external_audit": false,
-  "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
   "test_execution": {
     "mode": "all",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 46.016,
-    "observed_peak_bytes": 315998208,
+    "seconds": 14.422,
+    "observed_peak_bytes": 314175488,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -78,63 +60,50 @@
     ],
     "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
   },
-  "focused_execution": {
-    "mode": "focused",
-    "node_version": "24.20.0",
-    "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
-    "exit_code": 0,
-    "seconds": 2.25,
-    "observed_peak_bytes": 113950720,
-    "arguments": [
-      "--max-old-space-size=256",
-      "--test",
-      "--test-isolation=none",
-      "--test-concurrency=1",
-      "--test-timeout=30000",
-      "tests/caw-paid-acquisition.test.mjs"
-    ],
-    "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
-  },
   "build_execution": {
     "mode": "build",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 0.812,
-    "observed_peak_bytes": 55644160,
+    "seconds": 0.984,
+    "observed_peak_bytes": 56905728,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
     ],
     "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
   },
-  "prior_focused_diagnostic_failure": {
-    "receipt": {
-      "mode": "focused",
-      "node_version": "24.20.0",
-      "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
-      "exit_code": 134,
-      "seconds": 4.422,
-      "observed_peak_bytes": 556523520,
-      "arguments": [
-        "--max-old-space-size=256",
-        "--test",
-        "--test-isolation=none",
-        "--test-concurrency=1",
-        "--test-timeout=30000",
-        "tests/caw-paid-acquisition.test.mjs"
-      ],
-      "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
-    },
-    "reason": "Comparing JSON serialization byte buffers caused a huge assertion diagnostic; changed to parsed history equality and exact recovered message bytes, then reran focused and full suites without changing the memory cap."
+  "build_output": {
+    "files": 22,
+    "bytes": 1388174,
+    "manifestSha256": "a8b2a52c770543c0d72775b2dc95341f5614ce3c350528c5235605ac06d5d6f6"
   },
-  "runtime_check": {
-    "python": "3.12.14",
-    "cryptography": "50.0.1"
+  "browser_visual_review": {
+    "result": "passed",
+    "pages": [
+      "website",
+      "Commons"
+    ],
+    "viewport_widths": [
+      1280,
+      320
+    ],
+    "horizontal_overflow_observed": false,
+    "scope": "Visible branding, wrapping and page title only; not a full interaction or accessibility audit.",
+    "server": "loopback only; owned preview stopped after review"
   },
-  "node_cleanup": "Owned Anvil stopped before offline reconstruction; independent exclusive bind to port 18545 succeeded.",
-  "historical_receipts": [
-    "evidence/ALPHA20_TEST_RESULTS.json",
-    "evidence/ALPHA21_TEST_RESULTS.json"
-  ]
+  "changes": "Display names, responsive headers, documentation and package metadata. Simulation labels omit the pinned fixture release; environment validation still runs.",
+  "contracts_changed": false,
+  "signed_domains_changed": false,
+  "primary_sources_changed": false,
+  "historical_experiment_evidence_changed": false,
+  "new_chain_experiment": false,
+  "public_deployment": false,
+  "external_audit": false,
+  "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
+  "github_address": "Xubu-Trad/caw-social-alpha",
+  "requested_github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
+  "github_rename_status": "Pending authenticated repository settings; current links keep the working address.",
+  "historical_receipt": "ALPHA22_TEST_RESULTS.json",
+  "historical_source_manifest": "ALPHA22_CODE_SHA256SUMS.txt"
 }

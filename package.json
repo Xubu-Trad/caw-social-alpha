@@ -1,9 +1,9 @@
 {
-  "name": "caw-social-alpha",
-  "version": "0.1.0-alpha.22",
+  "name": "cawmmunity.caw-decentralized-social",
+  "version": "0.1.0-alpha.23",
   "private": true,
   "type": "module",
-  "description": "Community CAW frontend and synthetic reference model for peer review",
+  "description": "cawmmunity.caw - decentralized - social. Local alpha frontend and experimental protocol for peer review.",
   "engines": {
     "node": "24.20.0"
   },

@@ -10,3 +10,13 @@
 
 .economic-comparison>summary{font-size:16px}.economic-comparison p,.economic-comparison .field-label,.economic-comparison .detail-row,.economic-comparison .source-note,.economic-comparison a{font-size:14px}.economic-comparison select{font-size:14px}.economic-result{border-top:1px solid var(--line);margin-top:20px;padding-top:12px}.economic-result h4{font-size:15px;color:var(--green);overflow-wrap:anywhere}.economic-comparison .detail-row{flex-wrap:wrap}.economic-comparison .detail-row dd{overflow-wrap:anywhere}
 .signature-lab>summary{font-size:16px}.signature-lab p,.signature-lab a{font-size:14px}.signature-lab .pending-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.signature-lab .data-field{max-width:100%;font-size:12px}.signature-lab .detail-row{flex-wrap:wrap}.signature-lab .detail-row dd{overflow-wrap:anywhere}
+
+/* The project name wraps independently of the conversation section title. */
+.brand{min-width:0;max-width:100%;letter-spacing:normal}
+.brand-copy{display:block;min-width:0}
+.brand-name{display:block;font-size:clamp(1.25rem,3vw,2rem);line-height:1.2;letter-spacing:-.025em;overflow-wrap:anywhere}
+.brand-sub{font-size:.75rem;line-height:1.6;letter-spacing:.02em;margin-top:6px;overflow-wrap:normal}
+.masthead-note{flex:0 1 auto;min-width:0}
+.terminal-footer{flex-wrap:wrap}
+.footer-brand{display:block;flex-basis:100%;min-width:0;font-size:.75rem;line-height:1.6;letter-spacing:0;overflow-wrap:anywhere;color:var(--green)}
+@media(max-width:640px){.brand{gap:10px}.brand-symbol{width:42px;height:42px;flex-basis:42px}.brand-sub{font-size:.6875rem}.terminal-footer>*{min-width:0;overflow-wrap:anywhere}}

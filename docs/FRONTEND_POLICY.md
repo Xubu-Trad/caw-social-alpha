@@ -1,4 +1,6 @@
-# Alpha frontend policy
+# cawmmunity.caw - decentralized - social - alpha
+
+Frontend policy for the website and browser app in the [shared repository](../README.md).
 
 This client displays synthetic fixture posts and actions confirmed within the current tab. The same local record supplies participant lanes, search and following. Search and Saved locally are personal views, not protocol decisions. There is no live public feed, room presence or keystroke broadcast.
 

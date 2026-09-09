@@ -1,6 +1,6 @@
 # Security process
 
-This is a community implementation under review. No audit, external peer-review completion, production security or surveillance-resistance claim is made.
+This process covers both the alpha frontend and protocol experiments in **cawmmunity.caw - decentralized - social**. This is a community implementation under review. No audit, external peer-review completion, production security or surveillance-resistance claim is made.
 
 For local development, review code before running it, pin tools, keep secrets and research outside application artifacts, bind preview services to loopback and use synthetic data. Record meaningful tests and actual failure results. A passing scan or matching file hash is limited evidence, not a security assessment.
 

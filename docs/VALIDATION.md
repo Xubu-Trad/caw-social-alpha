@@ -1,6 +1,10 @@
 # Validation boundary
 
-Alpha.22 passed **401/401 offline tests across 27 files**, with zero failures, cancellations, skips or TODOs. The [145-input manifest](../evidence/CODE_SHA256SUMS.txt) and [current receipt](../evidence/TEST_RESULTS.json) pin this package. The build rehashed 22 unchanged frontend assets.
+Alpha.23 updates the project and component names. **401/401 existing offline tests across 27 files passed** after the naming changes; the frontend assets were rebuilt. GitHub links retain the current repository address until its rename is authenticated. No contracts, signed domains, message schemas, primary texts or historical experiment observations changed. The [current receipt](../evidence/TEST_RESULTS.json) separates these checks from earlier protocol runs. The website and Commons were visually checked in the local browser at desktop width and a 320-pixel mobile viewport. The new name fits without horizontal page overflow. The simulation status no longer presents the pinned environment fixture's old release as the current app version; environment validation still runs before entry.
+
+## Historical alpha.22 evidence
+
+Alpha.22 passed **401/401 offline tests across 27 files**, with zero failures, cancellations, skips or TODOs. The [145-input manifest](../evidence/ALPHA22_CODE_SHA256SUMS.txt) and [alpha.22 receipt](../evidence/ALPHA22_TEST_RESULTS.json) pin that package. The build rehashed 22 unchanged frontend assets.
 
 The [new acquisition run](PAID_HISTORY_ACQUISITION.md) collected the same fresh synthetic history through two separately authored live query paths: 20 included transactions, four accepted posts and three deliberate rejections. Two additional transactions establish synthetic funding before the reader interval. Collectors made 67 and 104 requests; the complete run made 518 local and zero remote requests. The owned node stopped after 46.453 seconds, observed peak 22,982,656 bytes, and its listener was confirmed released.
 

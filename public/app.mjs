@@ -733,7 +733,7 @@ function renderMedia(){
 function render(){
   if(mediaCleanup){mediaCleanup();mediaCleanup=null;}
   if(signatureCleanup){signatureCleanup();signatureCleanup=null;}
-  $('page-title').textContent=views[activeView];document.title=`CAW Social · ${views[activeView]} · Alpha simulation`;
+  $('page-title').textContent=views[activeView];document.title='cawmmunity.caw - decentralized - social - alpha';
   $('navigation').replaceChildren(...Object.entries(views).map(([key])=>el('button',{type:'button',class:`nav-button ${activeView===key?'active':''}`,'aria-current':activeView===key?'page':null,onClick:()=>navigate(key)},icon(key),views[key])));
   renderContext();renderPending();
   $('view').replaceChildren(({feed:renderFeed,media:renderMedia,account:renderAccount,receipts:renderReceipts,operators:renderOperators,messages:renderMessages})[activeView]());
@@ -755,8 +755,8 @@ window.addEventListener('hashchange',()=>{
   if(state)navigate(view,false);
 });
 try{
-  const environment=await loadEnvironment();
-  $('alpha-environment').textContent=`Alpha ${environment.release} · simulation · no connected chain`;
+  await loadEnvironment();
+  $('alpha-environment').textContent='Alpha simulation · no connected chain';
   const response=await fetch(new URL('./fixtures.json',import.meta.url),{cache:'no-store',credentials:'omit'});
   if(!response.ok)throw new Error('The local fixture could not be loaded.');
   seed=await response.json();state=createState(seed);

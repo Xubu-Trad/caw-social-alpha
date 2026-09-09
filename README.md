@@ -1,8 +1,15 @@
-# CAW Social - alpha
+# cawmmunity.caw - decentralized - social
 
 Words first. Keep the receipt.
 
-A community implementation guided by the CAW manifesto and recovered R2. The website is the entrance; Commons is the conversation app. This is work for public review, not an official CAW release.
+A community implementation guided by the CAW manifesto and recovered R2. The website is the entrance; Commons is the conversation view. This is work for public review, not an official CAW release.
+
+| Component | Name | Where to begin |
+| --- | --- | --- |
+| Website and browser app | **cawmmunity.caw - decentralized - social - alpha** | [Frontend policy](docs/FRONTEND_POLICY.md) |
+| Protocol experiments | **cawmmunity.caw - decentralized - social - protocol** | [Protocol scope](docs/PROTOCOL_V0_SCOPE.md) |
+
+Both components live in this repository. These are project names; `.caw` does not establish domain registration, deployment or production readiness.
 
 **The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, funds, private messages or public media uploads are connected.
 
@@ -10,7 +17,9 @@ A community implementation guided by the CAW manifesto and recovered R2. The web
 
 The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits. Alpha.22 adds [two live acquisition paths](docs/PAID_HISTORY_ACQUISITION.md): both recover the same fresh history without the writer's saved transaction list.
 
-![Alpha website and app entrance](docs/images/alpha-website.png)
+![Earlier alpha website and app entrance](docs/images/alpha-website.png)
+
+Earlier alpha screen; the current build uses the names above.
 
 ## Try the frontend
 

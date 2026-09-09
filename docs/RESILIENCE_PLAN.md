@@ -1,4 +1,6 @@
-# CAW Social — resilience plan
+# cawmmunity.caw - decentralized - social
+
+Resilience plan for the alpha frontend and protocol components.
 
 **Status: design proposal, 2026-09-07.** No production provider, domain, storage network, wallet, contract or hosting service is selected. This review used primary documentation and a participating auditor's historical incident account. It ran no network, custody or production failure tests. The existing local prototype is a synthetic demonstration; its current execution evidence is recorded in BOOTSTRAP.md (supporting local record omitted; see the source-coverage note) and the restricted run records.
 
