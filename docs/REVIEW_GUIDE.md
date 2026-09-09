@@ -1,13 +1,13 @@
 # Review the alpha
 
-The review target is a synthetic frontend and reference model. It contains no Solidity implementation, wallet connector, signing service or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; twenty-one test files are in tests/.
+The review target is a synthetic frontend and reference model. It now includes a compiled experimental Solidity custody probe, while NFT identity, paid posting and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; twenty-two test files are in tests/.
 
 ## Reproduce
 
 With Node 24.20.0, from the repository root:
 
 ```sh
-node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs
+node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs
 node --max-old-space-size=128 scripts/build.mjs
 node --max-old-space-size=128 server.mjs
 ```
@@ -19,6 +19,8 @@ Try a CAW through cost review, queue, submission and confirmation. Check that ea
 The build writes only 21 explicit public assets plus SHA256SUMS.txt into dist/. It rejects unexpected existing output entries rather than deleting them. Run twice and compare the manifest. No wallet, host credentials, private research, runtime executable or selected media is packaged. Serve dist/ with an independently reviewed static host; ES modules are not a file:// installation.
 
 The optional Python [token capture tool](../scripts/capture-caw-token.py) is separate from the website and offline tests. Its two preserved provider captures are historical network observations, not a live adapter. Follow [token compatibility](CAW_TOKEN_COMPATIBILITY.md) to reproduce their exact requests and understand what the account proof does and does not establish.
+
+The [source reproduction](CAW_TOKEN_SOURCE.md) and [custody experiment](CUSTODY_PROBE.md) include compiler inputs and explicit read-only acquisition commands. Their compiler and remote-simulation steps are not part of npm test or the website. The preserved network results replay offline; only one provider completed the custody sequence.
 
 ## Highest-value review
 

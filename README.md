@@ -6,7 +6,7 @@ A community frontend and synthetic reference model, guided by the CAW manifesto 
 
 **Simulation only. No connected wallet, blockchain, real funds, private messages or public media uploads.** The full protocol is unfinished. A strict alpha configuration rejects real chain, wallet, contract, RPC and upload settings.
 
-**Current protocol work:** [the existing CAW token experiment](docs/CAW_TOKEN_COMPATIBILITY.md) records a zero-address transfer rejection. Read the [concerns review](docs/CONCERNS_REVIEW.md) and [v0 scope](docs/PROTOCOL_V0_SCOPE.md) for the path to one complete on-chain action.
+**Current protocol work:** [reproduced token source](docs/CAW_TOKEN_SOURCE.md) and a [compiled custody experiment](docs/CUSTODY_PROBE.md) with exact deposit, withdrawal and rollback evidence from one remote simulation. NFT authority and the zero-address burn rule remain unresolved. See the [v0 scope](docs/PROTOCOL_V0_SCOPE.md).
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)
 
@@ -60,8 +60,8 @@ The accounting model uses **provisional appendix settings**. Main-text and appen
 
 R2 requires public contribution and review before an agreed release, with no developer backdoors, proxies or multisigs. No deployed code or authority graph exists here to certify. These records support a review process; they are not independent peer review or community acceptance.
 
-Public review does not mean testnet-ready. Missing pieces include NFT mint/burn, actual token custody, Ethereum-authorized actions, settlement contracts, recoverable public history, reviewed DM cryptography and operator-loss recovery. Native/installable distribution and replicated media remain planned.
+Public review does not mean testnet-ready. Missing pieces include NFT mint/burn, production custody, Ethereum-authorized actions, settlement contracts, recoverable public history, reviewed DM cryptography and operator-loss recovery. Native/installable distribution and replicated media remain planned.
 
-Upstream submissions target the relevant **cawdevelopment** repository only. No upstream application or contract code was copied into this alpha.
+Upstream submissions target the relevant **cawdevelopment** repository only. The application and experimental custody probe are original. A separately licensed [token reference source](experiments/token-source/NOTICES.md) is preserved for reproduction.
 
 [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Licensing status](LICENSE_STATUS.md)

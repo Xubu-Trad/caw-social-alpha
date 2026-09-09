@@ -1,3 +1,5 @@
+> Alpha.17 progress: [source reproduction](CAW_TOKEN_SOURCE.md) and [depositor-keyed custody](CUSTODY_PROBE.md) provide partial Gate 0 evidence. Remote simulation is not an independent local fork, NFT identity or paid settlement; the remaining gates below still apply.
+
 # CAW protocol v0 · proposed experiment
 
 Prepared 2026-09-08 against alpha.15. **No contract, fork run, wallet integration or deployment is implemented by this document.** The target is one complete, reproducible public-action path using the existing CAW runtime in an isolated experiment. It is not the complete protocol, a production release or a resolution of the 15 source conflicts.

@@ -1,3 +1,5 @@
+> Alpha.17 follow-up: [local token compilation](CAW_TOKEN_SOURCE.md) reproduced the executable match with a metadata qualification. [One remote custody experiment](CUSTODY_PROBE.md) now records positive deposit/withdrawal and allowance effects in temporary state. The alpha.16 observations below remain historical and the zero-address conflict stays open.
+
 # Existing CAW · token compatibility
 
 **Alpha.16 found a concrete blocker for literal zero-address burning.** At the pinned Ethereum block below, two public RPC services return the same zero-address rejection for the specified CAW calls. The positive control calls succeed. Username minting cannot claim compliance with that rule yet.

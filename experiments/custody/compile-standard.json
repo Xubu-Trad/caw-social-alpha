@@ -1,0 +1,31 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "CawCustodyProbe.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity 0.8.10;\n\ninterface ICawTokenProbe {\n    function balanceOf(address account) external view returns (uint256);\n    function transfer(address recipient, uint256 amount) external returns (bool);\n    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\n}\n\n/// @notice Experimental depositor-keyed custody only. No NFT or paid CAW logic.\n/// This probe is for isolated execution; it is not a deployable protocol release.\ncontract CawCustodyProbe {\n    ICawTokenProbe public constant TOKEN = ICawTokenProbe(0xf3b9569F82B18aEf890De263B84189bd33EBe452);\n    mapping(address => uint256) public credits;\n    uint256 public totalCredits;\n    bool private entered;\n\n    error Reentrant();\n    error ZeroAmount();\n    error InsufficientCredit();\n    error TokenRejected();\n    error UnexpectedTokenDelta();\n    error Underbacked();\n\n    event Deposited(address indexed account, uint256 amount, uint256 credit);\n    event Withdrawn(address indexed account, uint256 amount, uint256 credit);\n\n    modifier guarded() {\n        if (entered) revert Reentrant();\n        entered = true;\n        _;\n        entered = false;\n    }\n\n    function deposit(uint256 amount) external guarded {\n        if (amount == 0) revert ZeroAmount();\n        uint256 beforeBalance = TOKEN.balanceOf(address(this));\n        if (!TOKEN.transferFrom(msg.sender, address(this), amount)) revert TokenRejected();\n        uint256 afterBalance = TOKEN.balanceOf(address(this));\n        if (afterBalance != beforeBalance + amount) revert UnexpectedTokenDelta();\n        credits[msg.sender] += amount;\n        totalCredits += amount;\n        if (afterBalance < totalCredits) revert Underbacked();\n        emit Deposited(msg.sender, amount, credits[msg.sender]);\n    }\n\n    function withdraw(uint256 amount) external guarded {\n        if (amount == 0) revert ZeroAmount();\n        if (credits[msg.sender] < amount) revert InsufficientCredit();\n        uint256 beforeBalance = TOKEN.balanceOf(address(this));\n        uint256 recipientBefore = TOKEN.balanceOf(msg.sender);\n        credits[msg.sender] -= amount;\n        totalCredits -= amount;\n        if (!TOKEN.transfer(msg.sender, amount)) revert TokenRejected();\n        uint256 afterBalance = TOKEN.balanceOf(address(this));\n        if (afterBalance + amount != beforeBalance || TOKEN.balanceOf(msg.sender) != recipientBefore + amount) {\n            revert UnexpectedTokenDelta();\n        }\n        if (afterBalance < totalCredits) revert Underbacked();\n        emit Withdrawn(msg.sender, amount, credits[msg.sender]);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "london",
+    "metadata": {
+      "bytecodeHash": "ipfs"
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode.object",
+          "evm.deployedBytecode.object",
+          "evm.deployedBytecode.immutableReferences",
+          "evm.methodIdentifiers",
+          "metadata",
+          "storageLayout"
+        ]
+      }
+    }
+  }
+}
