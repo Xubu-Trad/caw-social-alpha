@@ -1,3 +1,5 @@
+> Alpha.18 revision: [local custody execution](LOCAL_CUSTODY.md) completed 23 historical-token and 26 separate synthetic cases. NFT authority, production settlement and C-001 remain open. Earlier release observations below are historical.
+
 # CAW custody · isolated experiment
 
 **One remote simulation completed the actual-token deposit and withdrawal sequence.** The original custody probe compiled locally; dRPC executed its creation and calls in temporary state above the pinned Ethereum block. No wallet was connected, no transaction was broadcast, and no contract remains deployed by this experiment.

@@ -8,3 +8,7 @@ private/
 runs/
 .DS_Store
 Thumbs.db
+/fork-recheck.json
+/fork-recheck-work/
+/synthetic-recheck.json
+/synthetic-recheck-work/

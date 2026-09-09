@@ -13,6 +13,7 @@ Original application JavaScript, Python capture/fixture scripts, HTML, CSS, test
 - `reference/fixtures/caw-token-publicnode.json` and `reference/fixtures/caw-token-drpc.json`. These are raw public-network observations retained as evidence, outside the code license grant.
 - `experiments/custody/drpc-simulation.json` and `experiments/custody/publicnode-simulation.json`, which preserve raw remote execution observations and an access failure outside the original-code grant.
 - `experiments/token-source/StandardERC20.sol` and its embedded copy in `compile-standard.json` retain the retrieved source MIT declaration and [third-party notices](experiments/token-source/NOTICES.md), including the original OpenZeppelin notice. Xubu does not replace that attribution or claim authorship.
+- `experiments/local-custody/fork-result.json` and `experiments/local-custody/synthetic-result.json` retain raw experiment evidence outside the original-code license grant. Original fixture and runner code are covered. The separately acquired Anvil binary is not included or relicensed.
 - Any future third-party code/content carrying its own notice; preserve that notice and review its compatibility separately.
 
 The code license grants no CAW trademark rights or endorsement. Do not apply Xubu's MIT grant to excluded content; preserve each item's own stated rights. Future additions require classification before assuming coverage. Licensing of this alpha does not select a license for a separate future contract repository or establish community acceptance of the protocol.

@@ -6,7 +6,7 @@ A community frontend and synthetic reference model, guided by the CAW manifesto 
 
 **Simulation only. No connected wallet, blockchain, real funds, private messages or public media uploads.** The full protocol is unfinished. A strict alpha configuration rejects real chain, wallet, contract, RPC and upload settings.
 
-**Current protocol work:** [reproduced token source](docs/CAW_TOKEN_SOURCE.md) and a [compiled custody experiment](docs/CUSTODY_PROBE.md) with exact deposit, withdrawal and rollback evidence from one remote simulation. NFT authority and the zero-address burn rule remain unresolved. See the [v0 scope](docs/PROTOCOL_V0_SCOPE.md).
+**Current protocol work:** [local custody execution](docs/LOCAL_CUSTODY.md) now checks the actual CAW token and separate synthetic failures. Exact deposits, withdrawals, rollback and two component limits are recorded. NFT account authority and the zero-address burn rule remain unresolved. See the [v0 scope](docs/PROTOCOL_V0_SCOPE.md).
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)
 

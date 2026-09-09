@@ -1,3 +1,5 @@
+> Alpha.18 revision: [local custody execution](LOCAL_CUSTODY.md) completed 23 historical-token and 26 separate synthetic cases. NFT authority, production settlement and C-001 remain open. Earlier release observations below are historical.
+
 > Alpha.17 progress: [source reproduction](CAW_TOKEN_SOURCE.md) and [depositor-keyed custody](CUSTODY_PROBE.md) provide partial Gate 0 evidence. Remote simulation is not an independent local fork, NFT identity or paid settlement; the remaining gates below still apply.
 
 # CAW protocol v0 · proposed experiment
