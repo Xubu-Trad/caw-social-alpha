@@ -8,7 +8,7 @@ For a proposed patch, describe the trigger and resulting behavior, source basis,
 
 This repository can receive peer-review input and proposed changes. Any outgoing contribution to the original CAW project is for the relevant cawdevelopment repository, with its exact base branch verified. No automated requests to individual reviewers are sent.
 
-Open source licensing is still to be selected; see LICENSE_STATUS.md before assuming redistribution rights. A public repository does not itself grant a general software license.
+The original alpha code and project-authored explanatory documentation are licensed under [MIT](LICENSE), as approved on 2026-09-08. Retain the copyright and permission notice when reusing covered material. Artwork, screenshots, preserved primary texts and raw network evidence are excluded from this grant; third-party material retains its own notices. See [licensing scope](LICENSE_STATUS.md) before copying excluded material or adding a dependency. Contributors retain their copyright; identify the provenance and license of proposed additions.
 
 No contributor, including Xubu, should receive reserved protocol powers, a hidden fee, global moderation authority, a proxy/upgrade key, confiscation rights or a universal DM key. Running a website does not confer authority over the protocol.
 
