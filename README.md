@@ -2,28 +2,24 @@
 
 Words first. Keep the receipt.
 
-A community implementation guided by the CAW manifesto and recovered R2. The website is the entrance; Commons is the conversation view. This is work for public review, not an official CAW release.
+A CAW conversation frontend and experimental protocol, guided by the manifesto and recovered R2. Community work, open for review.
 
-| Component | Name | Where to begin |
-| --- | --- | --- |
-| Website and browser app | **cawmmunity.caw - decentralized - social - alpha** | [Frontend policy](docs/FRONTEND_POLICY.md) |
-| Protocol experiments | **cawmmunity.caw - decentralized - social - protocol** | [Protocol scope](docs/PROTOCOL_V0_SCOPE.md) |
+![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha23.jpg)
 
-Both components live in this repository. These are project names; `.caw` does not establish domain registration, deployment or production readiness.
+Authentic screenshot of the local alpha. Synthetic accounts; no real funds. [Image provenance](docs/images/README.md).
 
-**The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, funds, private messages or public media uploads are connected.
+**The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, private messages or public media uploads are connected. This is not an official CAW release.
 
-**Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues), or follow the [current gates](docs/ROADMAP.md).
+Two components, one repository:
 
-The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits. Alpha.22 adds [two live acquisition paths](docs/PAID_HISTORY_ACQUISITION.md): both recover the same fresh history without the writer's saved transaction list.
+- **Frontend:** [cawmmunity.caw - decentralized - social - alpha](docs/FRONTEND_POLICY.md) — the website and Commons conversation view.
+- **Protocol:** [cawmmunity.caw - decentralized - social - protocol](docs/PROTOCOL_V0_SCOPE.md) — contracts, readers and local experiments.
 
-![Earlier alpha website and app entrance](docs/images/alpha-website.png)
+These are project names. `.caw` does not establish domain registration, deployment or production readiness.
 
-Earlier alpha screen; the current build uses the names above.
+## Try it locally
 
-## Try the frontend
-
-Use Node.js **24.20.0**. The frontend and Node offline tests have no third-party package dependencies or install step. Review the source, then run:
+Use Node.js **24.20.0**. The frontend and Node offline tests need no third-party packages or install step. Review the source, then run:
 
 ```sh
 npm test
@@ -31,38 +27,30 @@ npm run build
 npm start
 ```
 
-Open **http://127.0.0.1:4173/website.html** for the entrance or **http://127.0.0.1:4173/** for Commons. Stop with Ctrl+C. The server binds only to loopback. Optional Python/EVM experiments have separate requirements; see the [review guide](docs/REVIEW_GUIDE.md).
+Open **http://127.0.0.1:4173/website.html** for the website or **http://127.0.0.1:4173/** for Commons. The server binds only to loopback; stop with Ctrl+C. Optional Python/EVM experiments have separate requirements in the [review guide](docs/REVIEW_GUIDE.md).
 
-Write a draft, inspect the proposed cost, confirm a simulated post, then read its receipt. Switch accounts, preview local media or compare exported records. Nothing is sent while typing; refreshing resets the demonstration. Media preview does not upload or settle an attachment.
+Draft, review a simulated fee, post, and inspect the receipt. Nothing is sent while typing. Reloading resets the demonstration; selected media stays a local preview.
 
-## What the evidence establishes
+## Evidence, with limits
 
-| Area | Current boundary |
-| --- | --- |
-| Frontend | Local conversation lanes, cost review, receipts, account switching and bounded media preview |
-| Experimental protocol | Fixed test NFT ownership, actual token logic on a local fork, signed paid posts and exact allocation |
-| Reconstruction | Two live collectors and two offline readers agree on a fresh local history; shared-node and manifest trust remain |
-| Registration | Blocked by the existing token's rejection of the literal zero-address transfer |
-| Production | Unfinished; no public deployment, permanence guarantee or authenticated production authority graph |
-| Review | Public code and evidence; external audit and community acceptance are not established |
+| Record | What ran | Boundary |
+| --- | --- | --- |
+| [Alpha.20: paid action](docs/PAID_ACTION.md) | Nine signed posts using historical CAW token logic, fixed test NFT accounts and exact fee allocation | Local fork; no production registration |
+| [Alpha.21: adversarial regression](docs/PAID_ACTION_REGRESSION.md) | 72 cases against the unchanged paid-action contract | Separate synthetic token and chain; broader review remains open |
+| [Alpha.22: history acquisition](docs/PAID_HISTORY_ACQUISITION.md) | Two live collectors and two offline readers agree on a fresh 20-transaction history | Shared node and manifest trust; independent providers, chain authentication and reorg recovery remain open |
 
-**Validation:** 401/401 offline tests across 27 files; 22 build assets. Alpha.22 reconstructs both newly acquired 20-transaction histories with the existing readers. Alpha.21's 72 regression cases and alpha.20's historical-token evidence remain separate. These are finite tests, not an outside audit or a permanence guarantee.
+**Recorded validation:** 401/401 offline tests across 27 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
 
 ## Read, reproduce, challenge
 
-| Start here | Purpose |
-| --- | --- |
-| [Paid-action experiment](docs/PAID_ACTION.md) | Follow one complete experimental action and reconstruct its records |
-| [History acquisition](docs/PAID_HISTORY_ACQUISITION.md) | Recover records through two live query paths, then compare both readers |
-| [C-001 decision request](docs/C001_DECISION_REQUEST.md) | Inspect the registration conflict and the evidence needed for a decision |
-| [Assessment response](docs/CONCERNS_ALPHA19_REVIEW.md) | Separate verified concerns, corrections and next work |
-| [Review guide](docs/REVIEW_GUIDE.md) | Run the frontend/tests and find earlier experiments |
-| [Manifesto + R2 alignment](docs/MANIFESTO_R2_ALIGNMENT_REVIEW.md) | Trace all 59 mapped primary requirements |
-| [15 open conflicts](sources/SPEC_CONFLICTS.md) | Review unresolved protocol decisions |
-| [Protocol scope](docs/PROTOCOL_V0_SCOPE.md) | Inspect acceptance gates and unfinished adversarial/recovery work |
-| [Validation](docs/VALIDATION.md) | Current results and historical browser limits |
-| [Source coverage](docs/SOURCE_COVERAGE.md) | What was examined, preserved and excluded |
+**Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/91479b6dc8c9a264411d75177d43029e0266c354).** The [pinned baseline](docs/REVIEW_BASELINE.md) stays fixed as later work develops.
 
-R2 calls for public contribution and review before an agreed release, without developer backdoors, proxies or multisigs. These requirements remain gates, not claims earned by a passing test suite. Upstream submissions target the relevant **cawdevelopment** repository only. The implementation and experiments are original; preserved [token reference source](experiments/token-source/NOTICES.md) retains separate attribution.
+Follow the [current gates](docs/ROADMAP.md), reproduce a result with the [review guide](docs/REVIEW_GUIDE.md), or choose a [review issue](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/issues).
 
-[Contributing](CONTRIBUTING.md) - [Security](SECURITY.md) - [Licensing](LICENSE_STATUS.md)
+Trace the [59 mapped requirements](docs/MANIFESTO_R2_ALIGNMENT_REVIEW.md), [15 open conflicts](sources/SPEC_CONFLICTS.md) and [source coverage](docs/SOURCE_COVERAGE.md). Username registration remains blocked by the existing token's rejection of the literal zero-address transfer; [C-001](docs/C001_DECISION_REQUEST.md) preserves the evidence and decision request. A production authority graph and durable public recovery are unfinished.
+
+R2 calls for public contribution, peer review and an agreed release, without developer backdoors, proxies or multisigs. These remain release gates. Upstream contributions target the relevant **cawdevelopment** repository only.
+
+Original code and project-authored explanatory documentation use the [scoped MIT license](LICENSE_STATUS.md). Artwork, screenshots, primary texts and raw observations are excluded; preserved [third-party notices](experiments/token-source/NOTICES.md) retain their separate attribution.
+
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Licensing](LICENSE_STATUS.md)
