@@ -32,6 +32,6 @@ The source grants an NFT owner access to account DMs but also expects secure tru
 
 Prior owners and recipients may retain copied plaintext or keys. No protocol can promise to erase those copies. Server-encrypted storage with an operator key is not end-to-end encryption. There will be no universal Xubu/support decryption key.
 
-Select maintained reviewed cryptographic protocols only after that model is settled. Independently assess implementation, test vectors, key lifecycle, metadata, online/offline delivery and backup behavior. BitChat or Nostr documentation is not a security review of CAW. Group messaging and experimental Bluetooth transport are outside this baseline.
+Select maintained reviewed cryptographic protocols only after that model is settled. Independently assess implementation, test vectors, key lifecycle, metadata, online/offline delivery and backup behavior. Documentation for another messaging system does not establish security for CAW. Group messaging and experimental Bluetooth transport are outside this baseline.
 
 The Messages view may show a clearly disabled explanation or synthetic preview. It must not accept actual private correspondence, persist real secrets, connect a wallet, request a signature or describe demo messages as encrypted.

@@ -1,3 +1,5 @@
+> Alpha.16 revision: [existing CAW token evidence](CAW_TOKEN_COMPATIBILITY.md) now includes two read-only RPC captures and offline account/runtime verification. The zero-address calls reject; minting, custody and settlement remain unfinished. Read the [v0 scope](PROTOCOL_V0_SCOPE.md). Earlier release reviews below are historical.
+
 > Alpha.15 revision: the [offline Ethereum proof reader](ETHEREUM_STATE_PROOF.md) checks account/storage values or absence against a separately supplied state root. It verifies proof links and exact requested slots; it does not authenticate the root, bind a block header, establish finality/freshness or interpret CAW ownership. [Current authority](AUTHORITY_AND_FRESHNESS.md) remains a design with this bounded component. Source conflicts stay open. Earlier reviews below are historical.
 
 > Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
@@ -62,11 +64,11 @@ The layer evidence is summarized in the [pinned endpoint assessment](https://git
 | P1: reconcile evidence labels | Refresh current coverage overlays that still say all browser work is blocked, while preserving historical failed checks. | New labels point to current scoped evidence; 44 tests never become a claim that 59 requirements or every browser path passed. |
 | P2: define the first real protocol adapter | Specify network/contract identity, ownership discovery, canonical signed intent, fees, finality and complete-history retrieval before connecting a wallet. | Real behavior has exact source/decision references, adversarial tests and separately reviewed scope. The demo model is not silently promoted to the authoritative protocol. |
 
-The inspected website already qualifies its aspirational account/media language and its proposed independence section. Strengthen discoverability and precision rather than replacing those limits with marketing. User-directed 4chan/Talkomatic layout, restrained Matrix colors and BitChat simplicity do not supply accountless identity, keystroke transport, mesh networking or encryption.
+The inspected website already qualifies its aspirational account/media language and its proposed independence section. Strengthen discoverability and precision rather than replacing those limits with marketing. CAW's participant lanes, restrained green palette and concise presentation do not supply accountless identity, live keystroke transport, mesh networking or encryption.
 
 ## Complete primary requirement coverage
 
-Classifications below are copied from the existing analyst matrix. They remain interpretations of source wording, not community ratification. LOCAL TESTED means only the indicated synthetic/local behavior has execution evidence. DISPLAY means a recommendation is shown, not executed. SCOPE ALIGNED describes a current boundary, not proven production conformance. BLOCKED/OPEN describes the missing production decision or capability. No blanket compliance percentage is calculated.
+Classifications below are copied from the existing analyst table. They remain interpretations of source wording, not community ratification. LOCAL TESTED means only the indicated synthetic/local behavior has execution evidence. DISPLAY means a recommendation is shown, not executed. SCOPE ALIGNED describes a current boundary, not proven production conformance. BLOCKED/OPEN describes the missing production decision or capability. No blanket compliance percentage is calculated.
 
 ### Identity, authority and client boundary
 

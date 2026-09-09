@@ -4,7 +4,7 @@ This is a community implementation under review. No audit, external peer-review 
 
 For local development, review code before running it, pin tools, keep secrets and research outside application artifacts, bind preview services to loopback and use synthetic data. Record meaningful tests and actual failure results. A passing scan or matching file hash is limited evidence, not a security assessment.
 
-The security-control matrix tracks all 19 controls from the adopted build instructions with applicability, implementation, test evidence, residual risk and source-compliance consequences. Controls not yet relevant to the fixture server are deferred, not silently passed.
+The security-control table tracks all 19 controls from the adopted build instructions with applicability, implementation, test evidence, residual risk and source-compliance consequences. Controls not yet relevant to the fixture server are deferred, not silently passed.
 
 Production gates include authorization and replay tests; actual token/custody behavior; full authority and wiring graphs; private-message key/transfer semantics; reconstructable public history; sustainable independent submission; dependency/license review; and evidence from people or implementations genuinely independent of this agent team.
 

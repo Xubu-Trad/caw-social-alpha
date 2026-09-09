@@ -1,3 +1,5 @@
+> Alpha.16 revision: [existing CAW token evidence](CAW_TOKEN_COMPATIBILITY.md) now includes two read-only RPC captures and offline account/runtime verification. The zero-address calls reject; minting, custody and settlement remain unfinished. Read the [v0 scope](PROTOCOL_V0_SCOPE.md). Earlier release reviews below are historical.
+
 > Alpha.15 revision: the [offline Ethereum proof reader](ETHEREUM_STATE_PROOF.md) checks account/storage values or absence against a separately supplied state root. It verifies proof links and exact requested slots; it does not authenticate the root, bind a block header, establish finality/freshness or interpret CAW ownership. [Current authority](AUTHORITY_AND_FRESHNESS.md) remains a design with this bounded component. Source conflicts stay open. Earlier reviews below are historical.
 
 > Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
@@ -27,7 +29,7 @@ The requested expansion includes an associated explanatory website, portable sta
 | Single Ethereum settlement layer; immutable identity/accounting/action contracts; complete public event payloads; replaceable indexers/relays | Avoids bridging the existing asset; public custody rules and reconstructable action history are plausible | Original-token burn compatibility; high execution/storage costs; archival availability; who funds mostly gasless relays; privacy/DM scope | Preferred candidate to investigate after fixtures, not production selection |
 | Settlement on Ethereum, content in separately operated storage with commitments | Potentially reduces chain payload cost | A commitment proves integrity only; retention, retrieval incentives, payer, unavailable content, and independent reconstruction must be resolved | Do not adopt merely because a CID exists |
 | L2 or multi-chain application and bridged balances | Potentially cheaper interaction execution | Bridge custody, sequencer/censorship/upgrade authorities, message ordering, peer wiring, data expiry and exits enlarge the trust graph | Deferred unless measured requirements justify it |
-| Nostr/Matrix service as the authoritative social system | Existing social transport and client ecosystems | Does not by itself implement NFT-controlled CAW balances, canonical settlement, source reward rules or permanent public history | Not the baseline authority; transport evaluation would be separate |
+| Existing federated or relayed social services as the authoritative social system | Existing social transport and client ecosystems | Does not by itself implement NFT-controlled CAW balances, canonical settlement, source reward rules or permanent public history | Not the baseline authority; transport evaluation would be separate |
 
 These are design inferences, not a claim that Ethereum or any named network guarantees permanence, cheap interaction, privacy or absence of control. No candidate has yet demonstrated every requirement.
 
@@ -71,4 +73,4 @@ Public state is reconstructed from a specified finalized history with a determin
 
 Original CAW compatibility, reward/stake semantics, message length, NFT transfer and pending actions, permanent-data scope, mostly gasless operation funding, DM history access and system-wide authority remain unresolved. See the source conflict register C-001 through C-015. The first prototype exposes these questions; it does not resolve them through UI defaults.
 
-Reuse no upstream application or BitChat code before file-level licensing and relevant implementation review. In particular, a README's public-domain label is insufficient when the repository license contradicts it. The initial interface is original.
+Any future upstream application reuse requires file-level licensing and relevant implementation review. A README's license description must agree with the applicable license. The CAW interface is original.

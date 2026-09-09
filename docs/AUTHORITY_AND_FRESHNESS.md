@@ -41,7 +41,7 @@ Until that trust path exists, imported records remain inspection-only. The propo
 
 Successful restoration would require matching deployment, anchor, current owner, grant, cancellation, spending and nonce evidence under the adopted rules. It must not restore a private key from a public record. A fresh check immediately before acceptance and an atomic state transition must address changes between inspection and settlement; the current offline readers perform no settlement.
 
-The acceptance matrix should include: old and new owners around a transfer; cancellation before and after an action in the accepted order; two competing same-height histories; withheld suffixes; a rollback after restart; conflicting providers; expired or unavailable anchor evidence; a changed deployment; and simultaneous spends against one remaining budget. Compare accepted/rejected outcomes with separate implementations and preserve failures as evidence. These are planned cases for the future authority adapter, not claimed alpha test coverage.
+The acceptance table should include: old and new owners around a transfer; cancellation before and after an action in the accepted order; two competing same-height histories; withheld suffixes; a rollback after restart; conflicting providers; expired or unavailable anchor evidence; a changed deployment; and simultaneous spends against one remaining budget. Compare accepted/rejected outcomes with separate implementations and preserve failures as evidence. These are planned cases for the future authority adapter, not claimed alpha test coverage.
 
 ## Decisions still required
 

@@ -1,9 +1,16 @@
 # Licensing status
 
-This repository publishes source for inspection and peer-review input. A general open-source software license has not yet been selected; do not describe the project as already MIT-, GPL- or AGPL-licensed. Confirm the licensing decision before a redistributable production release.
+Xubu approved the MIT license for the original alpha implementation and project-authored explanatory documentation on 2026-09-08. See [LICENSE](LICENSE). Covered material may be copied, modified and commercially reused with the copyright and permission notice retained. No legal name or private email is included in the notice.
 
-Application JavaScript, CSS, HTML, tests and build scripts were written for this prototype. No third-party application implementation code was copied. This statement is provenance, not a third-party rights warranty.
+## Covered implementation
 
-The unchanged CAW illustration in public/caw-symbol.png was explicitly supplied through Xubu's previously published article archive and reused at the user's request. Its exact provenance and limits are in docs/ASSET_PROVENANCE.md. Its original artist and general redistribution license are not independently established. It must not automatically inherit any later application code license.
+Original application JavaScript, Python capture/fixture scripts, HTML, CSS, tests, synthetic fixtures, build scripts and project-authored explanatory documentation are covered. No third-party application implementation code was copied into this alpha. This is a provenance statement, not a warranty of rights; rights the licensor does not hold are not granted. Future contributions retain their authors' copyright.
 
-Pinned manifesto/R2 text and other reference material retain their original authorship and rights. Including them as evidence does not relicense them.
+## Excluded material
+
+- `public/caw-symbol.png`, `docs/images/alpha-website.png` and other artwork/screenshots. The original artist and general redistribution license for the CAW illustration have not been established. The screenshot includes it. See [asset provenance](docs/ASSET_PROVENANCE.md).
+- `sources/` and preserved primary texts. The manifesto, recovered R2 and historical source evidence retain their existing rights. Preservation does not relicense them.
+- `reference/fixtures/caw-token-publicnode.json` and `reference/fixtures/caw-token-drpc.json`. These are raw public-network observations retained as evidence, outside the code license grant.
+- Any future third-party code/content carrying its own notice; preserve that notice and review its compatibility separately.
+
+The code license grants no CAW trademark rights or endorsement. Do not describe excluded content as MIT-licensed. Future additions require classification before assuming coverage. Licensing of this alpha does not select a license for a separate future contract repository or establish community acceptance of the protocol.

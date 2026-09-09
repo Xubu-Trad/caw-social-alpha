@@ -1,6 +1,6 @@
 # Media and product scope
 
-Updated 2026-09-07. The user has requested an associated website and application, image and video support, a futuristic imageboard/Talkomatic presentation, and a design without one party's universal shutdown control. These are approved product directions. A separate **Media** view and portable static website/application package are implemented. The prior website/media checkpoint passed 44 automated tests and seven browser checks including PNG preview/removal. Actual video playback remains unverified. Subsequent alpha changes require their own execution record. This does not implement public media posting, production infrastructure or a decentralized network.
+Updated 2026-09-07. The user has requested an associated website and application, image and video support, a CAW presentation with imageboard density and participant lanes, and a design without one party's universal shutdown control. These are approved product directions. A separate **Media** view and portable static website/application package are implemented. The prior website/media checkpoint passed 44 automated tests and seven browser checks including PNG preview/removal. Actual video playback remains unverified. Subsequent alpha changes require their own execution record. This does not implement public media posting, production infrastructure or a decentralized network.
 
 ## Primary source and new direction
 

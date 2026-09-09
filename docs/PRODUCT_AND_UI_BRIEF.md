@@ -1,3 +1,5 @@
+> Alpha.16 revision: [existing CAW token evidence](CAW_TOKEN_COMPATIBILITY.md) now includes two read-only RPC captures and offline account/runtime verification. The zero-address calls reject; minting, custody and settlement remain unfinished. Read the [v0 scope](PROTOCOL_V0_SCOPE.md). Earlier release reviews below are historical.
+
 > Alpha.15 revision: the [offline Ethereum proof reader](ETHEREUM_STATE_PROOF.md) checks account/storage values or absence against a separately supplied state root. It verifies proof links and exact requested slots; it does not authenticate the root, bind a block header, establish finality/freshness or interpret CAW ownership. [Current authority](AUTHORITY_AND_FRESHNESS.md) remains a design with this bounded component. Source conflicts stay open. Earlier reviews below are historical.
 
 > Signed recovery revision: [The copied ledger now preserves and verifies a bounded signed-action record](SIGNED_RECORD_RECOVERY.md). Inherited history and fixture transfers remain explicitly unsigned; test bindings and recorded time are not ownership or historical-time proof. Earlier reviews below are historical. [Current validation](VALIDATION.md) controls execution claims.
@@ -20,9 +22,9 @@ Use square borders, near-black surfaces, restrained green accents, pale readable
 
 The Commons groups messages into stable participant lanes. On desktop each lane has an identity column and a message area, with a separate account inspector. On narrow screens the identity sits above its messages and the inspector moves below the main content. Preserve this reading order and the visual distinction between a selected identity, original messages, references and the user's own draft.
 
-A single preserved CAW illustration appears beside the textual brand through the fixed local route `/caw-symbol.png`. Its source and reuse limits are recorded in [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md). Other interface elements and application code are original to this prototype; no Talkomatic, BitChat or Matrix UI source, cryptography, fonts or application code was copied.
+A single preserved CAW illustration appears beside the textual brand through the fixed local route `/caw-symbol.png`. Its source and reuse limits are recorded in [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md). Other interface elements and application code are original to this CAW prototype; no third-party UI source, cryptography, fonts or application code was copied.
 
-Talkomatic informs the participant layout. Matrix supplies a dark/green visual reference, and BitChat informs restraint and text-first presentation. These references imply no protocol compatibility, mesh networking, encrypted messaging or live presence. Avoid fabricated activity, market statistics, official-network badges and continuous falling-code or glow effects.
+The CAW presentation combines participant lanes, a dark palette with restrained green accents, and readable text with minimal decoration. These design choices imply no protocol compatibility, mesh networking, encrypted messaging or live presence. Avoid fabricated activity, market statistics, official-network badges and continuous falling-code or glow effects.
 
 ## Current interaction contract
 
