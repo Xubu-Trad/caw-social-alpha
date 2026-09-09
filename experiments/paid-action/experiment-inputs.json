@@ -1,0 +1,12 @@
+{
+  "files": {
+    "CawPaidActionProbe.sol": "e48f8f8f816aae21e0e9865a8be0aa2e47204ea04b4c12b4124e5b0452412da1",
+    "TestAccountRegistry.sol": "ab3aecb6b0bc77fa838baf1141d2af96ad8395850b714f35b2f0cdb3b8c826df",
+    "TestSignatureOwner.sol": "310ca51c58305113070d06b6e2f7637dde550b0ed5141cdbb3c56bd02a8f3342",
+    "paid-build.json": "54f130a1f49e8569cbe7b9a6db54547f8e1e9275d9c0c256b5d916b01a59c54e",
+    "compile-standard.json": "72543224575c3c49532cca983863c5eba3429e319765d9864365409cc2d0e1fe",
+    "run_paid_action.py": "92b50402f8ad097839ec4e40e7e221647c89c8b9d0b3c915c4ce2400531130bf",
+    "paid_node.py": "ecd540dfd3414b28cbb9d085254cc2be3de42ea7f13033afb40b72c6884a4160",
+    "../../reference/fixtures/generate-ethereum-proof-fixtures.py": "5f100b6e1a12d29b0004bcb29f2ba5b23ffefc076646d2b67b1fb8df81c2effa"
+  }
+}

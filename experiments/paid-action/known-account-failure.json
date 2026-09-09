@@ -1,0 +1,108 @@
+{
+  "schema": "caw-paid-known-account-failure/1",
+  "complete_paid_action": false,
+  "reason": "Known public test-key account has code and takes ERC1271 path; London execution is not an EIP7702 replay.",
+  "failed_capture_sha256": "1ea6de4ce87a99670b3972121a3406dc1dbe4931fc3ae28a1305b41507416763",
+  "historical_code_read": {
+    "request": {
+      "method": "eth_getCode",
+      "params": [
+        "0x7e5f4552091a69125d5dfcb7b8c2659029395bdf",
+        {
+          "blockHash": "0xf3e3dfad2242562dbed62de90831c39eace7c7c6e88f8c509afccef9a5f73e4d",
+          "requireCanonical": false
+        }
+      ],
+      "id": 9,
+      "jsonrpc": "2.0"
+    },
+    "forwarded": true,
+    "request_body_sha256": "613c10200587d8118bd8f3e6f91000ccab88c86b89a09b6a707b45bc460545ce",
+    "request_shape": {
+      "type": "dict",
+      "keys": [
+        "method",
+        "params",
+        "id",
+        "jsonrpc"
+      ],
+      "items": null
+    },
+    "response": {
+      "id": 9,
+      "jsonrpc": "2.0",
+      "result": "0xef01008a67b5020ee254ef48e3b6a04927f39baf7e408a"
+    },
+    "raw_response": "{\"id\":9,\"jsonrpc\":\"2.0\",\"result\":\"0xef01008a67b5020ee254ef48e3b6a04927f39baf7e408a\"}"
+  },
+  "intent": {
+    "label": "no_pool",
+    "request": {
+      "accountId": "1",
+      "epoch": "0",
+      "nonce": "0",
+      "validAfter": "1788915291",
+      "deadline": "1789015292",
+      "distributionHash": "0x46700b4d40ac5c35af2c22dda2787a91eb567b06c924a8fb8ae9a05b20c08c21",
+      "text": "0x4e6f20656d70747920706f6f6c"
+    },
+    "digest": "0x0757723f54591feabbbb4314e85dfd1fdf4bdb3b50b3e73e377f681bd684dc77",
+    "signer": "0x7e5f4552091a69125d5dfcb7b8c2659029395bdf",
+    "signature": "0xcae661d169d5a4c6677b73b59d043b4ebb45cee6cec20a82696cd820eab71a9b4862fecbeff06db8e55ce18782340e4b47d2a47ec1bc39a6f8aabe67a336c15a1b"
+  },
+  "contract_digest_read": {
+    "label": "no_pool.contract_digest",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 49,
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x00000000000000000000000000000000ca180001",
+          "data": "0xb9444bbf0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006aa0ae5b000000000000000000000000000000000000000000000000000000006aa234fc46700b4d40ac5c35af2c22dda2787a91eb567b06c924a8fb8ae9a05b20c08c2100000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000d4e6f20656d70747920706f6f6c00000000000000000000000000000000000000",
+          "gas": "0x3d0900",
+          "gasPrice": "0x174876e800",
+          "value": "0x0",
+          "to": "0x0ea9c71d0826ba32deba626f10a10905b87bb476"
+        },
+        "latest"
+      ]
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 49,
+      "result": "0x0757723f54591feabbbb4314e85dfd1fdf4bdb3b50b3e73e377f681bd684dc77"
+    },
+    "raw_response": "{\"jsonrpc\":\"2.0\",\"id\":49,\"result\":\"0x0757723f54591feabbbb4314e85dfd1fdf4bdb3b50b3e73e377f681bd684dc77\"}"
+  },
+  "rejection": {
+    "label": "no_pool.dry",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 68,
+      "method": "eth_call",
+      "params": [
+        {
+          "from": "0x00000000000000000000000000000000ca180001",
+          "data": "0x62f509b300000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000160000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006aa0ae5b000000000000000000000000000000000000000000000000000000006aa234fc46700b4d40ac5c35af2c22dda2787a91eb567b06c924a8fb8ae9a05b20c08c2100000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000d4e6f20656d70747920706f6f6c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000041cae661d169d5a4c6677b73b59d043b4ebb45cee6cec20a82696cd820eab71a9b4862fecbeff06db8e55ce18782340e4b47d2a47ec1bc39a6f8aabe67a336c15a1b00000000000000000000000000000000000000000000000000000000000000",
+          "gas": "0x3d0900",
+          "gasPrice": "0x174876e800",
+          "value": "0x0",
+          "to": "0x0ea9c71d0826ba32deba626f10a10905b87bb476"
+        },
+        "latest"
+      ]
+    },
+    "response": {
+      "jsonrpc": "2.0",
+      "id": 68,
+      "error": {
+        "code": 3,
+        "message": "execution reverted: custom error 0x8baa579f",
+        "data": "0x8baa579f"
+      }
+    },
+    "raw_response": "{\"jsonrpc\":\"2.0\",\"id\":68,\"error\":{\"code\":3,\"message\":\"execution reverted: custom error 0x8baa579f\",\"data\":\"0x8baa579f\"}}"
+  },
+  "resolution": "Keep failure; do not clear code or add an ECDSA fallback. Use empty-code disposable test addresses for the EOA experiment. Delegated account compatibility remains unverified."
+}

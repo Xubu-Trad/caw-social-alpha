@@ -1,0 +1,12 @@
+{
+  "chain_id": 31337,
+  "addresses": {
+    "registry": "0xd2e60639eb3432223eb8dc42e3b5c99382609700",
+    "probe": "0x0ea9c71d0826ba32deba626f10a10905b87bb476",
+    "token": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+  },
+  "registry_runtime_sha256": "4745276b40204bd6e373b3f6c2e990ba8aeb3feb2de69a97b44510c58153d68f",
+  "probe_runtime_sha256": "f37e965b0aada43dc22ac8c68a37ce8279df49437807e8ec36e4e3c3c42ea70f",
+  "start_block_hash": "0x06628bae7f4629cdec0216f0483b047736cf0792a955213a635a98aa3ac0a9d1",
+  "end_block_hash": "0x484ffc157dc0ed1c5215ff0fe1156bee9dbffc7d3b9795051c06ed38b18d4fff"
+}

@@ -1,3 +1,5 @@
+> Alpha.20 revision: [one signed, paid CAW](PAID_ACTION.md) connects the fixed test registry, historical token logic, owner signatures, fees and recorded history. Registration, authenticated durable history, full combined adversarial regression and production authority remain open. This finite slice does not complete all gates below.
+
 > Alpha.19 revision: [experimental NFT account custody](ACCOUNT_AUTHORITY.md) now has local execution evidence. Direct epoch checks are implemented; registration, signed paid actions and production authority remain open. Earlier release observations below are historical.
 
 > Alpha.18 revision: [local custody execution](LOCAL_CUSTODY.md) completed 23 historical-token and 26 separate synthetic cases. NFT authority, production settlement and C-001 remain open. Earlier release observations below are historical.
