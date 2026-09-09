@@ -1,0 +1,81 @@
+{
+  "schema": "caw-paid-acquisition-summary/1",
+  "status": "pass",
+  "synthetic_only": true,
+  "base_contract_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
+  "trace_sha256": "43d85400ed9f7cb9fc651f6e89fb7357242e548c9ca6ac2ca875fb7014df39bc",
+  "config": {
+    "chain_id": 31337,
+    "addresses": {
+      "registry": "0x90fbd66684944acd339b0f8407f29e4d6fcfe3d1",
+      "probe": "0x973d7bf73147792e8ba8e360c26879b16846a115",
+      "token": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+    },
+    "start_block_number": 2,
+    "end_block_number": 22,
+    "start_block_hash": "0x091a14866030417fef4595e3056812fb8caac2c4c7f95c42c985780c262d89d1",
+    "end_block_hash": "0x226536fefddf8bda082930c65a557c2c09c0c3f903c6b7156ba8af73862e8304",
+    "registry_runtime_sha256": "4745276b40204bd6e373b3f6c2e990ba8aeb3feb2de69a97b44510c58153d68f",
+    "probe_runtime_sha256": "5fbe90d5bf73e4897479e1e609aeb13edd7a66f4a198abe945ad0883df1a0511"
+  },
+  "history_blocks": 20,
+  "history_transactions": 20,
+  "reverted_transactions": 3,
+  "accepted_posts": 4,
+  "collector_requests": {
+    "number": 67,
+    "hash": 104
+  },
+  "local_requests": 518,
+  "remote_requests": 0,
+  "local_transactions": 22,
+  "handoff": {
+    "writer_deleted": true,
+    "writer_trace_read_by_collectors": false,
+    "frontend_started": false,
+    "indexer_started": false,
+    "writes_sealed": true,
+    "first_read_only_request_id": 348,
+    "write_refused": true
+  },
+  "seconds": 46.453,
+  "peak_node_bytes": 22982656,
+  "owned_listener_released": true,
+  "same_node": true,
+  "shared_transport": true,
+  "independent_public_providers": false,
+  "consensus_authenticated": false,
+  "reorg_recovery_tested": false,
+  "paid_action_contract_changed": false,
+  "final": {
+    "owners": [
+      "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+      "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+      "0x47ecac8221f18970c48cf48aaa3cbe8167bbbe73"
+    ],
+    "epochs": [
+      "2",
+      "0",
+      "0"
+    ],
+    "credits": [
+      "79999999999999999999999",
+      "6666666666666666666674",
+      "13333333333333333333342"
+    ],
+    "stakes": [
+      "0",
+      "1",
+      "1"
+    ],
+    "nonces": [
+      "4",
+      "0",
+      "0"
+    ],
+    "totalCredits": "100000000000000000000015",
+    "poolDust": "4",
+    "messageCount": "4",
+    "tokenBalance": "100000000000000000000019"
+  }
+}

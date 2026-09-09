@@ -1,0 +1,70 @@
+{
+  "checker_sha256": "8f914d1e9e21bd3be12087f56223eeeb8ab9760f2008de6756bc49c2910a4ea2",
+  "checks": [
+    {
+      "case": "complete_history",
+      "dataset": "number",
+      "messages": 4,
+      "result": "pass"
+    },
+    {
+      "case": "omitted_block",
+      "dataset": "number",
+      "reason": "incomplete block interval",
+      "result": "rejected"
+    },
+    {
+      "case": "missing_post_log",
+      "dataset": "number",
+      "reason": "successful probe call missing event",
+      "result": "rejected"
+    },
+    {
+      "case": "duplicate_transaction",
+      "dataset": "number",
+      "reason": "missing block transaction",
+      "result": "rejected"
+    },
+    {
+      "case": "conflicting_endpoint",
+      "dataset": "number",
+      "reason": "trusted endpoint hash mismatch",
+      "result": "rejected"
+    },
+    {
+      "case": "complete_history",
+      "dataset": "hash",
+      "messages": 4,
+      "result": "pass"
+    },
+    {
+      "case": "omitted_block",
+      "dataset": "hash",
+      "reason": "incomplete block interval",
+      "result": "rejected"
+    },
+    {
+      "case": "missing_post_log",
+      "dataset": "hash",
+      "reason": "successful probe call missing event",
+      "result": "rejected"
+    },
+    {
+      "case": "duplicate_transaction",
+      "dataset": "hash",
+      "reason": "missing block transaction",
+      "result": "rejected"
+    },
+    {
+      "case": "conflicting_endpoint",
+      "dataset": "hash",
+      "reason": "trusted endpoint hash mismatch",
+      "result": "rejected"
+    }
+  ],
+  "network_requests": 0,
+  "python": "3.12.14",
+  "reader_sha256": "a6a5869994c17baefbe6225b8726746fc0f29ace942583c8c9e7864f2224c6cd",
+  "schema": "caw-paid-python-reconstruction/1",
+  "seconds": 0.734
+}

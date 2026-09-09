@@ -8,7 +8,7 @@ A community implementation guided by the CAW manifesto and recovered R2. The web
 
 **Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/caw-social-alpha/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/caw-social-alpha/issues), or follow the [current gates](docs/ROADMAP.md).
 
-The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits.
+The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits. Alpha.22 adds [two live acquisition paths](docs/PAID_HISTORY_ACQUISITION.md): both recover the same fresh history without the writer's saved transaction list.
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)
 
@@ -32,18 +32,19 @@ Write a draft, inspect the proposed cost, confirm a simulated post, then read it
 | --- | --- |
 | Frontend | Local conversation lanes, cost review, receipts, account switching and bounded media preview |
 | Experimental protocol | Fixed test NFT ownership, actual token logic on a local fork, signed paid posts and exact allocation |
-| Reconstruction | Separate JavaScript and Python implementations check the retained chain interval; provider and manifest trust remain |
+| Reconstruction | Two live collectors and two offline readers agree on a fresh local history; shared-node and manifest trust remain |
 | Registration | Blocked by the existing token's rejection of the literal zero-address transfer |
 | Production | Unfinished; no public deployment, permanence guarantee or authenticated production authority graph |
 | Review | Public code and evidence; external audit and community acceptance are not established |
 
-**Validation:** 380/380 offline tests across 26 files; 22 build assets. The new synthetic run completed 208 transactions and 72 expected cases. Alpha.20's two independently written readers still reproduce its separate retained history. These are finite tests, not an outside audit or a permanence guarantee.
+**Validation:** 401/401 offline tests across 27 files; 22 build assets. Alpha.22 reconstructs both newly acquired 20-transaction histories with the existing readers. Alpha.21's 72 regression cases and alpha.20's historical-token evidence remain separate. These are finite tests, not an outside audit or a permanence guarantee.
 
 ## Read, reproduce, challenge
 
 | Start here | Purpose |
 | --- | --- |
 | [Paid-action experiment](docs/PAID_ACTION.md) | Follow one complete experimental action and reconstruct its records |
+| [History acquisition](docs/PAID_HISTORY_ACQUISITION.md) | Recover records through two live query paths, then compare both readers |
 | [C-001 decision request](docs/C001_DECISION_REQUEST.md) | Inspect the registration conflict and the evidence needed for a decision |
 | [Assessment response](docs/CONCERNS_ALPHA19_REVIEW.md) | Separate verified concerns, corrections and next work |
 | [Review guide](docs/REVIEW_GUIDE.md) | Run the frontend/tests and find earlier experiments |

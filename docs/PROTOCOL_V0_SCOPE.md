@@ -68,7 +68,9 @@ Disable the original frontend, relay, indexer and cache. Reader B must rebuild f
 
 ## Acceptance receipt
 
-Latest bounded evidence: [alpha.21 paid-action regression](PAID_ACTION_REGRESSION.md), 72 expected cases on a separate synthetic chain against the unchanged alpha.20 contract. This advances callback coverage; it does not close the broader gates below or establish current-EVM delegated-wallet compatibility.
+Later acquisition evidence: [alpha.22 recovery](PAID_HISTORY_ACQUISITION.md) independently traverses one fresh local history through two code paths and reconstructs both with the existing readers. Shared node/transport trust, authenticated acquisition and reorg recovery remain open.
+
+Earlier bounded evidence: [alpha.21 paid-action regression](PAID_ACTION_REGRESSION.md), 72 expected cases on a separate synthetic chain against the unchanged alpha.20 contract. This advances callback coverage; it does not close the broader gates below or establish current-EVM delegated-wallet compatibility.
 
 | Gate | Required finite check | Failure condition |
 | --- | --- | --- |

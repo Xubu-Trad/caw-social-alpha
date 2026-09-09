@@ -1,38 +1,47 @@
 {
-  "release": "0.1.0-alpha.21",
+  "release": "0.1.0-alpha.22",
   "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
-  "tests": 380,
-  "passed": 380,
+  "tests": 401,
+  "passed": 401,
   "failed": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
   "pending": 0,
-  "test_files": 26,
-  "source_files": 128,
+  "test_files": 27,
+  "source_files": 145,
   "build_files": 22,
   "source_requirements": 59,
   "open_conflicts": 15,
-  "new_tests": 14,
-  "regression_cases": 72,
-  "rejected_regression_cases": 47,
-  "synthetic_paid_posts": 11,
-  "synthetic_transactions": 208,
-  "local_requests": 970,
+  "new_tests": 21,
+  "history_blocks": 20,
+  "history_transactions": 20,
+  "synthetic_transactions": 22,
+  "synthetic_paid_posts": 4,
+  "rejected_history_transactions": 3,
+  "collector_requests": {
+    "number": 67,
+    "hash": 104
+  },
+  "local_requests": 518,
   "remote_requests": 0,
+  "python_reconstruction_positive_checks": 2,
+  "python_reconstruction_negative_checks": 8,
   "paid_action_contract_changed": false,
   "frontend_behavior_changed": false,
+  "independent_public_providers": false,
+  "consensus_authenticated": false,
+  "reorg_recovery_tested": false,
   "external_audit": false,
   "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
-  "historical_alpha20_evidence_preserved": true,
   "test_execution": {
     "mode": "all",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 16.391,
-    "observed_peak_bytes": 326164480,
+    "seconds": 46.016,
+    "observed_peak_bytes": 315998208,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -44,6 +53,7 @@
       "tests/caw-account-authority.test.mjs",
       "tests/caw-custody-probe.test.mjs",
       "tests/caw-local-custody.test.mjs",
+      "tests/caw-paid-acquisition.test.mjs",
       "tests/caw-paid-action.test.mjs",
       "tests/caw-paid-adversarial.test.mjs",
       "tests/caw-token-capture.test.mjs",
@@ -68,23 +78,63 @@
     ],
     "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
   },
+  "focused_execution": {
+    "mode": "focused",
+    "node_version": "24.20.0",
+    "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
+    "exit_code": 0,
+    "seconds": 2.25,
+    "observed_peak_bytes": 113950720,
+    "arguments": [
+      "--max-old-space-size=256",
+      "--test",
+      "--test-isolation=none",
+      "--test-concurrency=1",
+      "--test-timeout=30000",
+      "tests/caw-paid-acquisition.test.mjs"
+    ],
+    "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
+  },
   "build_execution": {
     "mode": "build",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 1.141,
-    "observed_peak_bytes": 55476224,
+    "seconds": 0.812,
+    "observed_peak_bytes": 55644160,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
     ],
     "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
   },
+  "prior_focused_diagnostic_failure": {
+    "receipt": {
+      "mode": "focused",
+      "node_version": "24.20.0",
+      "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
+      "exit_code": 134,
+      "seconds": 4.422,
+      "observed_peak_bytes": 556523520,
+      "arguments": [
+        "--max-old-space-size=256",
+        "--test",
+        "--test-isolation=none",
+        "--test-concurrency=1",
+        "--test-timeout=30000",
+        "tests/caw-paid-acquisition.test.mjs"
+      ],
+      "limits": "300 seconds, hard 512 MiB owned process, 10 MiB output, 768 MiB startup memory, 2 GiB disk"
+    },
+    "reason": "Comparing JSON serialization byte buffers caused a huge assertion diagnostic; changed to parsed history equality and exact recovered message bytes, then reran focused and full suites without changing the memory cap."
+  },
   "runtime_check": {
     "python": "3.12.14",
-    "cryptography": "50.0.1",
-    "note": "Environment checked after execution; optional dependency not redistributed."
+    "cryptography": "50.0.1"
   },
-  "node_cleanup": "The owned Anvil context exited; an independent exclusive bind to 127.0.0.1:18545 succeeded afterward."
+  "node_cleanup": "Owned Anvil stopped before offline reconstruction; independent exclusive bind to port 18545 succeeded.",
+  "historical_receipts": [
+    "evidence/ALPHA20_TEST_RESULTS.json",
+    "evidence/ALPHA21_TEST_RESULTS.json"
+  ]
 }

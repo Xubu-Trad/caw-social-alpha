@@ -19,4 +19,6 @@ Original application JavaScript, Python capture/fixture scripts, HTML, CSS, test
 - Any future third-party code/content carrying its own notice; preserve that notice and review its compatibility separately.
 - `experiments/paid-adversarial/execution-trace.json`, `execution-summary.json` and `first-attempt.json` retain raw or extracted local observations outside the original-code grant. Original regression fixtures, runner, checker, tests and explanatory documentation are covered by the approved code-only MIT license.
 
+- Raw/extracted observations in `experiments/paid-acquisition/` (`execution-trace.json`, `execution-summary.json`, both `history-*.json`, both `reconstruction-python-*.json`, `reconstruction-checks.json`, `first-attempt.json` and `manifest.json`) remain outside the original-code grant. The authored collectors, runner, checker, tests, input index and explanatory documentation are covered.
+
 The code license grants no CAW trademark rights or endorsement. Do not apply Xubu's MIT grant to excluded content; preserve each item's own stated rights. Future additions require classification before assuming coverage. Licensing of this alpha does not select a license for a separate future contract repository or establish community acceptance of the protocol.

@@ -1,0 +1,15 @@
+{
+  "schema": "caw-paid-acquisition-first-attempt/1",
+  "attempt": "acquisition-v1",
+  "capture_sha256": "9fa0b557386767f55f680e15dc02382ba11378f082e7fcecb140daa03f686fa1",
+  "observed_status": "pass",
+  "publication_accepted": false,
+  "reason": "Post-run source check found the hash collector changed after its initial pin while final edits and execution overlapped. The run is not accepted as evidence of the final pinned source.",
+  "initial_collector_sha256": "cff008ededc48968b2190bc2a863f05165370938cb1ec0fbe1a9fbfa72ef3e3d",
+  "final_collector_sha256": "4e9e3208fc5113fff718cb3ad7ea320101c783b41e48211b2ac6e3ba69428c23",
+  "transactions": 22,
+  "local_requests": 518,
+  "remote_requests": 0,
+  "owned_listener_released": true,
+  "remedy": "Retain this provenance note and original capture locally. Repeat from a fresh node after source completion; hash-check the exact collector bytes again immediately before compiling them. Publish the complete second capture and its verified input pins."
+}

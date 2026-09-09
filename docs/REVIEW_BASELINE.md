@@ -32,6 +32,6 @@ Both readers use one provider-derived capture. They do not independently acquire
 
 The current [roadmap](ROADMAP.md) links ten actual review issues. All fifteen [source conflicts](../sources/SPEC_CONFLICTS.md) remain open; these issues do not exhaust the production requirements. Opening an issue is not resolving it.
 
-Later evidence: [alpha.21 regression](PAID_ACTION_REGRESSION.md) tests this unchanged contract on a separate synthetic chain. Its added fixtures, checker and results belong to the later repository revision. The initial alpha.20 review commit above remains fixed.
+Later evidence: [alpha.21 regression](PAID_ACTION_REGRESSION.md) tests this unchanged contract on a separate synthetic chain. Its added fixtures, checker and results belong to the later repository revision. [Alpha.22 acquisition](PAID_HISTORY_ACQUISITION.md) adds two live collection paths on another fresh synthetic run. The initial alpha.20 review commit above remains fixed.
 
 For a finding, record the exact commit, source requirement/conflict, environment, commands, expected result, observed result and smallest reproduction. Keep failures and objections visible. Avoid keys, private paths or identifying account data. A signature, repository publication or notice delivery alone does not establish endorsement or agreement.

@@ -1,6 +1,16 @@
 # Validation boundary
 
-Alpha.21 passed **380/380 offline tests across 26 files**, with zero failures, cancellations, skips or TODOs. The [128-input manifest](../evidence/CODE_SHA256SUMS.txt) and [current receipt](../evidence/TEST_RESULTS.json) pin this package. The build rehashed 22 unchanged frontend assets.
+Alpha.22 passed **401/401 offline tests across 27 files**, with zero failures, cancellations, skips or TODOs. The [145-input manifest](../evidence/CODE_SHA256SUMS.txt) and [current receipt](../evidence/TEST_RESULTS.json) pin this package. The build rehashed 22 unchanged frontend assets.
+
+The [new acquisition run](PAID_HISTORY_ACQUISITION.md) collected the same fresh synthetic history through two separately authored live query paths: 20 included transactions, four accepted posts and three deliberate rejections. Two additional transactions establish synthetic funding before the reader interval. Collectors made 67 and 104 requests; the complete run made 518 local and zero remote requests. The owned node stopped after 46.453 seconds, observed peak 22,982,656 bytes, and its listener was confirmed released.
+
+After shutdown, the existing JavaScript and Python readers each reconstructed both acquired datasets. Exact message bytes, ownership, epochs, nonces, credits, stakes, allocation and dust agree. Each reader rejects each dataset with an omitted block, missing post log, duplicate transaction or conflicting endpoint. Twenty-one new Node tests check the evidence and coordinated alterations; the separate Python helper retains two positive and eight negative results. The collectors share a node, transport and process; public-provider independence, chain authentication and reorg recovery remain open. No frontend behavior or primary specification decision changed.
+
+The first acquisition run was excluded from source-attributed evidence after a collector edit overlapped execution; the [provenance note](../experiments/paid-acquisition/first-attempt.json) explains the fresh repeat with stable pins. A first focused Node check exhausted its process memory cap while formatting a failed assertion that compared JSON serialization order. It was corrected to compare parsed history and exact message bytes with bounded diagnostics; the cap was unchanged, the focused check then passed, and the full suite was rerun. This was a test assertion/diagnostic failure, not a contract or recovered-message discrepancy.
+
+## Historical alpha.21 evidence
+
+Alpha.21 passed **380/380 offline tests across 26 files**, with zero failures, cancellations, skips or TODOs. The [128-input manifest](../evidence/ALPHA21_CODE_SHA256SUMS.txt) and [alpha.21 receipt](../evidence/ALPHA21_TEST_RESULTS.json) pin this package. The build rehashed 22 unchanged frontend assets.
 
 The [new regression](PAID_ACTION_REGRESSION.md) executed 72 expected cases against the unchanged alpha.20 paid-action contract using an explicitly synthetic token on a fresh local chain: 208 transactions, 47 deliberate case rejections, 11 accepted posts and a final current-owner withdrawal. No remote calls occurred. Fourteen new offline tests independently check the retained evidence and reject coordinated mutations; they do not reexecute the contract or authenticate consensus. Broader coverage and outside review remain open.
 
