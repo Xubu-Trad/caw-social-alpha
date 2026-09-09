@@ -1,5 +1,7 @@
 # One signed, paid CAW
 
+This page preserves the alpha.20 historical-token experiment. [Alpha.21 regression](PAID_ACTION_REGRESSION.md) adds separate synthetic callback and signature-response tests against the unchanged contract; it does not replace this evidence.
+
 The local experiment now connects account ownership, signed words, a 5,000-CAW fee in a local fork using historical token logic, distribution and recorded history. **This is an experimental protocol slice. The website remains a simulation, and production registration is blocked.**
 
 ```mermaid

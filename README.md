@@ -8,7 +8,7 @@ A community implementation guided by the CAW manifesto and recovered R2. The web
 
 **Initial review target: alpha.20, [`91479b6dc8c9a264411d75177d43029e0266c354`](https://github.com/Xubu-Trad/caw-social-alpha/commit/91479b6dc8c9a264411d75177d43029e0266c354).** Review this fixed commit, even as documentation on `main` develops. [Reproduce the baseline](docs/REVIEW_BASELINE.md), choose a [review issue](https://github.com/Xubu-Trad/caw-social-alpha/issues), or follow the [current gates](docs/ROADMAP.md).
 
-The latest protocol experiment settled **nine signed posts** using historical CAW token logic and fixed test NFT accounts. It joins current ownership, exact signed text, a 5,000 CAW fee, allocation and recorded history. Read [one signed, paid CAW](docs/PAID_ACTION.md) for the evidence and limits.
+The historical-token experiment settled **nine signed posts** using CAW token logic and fixed test NFT accounts. Alpha.21 adds **72 regression cases** against that unchanged paid-action contract on a separate synthetic chain. Read [one signed, paid CAW](docs/PAID_ACTION.md) and [the regression evidence](docs/PAID_ACTION_REGRESSION.md) for their distinct results and limits.
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)
 
@@ -37,7 +37,7 @@ Write a draft, inspect the proposed cost, confirm a simulated post, then read it
 | Production | Unfinished; no public deployment, permanence guarantee or authenticated production authority graph |
 | Review | Public code and evidence; external audit and community acceptance are not established |
 
-**Validation:** 366/366 offline tests across 25 files; 22 build assets. Two independently written readers produced identical complete reconstructions after the local node stopped. These are finite tests, not an outside audit or a permanence guarantee.
+**Validation:** 380/380 offline tests across 26 files; 22 build assets. The new synthetic run completed 208 transactions and 72 expected cases. Alpha.20's two independently written readers still reproduce its separate retained history. These are finite tests, not an outside audit or a permanence guarantee.
 
 ## Read, reproduce, challenge
 

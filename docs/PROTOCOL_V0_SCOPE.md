@@ -68,6 +68,8 @@ Disable the original frontend, relay, indexer and cache. Reader B must rebuild f
 
 ## Acceptance receipt
 
+Latest bounded evidence: [alpha.21 paid-action regression](PAID_ACTION_REGRESSION.md), 72 expected cases on a separate synthetic chain against the unchanged alpha.20 contract. This advances callback coverage; it does not close the broader gates below or establish current-EVM delegated-wallet compatibility.
+
 | Gate | Required finite check | Failure condition |
 | --- | --- | --- |
 | Asset | Original-runtime identity; balance/allowance/supply deltas; exact zero-destination outcome | Substituted or modified asset, ambiguous runtime, unexplained burn or custody mismatch |

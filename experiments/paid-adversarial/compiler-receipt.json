@@ -1,0 +1,29 @@
+{
+  "compiler_sha256": "ec9feb83ff291ae74805b38cc6834502fb31be690f325de59dff8e60d8432d66",
+  "input_sha256": "750515a8a242ef70fe4b8cda901d51da0473f890cac2356d015e1ce66efaadd0",
+  "exit_code": 0,
+  "seconds": 2.187,
+  "observed_peak_bytes": 18681856,
+  "limits": "60 seconds, hard 512 MiB owned process, 4 MiB output, 768 MiB startup memory, 2 GiB disk",
+  "diagnostics": [],
+  "contracts": {
+    "PaidEntrypointHook": {
+      "runtime_bytes": 2852,
+      "immutables": [
+        "probe"
+      ]
+    },
+    "PaidSignatureAttackOwner": {
+      "runtime_bytes": 4850,
+      "immutables": [
+        "signer",
+        "registry",
+        "probe"
+      ]
+    },
+    "PaidStateSnapshot": {
+      "runtime_bytes": 4528,
+      "immutables": []
+    }
+  }
+}

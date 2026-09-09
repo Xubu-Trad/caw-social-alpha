@@ -1,0 +1,20 @@
+{
+  "files": {
+    "PaidAttackFixtures.sol": "0c2e50ad52483c9ad47c95ded4adb46298110d8ba55bf08142a0e3a59692e8e2",
+    "PaidStateSnapshot.sol": "98dd67f43f9ff7e22583215c9ab7b844240daf04737455cc5b904e6c16e25187",
+    "compile-standard.json": "750515a8a242ef70fe4b8cda901d51da0473f890cac2356d015e1ce66efaadd0",
+    "attack-build.json": "7fc4bdab11d63f00e6666ab863ac7c4456c41f9c4de0741bf97ca14a2e73d275",
+    "synthetic_node.py": "5d3e509cb2557b791a6d4c8dc012a75f41f9cdc2ce10b1df708034fbcabad8d3",
+    "run_paid_adversarial.py": "1ca253dd9af96a41ba9b9b38ccfe4052dfc09e5cc8279814c3978ae55ba2f0b1",
+    "../paid-action/CawPaidActionProbe.sol": "e48f8f8f816aae21e0e9865a8be0aa2e47204ea04b4c12b4124e5b0452412da1",
+    "../paid-action/TestAccountRegistry.sol": "ab3aecb6b0bc77fa838baf1141d2af96ad8395850b714f35b2f0cdb3b8c826df",
+    "../paid-action/paid-build.json": "54f130a1f49e8569cbe7b9a6db54547f8e1e9275d9c0c256b5d916b01a59c54e",
+    "../paid-action/run_paid_action.py": "92b50402f8ad097839ec4e40e7e221647c89c8b9d0b3c915c4ce2400531130bf",
+    "../paid-action/paid_node.py": "ecd540dfd3414b28cbb9d085254cc2be3de42ea7f13033afb40b72c6884a4160",
+    "../account-authority/AccountHookFixture.sol": "f0bb1cc2070376750f4888e96204511ad948c5a4f03d6940e68ec591656de474",
+    "../account-authority/AccountAdversarialToken.sol": "aedb0c7d317bf55591f3c38db3f36783b32c18129c33582cfa7fc4459445a58f",
+    "../account-authority/account-token-build.json": "55a07478fa4673c9d48d4f5905b1b73cc540e6bac90b023cec705cf80562129f",
+    "../account-authority/authority-build.json": "43dca5ba9079d2f5a1bc4a155b21b31a147f573fd8ab995c7fbde3e11b9341fa",
+    "../../reference/fixtures/generate-ethereum-proof-fixtures.py": "5f100b6e1a12d29b0004bcb29f2ba5b23ffefc076646d2b67b1fb8df81c2effa"
+  }
+}
