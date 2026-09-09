@@ -6,7 +6,7 @@ A community frontend and synthetic reference model, guided by the CAW manifesto 
 
 **Simulation only. No connected wallet, blockchain, real funds, private messages or public media uploads.** The full protocol is unfinished. A strict alpha configuration rejects real chain, wallet, contract, RPC and upload settings.
 
-**Current protocol work:** [local custody execution](docs/LOCAL_CUSTODY.md) now checks the actual CAW token and separate synthetic failures. Exact deposits, withdrawals, rollback and two component limits are recorded. NFT account authority and the zero-address burn rule remain unresolved. See the [v0 scope](docs/PROTOCOL_V0_SCOPE.md).
+**Current protocol work:** [experimental NFT account custody](docs/ACCOUNT_AUTHORITY.md) keeps balances with each account and checks its current owner and transfer counter. Local CAW and synthetic runs cover ownership changes, approvals, rollback and receiver behavior. Registration and a complete signed paid CAW remain unfinished.
 
 ![Alpha website and app entrance](docs/images/alpha-website.png)
 
@@ -58,7 +58,7 @@ The accounting model uses **provisional appendix settings**. Main-text and appen
 | [Validation](docs/VALIDATION.md) | Current automated results and clearly scoped browser evidence |
 | [Source coverage](docs/SOURCE_COVERAGE.md) | What was examined, preserved and excluded |
 
-R2 requires public contribution and review before an agreed release, with no developer backdoors, proxies or multisigs. No deployed code or authority graph exists here to certify. These records support a review process; they are not independent peer review or community acceptance.
+R2 requires public contribution and review before an agreed release, with no developer backdoors, proxies or multisigs. No production deployment or authenticated production authority graph exists here to certify. These records support a review process; they are not independent peer review or community acceptance.
 
 Public review does not mean testnet-ready. Missing pieces include NFT mint/burn, production custody, Ethereum-authorized actions, settlement contracts, recoverable public history, reviewed DM cryptography and operator-loss recovery. Native/installable distribution and replicated media remain planned.
 

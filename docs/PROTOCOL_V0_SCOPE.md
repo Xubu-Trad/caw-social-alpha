@@ -1,3 +1,5 @@
+> Alpha.19 revision: [experimental NFT account custody](ACCOUNT_AUTHORITY.md) now has local execution evidence. Direct epoch checks are implemented; registration, signed paid actions and production authority remain open. Earlier release observations below are historical.
+
 > Alpha.18 revision: [local custody execution](LOCAL_CUSTODY.md) completed 23 historical-token and 26 separate synthetic cases. NFT authority, production settlement and C-001 remain open. Earlier release observations below are historical.
 
 > Alpha.17 progress: [source reproduction](CAW_TOKEN_SOURCE.md) and [depositor-keyed custody](CUSTODY_PROBE.md) provide partial Gate 0 evidence. Remote simulation is not an independent local fork, NFT identity or paid settlement; the remaining gates below still apply.

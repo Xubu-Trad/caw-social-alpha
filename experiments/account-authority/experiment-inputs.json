@@ -1,0 +1,14 @@
+{
+  "schema": "caw-account-authority-inputs/1",
+  "files": {
+    "CawAccountCustodyProbe.sol": "4c94066daf7b9d31a8da4717adb316e19a9ac8db400dd82e420071d3c4a19055",
+    "TestAccountRegistry.sol": "ab3aecb6b0bc77fa838baf1141d2af96ad8395850b714f35b2f0cdb3b8c826df",
+    "AccountHookFixture.sol": "f0bb1cc2070376750f4888e96204511ad948c5a4f03d6940e68ec591656de474",
+    "AccountAdversarialToken.sol": "aedb0c7d317bf55591f3c38db3f36783b32c18129c33582cfa7fc4459445a58f",
+    "compile-standard.json": "de67929edaefab5980a467a8422d4f7bfa650020a2e322fe593fe249ce811807",
+    "authority-build.json": "43dca5ba9079d2f5a1bc4a155b21b31a147f573fd8ab995c7fbde3e11b9341fa",
+    "account-token-build.json": "55a07478fa4673c9d48d4f5905b1b73cc540e6bac90b023cec705cf80562129f",
+    "account_node.py": "461a0d0e0f6124d8540f58bb77252406d081a81dd180438cea26d01420bb5bbf",
+    "../../reference/fixtures/generate-ethereum-proof-fixtures.py": "5f100b6e1a12d29b0004bcb29f2ba5b23ffefc076646d2b67b1fb8df81c2effa"
+  }
+}

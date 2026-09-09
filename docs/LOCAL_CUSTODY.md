@@ -1,3 +1,5 @@
+> Alpha.19 revision: [experimental NFT account custody](ACCOUNT_AUTHORITY.md) now has local execution evidence. Direct epoch checks are implemented; registration, signed paid actions and production authority remain open. Earlier release observations below are historical.
+
 # Local custody · alpha.18
 
 **Local execution completed: 23 real-token cases and 26 separate synthetic cases.** Independent offline assertions check the saved requests, effects and failures for the unchanged [custody probe](../experiments/custody/CawCustodyProbe.sol). This advances the component evidence; the website remains a simulation and the full protocol is unfinished.

@@ -1,13 +1,13 @@
 # Review the alpha
 
-The review target is a synthetic frontend and reference model. It now includes a compiled experimental Solidity custody probe, while NFT identity, paid posting and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 23 test files are in tests/.
+The review target is a synthetic frontend and reference model. It now includes a compiled experimental Solidity custody probe, while NFT identity, paid posting and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 24 test files are in tests/.
 
 ## Reproduce
 
 With Node 24.20.0, from the repository root:
 
 ```sh
-node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs
+node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs tests/caw-account-authority.test.mjs
 node --max-old-space-size=128 scripts/build.mjs
 node --max-old-space-size=128 server.mjs
 ```
@@ -33,3 +33,5 @@ The [source reproduction](CAW_TOKEN_SOURCE.md) and [custody experiment](CUSTODY_
 No external issue/comment or review request was sent on a user's behalf by publishing this package. Use the repository's review template for ordinary findings. For sensitive discoveries, follow SECURITY.md.
 
 Read [local custody](LOCAL_CUSTODY.md) for the separately invoked Windows experiment. Its native EVM, network retrieval and synthetic substitution are outside application, build and ordinary offline test execution.
+
+Read [account authority](ACCOUNT_AUTHORITY.md) for the explicit Windows-only EVM experiment and its fixed-registry trust boundary. Its native runtime and historical retrieval remain outside normal application/build/offline-test execution.
