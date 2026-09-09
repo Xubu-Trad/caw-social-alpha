@@ -14,6 +14,7 @@ import {createAnchorPackage,importAnchorPackage,ANCHOR_PACKAGE_LIMITS} from './a
 const $ = id => document.getElementById(id);
 const paths = {
   feed:'M3 4h14v12H3z M6 8h8 M6 12h5',
+  media:'M3 3h14v14H3z M3 13l4-4 4 4 2-2 4 4 M12 6h.1',
   account:'M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6 M4 17v-1a6 6 0 0 1 12 0v1',
   receipts:'M5 2h10v16l-2-1-3 1-3-1-2 1V2 M8 6h4 M8 10h4',
   operators:'M3 5h14v4H3z M3 12h14v4H3z M6 7h.1 M6 14h.1',

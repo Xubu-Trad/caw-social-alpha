@@ -12,4 +12,6 @@ No image edit was applied. A prior bounded visual/metadata inspection found no v
 
 docs/images/alpha-website.png is a viewport screenshot of this synthetic alpha website. It contains the same illustration and inherits that artwork limitation. It includes no personal desktop, account or selected-media content.
 
-`docs/images/commons-alpha23.jpg` shows the current Commons interface, captured from the unchanged alpha.23 app on 2026-09-09. It includes the same illustration and inherits the artwork limitation above. The [capture record](images/README.md) identifies the source commit, native dimensions and exact hash. The screenshot is unedited and shows only public synthetic fixtures, with no desktop, signed-in account or personal media content.
+`docs/images/commons-alpha23.jpg` shows the historical alpha.23 Commons interface, captured from the unchanged alpha.23 app on 2026-09-09. It includes the same illustration and inherits the artwork limitation above. The [capture record](images/README.md) identifies the source commit, native dimensions and exact hash. The screenshot is unedited and shows only public synthetic fixtures, with no desktop, signed-in account or personal media content.
+
+`docs/images/commons-alpha24.jpg` and `docs/images/website-alpha24.jpg` are the current unedited browser captures. They show the redesigned local frontend with the same unchanged CAW illustration and synthetic fixtures. They inherit the artwork limitation above. The [capture record](images/README.md) records native dimensions, hashes and source provenance.

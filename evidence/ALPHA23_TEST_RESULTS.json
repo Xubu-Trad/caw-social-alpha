@@ -1,5 +1,5 @@
 {
-  "release": "0.1.0-alpha.24",
+  "release": "0.1.0-alpha.23",
   "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
   "project": "cawmmunity.caw - decentralized - social",
@@ -22,8 +22,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 10.578,
-    "observed_peak_bytes": 315146240,
+    "seconds": 14.422,
+    "observed_peak_bytes": 314175488,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -65,8 +65,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 0.422,
-    "observed_peak_bytes": 56963072,
+    "seconds": 0.984,
+    "observed_peak_bytes": 56905728,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
@@ -75,39 +75,24 @@
   },
   "build_output": {
     "files": 22,
-    "bytes": 1419254,
-    "manifestSha256": "85530a820dacc96c5afeb34d2f21d7dd85ba1e8656e6d7f507bc9296021664bb"
+    "bytes": 1388174,
+    "manifestSha256": "a8b2a52c770543c0d72775b2dc95341f5614ce3c350528c5235605ac06d5d6f6"
   },
   "browser_visual_review": {
     "result": "passed",
     "pages": [
       "website",
-      "Commons",
-      "Media",
-      "Identity",
-      "Ledger",
-      "Readers",
-      "Messages"
+      "Commons"
     ],
     "viewport_widths": [
       1280,
-      390,
       320
     ],
     "horizontal_overflow_observed": false,
-    "interactions": [
-      "Multiline Unicode draft review; close/reopen and Escape dismissal",
-      "Review dialog focus wraps in both directions",
-      "Queue and submit preserve balance; confirmation applies the 5,000 synthetic CAW charge",
-      "Search filters to zero records; keyboard clearing restores four sample records",
-      "Save and Saved locally filter retain the selected record without a fee",
-      "All six navigation sections fit at 320 pixels",
-      "Website entry configuration and four entry hooks remain present"
-    ],
-    "scope": "Manual desktop and narrow-phone visual/interaction checks. Media uploads, reader actions, 420-character boundary, 200 percent zoom and full accessibility audit were not rerun in the browser. Existing offline tests remain separate.",
-    "server": "Loopback only; owned preview stopped after review"
+    "scope": "Visible branding, wrapping and page title only; not a full interaction or accessibility audit.",
+    "server": "loopback only; owned preview stopped after review"
   },
-  "changes": "New website and Commons visual design, responsive layout, typography, navigation treatment and Media icon. No application model or transaction logic changes.",
+  "changes": "Display names, responsive headers, documentation and package metadata. Simulation labels omit the pinned fixture release; environment validation still runs.",
   "contracts_changed": false,
   "signed_domains_changed": false,
   "primary_sources_changed": false,
@@ -116,7 +101,9 @@
   "public_deployment": false,
   "external_audit": false,
   "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
-  "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
-  "historical_receipt": "ALPHA23_TEST_RESULTS.json",
-  "historical_source_manifest": "PRE_ALPHA24_CODE_SHA256SUMS.txt"
+  "github_address": "Xubu-Trad/caw-social-alpha",
+  "requested_github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
+  "github_rename_status": "Pending authenticated repository settings; current links keep the working address.",
+  "historical_receipt": "ALPHA22_TEST_RESULTS.json",
+  "historical_source_manifest": "ALPHA22_CODE_SHA256SUMS.txt"
 }

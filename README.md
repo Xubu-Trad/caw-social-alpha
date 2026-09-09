@@ -14,9 +14,16 @@ bring code. bring criticism. bring failed reproductions. bring the thing i misse
 
 by teh ppl. for teh ppl.
 
-![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha23.jpg)
+![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha24.jpg)
 
 Authentic screenshot of the local alpha. Synthetic accounts; no real funds. [Image provenance](docs/images/README.md).
+
+<details>
+<summary>Website entrance</summary>
+
+![The cawmmunity.caw alpha website entrance](docs/images/website-alpha24.jpg)
+
+</details>
 
 **The frontend is a simulation. The protocol is a local experiment. Production remains blocked.** No real wallet, private messages or public media uploads are connected. This is not an official CAW release.
 
