@@ -738,6 +738,10 @@ function render(){
   $('navigation').replaceChildren(...Object.entries(views).map(([key])=>el('button',{type:'button',class:`nav-button ${activeView===key?'active':''}`,'aria-current':activeView===key?'page':null,onClick:()=>navigate(key)},icon(key),views[key])));
   renderContext();renderPending();
   $('view').replaceChildren(({feed:renderFeed,media:renderMedia,account:renderAccount,receipts:renderReceipts,operators:renderOperators,messages:renderMessages})[activeView]());
+  if(activeView==='feed'){
+    const composer=$('view').querySelector('.draft-terminal');
+    if(composer)$('context').prepend(composer);
+  }
 }
 $('close-dialog').addEventListener('click',()=>$('review-dialog').close());
 $('cancel-dialog').addEventListener('click',()=>$('review-dialog').close());
