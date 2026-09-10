@@ -59,7 +59,9 @@ Draft, review a simulated fee, post, and inspect the receipt. Nothing is sent wh
 
 | [Alpha.29: acquisition sessions](docs/PAID_ACQUISITION_SESSION.md) | Selected-history invalidation and full retry checked across 22 recorded-response cases | Offline replay; live concurrent changes, independent providers and public finality remain open |
 
-**Recorded validation:** 460/460 offline tests across 30 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
+| [Alpha.30: live acquisition change](docs/LIVE_ACQUISITION_CHANGE.md) | A real local branch change interrupts acquisition; fresh selection restores the complete record | One controlled request boundary; independent providers, authenticated history and public finality remain open |
+
+**Recorded validation:** 477/477 offline tests across 31 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
 
 ## Read, reproduce, challenge
 
