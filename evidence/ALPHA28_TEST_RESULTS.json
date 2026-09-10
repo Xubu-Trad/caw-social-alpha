@@ -7,25 +7,25 @@
   "open_conflicts": 15,
   "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
   "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
-  "release": "0.1.0-alpha.29",
+  "release": "0.1.0-alpha.28",
   "date": "2026-09-09",
-  "tests": 460,
-  "passed": 460,
+  "tests": 446,
+  "passed": 446,
   "failed": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
-  "test_files": 30,
-  "new_tests": 14,
-  "source_files": 176,
+  "test_files": 29,
+  "new_tests": 45,
+  "source_files": 168,
   "build_files": 22,
   "test_execution": {
     "mode": "all",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 12.828,
-    "observed_peak_bytes": 336969728,
+    "seconds": 20.828,
+    "observed_peak_bytes": 320393216,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -35,7 +35,6 @@
       "tests/anchor-package.test.mjs",
       "tests/build.test.mjs",
       "tests/caw-account-authority.test.mjs",
-      "tests/caw-acquisition-session.test.mjs",
       "tests/caw-custody-probe.test.mjs",
       "tests/caw-local-custody.test.mjs",
       "tests/caw-paid-acquisition.test.mjs",
@@ -70,8 +69,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 0.313,
-    "observed_peak_bytes": 55664640,
+    "seconds": 1.281,
+    "observed_peak_bytes": 56029184,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
@@ -83,47 +82,48 @@
     "bytes": 1422784,
     "manifestSha256": "3590fc562c47c46f9f911918fd2b5181bb41db2f87f2ee6c6f0c2ee740ad8f0a"
   },
+  "prior_build_attempt": {
+    "status": "not_started",
+    "reason": "STARTUP_DISK_FLOOR",
+    "required_free_disk_bytes": 2147483648,
+    "observed_free_disk_bytes": 1310339072,
+    "limits_unchanged": true
+  },
+  "static_build_verification": {
+    "result": "pass",
+    "method": "Full-suite collectStatic determinism/package tests plus exact existing dist/public byte and SHA256SUMS comparison.",
+    "files": 22,
+    "bytes": 1422784,
+    "manifestSha256": "3590fc562c47c46f9f911918fd2b5181bb41db2f87f2ee6c6f0c2ee740ad8f0a",
+    "new_build_command_completed": true
+  },
   "browser_visual_review": {
     "result": "not_repeated",
     "frontend_unchanged": true,
     "historical_receipt": "ALPHA27_TEST_RESULTS.json"
   },
-  "changes": "Bounded selected-history acquisition with both unchanged collectors, superseded-work rejection, final boundary checks and complete fresh retry; recorded-response switching only.",
+  "changes": "Controlled synthetic branch replacement with explicit endpoint selection, immutable atomic adoption, stale-work rejection, full restart reconstruction and bound RPC evidence.",
   "contracts_changed": false,
   "signed_domains_changed": false,
   "primary_sources_changed": false,
   "historical_experiment_evidence_changed": false,
-  "new_chain_experiment": false,
+  "new_chain_experiment": true,
   "public_deployment": false,
   "external_audit": false,
-  "python_replay": {
-    "cases": 22,
-    "all_passed": true,
-    "network_requests": 0,
-    "new_live_node": false,
-    "independent_providers": false,
-    "authenticates_consensus": false,
-    "source_capture": "../experiments/paid-reorg/execution-trace.json",
-    "source_capture_sha256": "b12d2eeebd281e3f4b041ba5467b2de768494866ad73024966e802bea12dcd2f",
-    "report": "../experiments/paid-acquisition-race/replay-report.json",
-    "execution": {
-      "runtime": "3.12.14",
-      "runtime_sha256": "b7a12c3af0b4db44191eec14ea095eba731b7328917f570806183093d19ddca2",
-      "exit_code": 0,
-      "seconds": 3.578,
-      "peak_bytes": 35684352,
-      "limits": "300 seconds, 512 MiB owned process, 1 MiB output, 768 MiB startup memory, 2 GiB disk"
-    },
-    "limitations": [
-      "recorded response switching, not concurrent live-node acquisition",
-      "two strategies over one captured node, not independent providers",
-      "explicit caller selection; no chain-choice rule, consensus or finality",
-      "missing replay queries do not establish orphan availability",
-      "unobserved ABA and changes after the last read may escape detection",
-      "transport enforces I/O timeout; wrapper checks time only around callbacks",
-      "call/byte/deadline constants are caps, not all exhausted by these fixtures"
-    ]
+  "chain_experiment": {
+    "summary": "../experiments/paid-reorg/execution-summary.json",
+    "trace_sha256": "b12d2eeebd281e3f4b041ba5467b2de768494866ad73024966e802bea12dcd2f",
+    "local_transactions": 22,
+    "local_requests": 641,
+    "remote_requests": 0,
+    "cleanup_confirmed": true
   },
-  "historical_receipt": "ALPHA28_TEST_RESULTS.json",
-  "historical_source_manifest": "ALPHA28_CODE_SHA256SUMS.txt"
+  "python_reconstruction": {
+    "results": 4,
+    "negative_cases": 6,
+    "all_passed": true,
+    "receipt": "../experiments/paid-reorg/python-execution.json"
+  },
+  "historical_receipt": "ALPHA27_TEST_RESULTS.json",
+  "historical_source_manifest": "ALPHA27_CODE_SHA256SUMS.txt"
 }

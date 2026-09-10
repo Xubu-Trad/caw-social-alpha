@@ -1,0 +1,8 @@
+{
+  "runtime": "3.12.14",
+  "runtime_sha256": "b7a12c3af0b4db44191eec14ea095eba731b7328917f570806183093d19ddca2",
+  "exit_code": 0,
+  "seconds": 3.578,
+  "peak_bytes": 35684352,
+  "limits": "300 seconds, 512 MiB owned process, 1 MiB output, 768 MiB startup memory, 2 GiB disk"
+}

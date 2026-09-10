@@ -57,7 +57,9 @@ Draft, review a simulated fee, post, and inspect the receipt. Nothing is sent wh
 | [Alpha.22: history acquisition](docs/PAID_HISTORY_ACQUISITION.md) | Two live collectors and two offline readers agree on a fresh 20-transaction history | Shared node and manifest trust; independent providers, chain authentication and reorg recovery remain open |
 | [Alpha.28: branch recovery](docs/PAID_REORG_RECOVERY.md) | Two five-block branches acquired twice; replacement and restart recover exact selected messages and accounting | Controlled local rollback; provider agreement, authenticated history and public finality remain open |
 
-**Recorded validation:** 446/446 offline tests across 29 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
+| [Alpha.29: acquisition sessions](docs/PAID_ACQUISITION_SESSION.md) | Selected-history invalidation and full retry checked across 22 recorded-response cases | Offline replay; live concurrent changes, independent providers and public finality remain open |
+
+**Recorded validation:** 460/460 offline tests across 30 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
 
 ## Read, reproduce, challenge
 
