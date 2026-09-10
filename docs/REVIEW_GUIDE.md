@@ -1,13 +1,13 @@
 # Review the alpha
 
-The review target is a synthetic frontend and reference model. It includes a separate compiled local experiment joining fixed test NFT authority, signed paid posting and record reconstruction. Authentic registration and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 27 test files are in tests/.
+The review target is a synthetic frontend and reference model. It includes a separate compiled local experiment joining fixed test NFT authority, signed paid posting and record reconstruction. Authentic registration and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 29 test files are in tests/.
 
 ## Reproduce
 
 With Node 24.20.0, from the repository root:
 
 ```sh
-node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs tests/caw-account-authority.test.mjs tests/caw-paid-action.test.mjs tests/caw-paid-adversarial.test.mjs tests/caw-paid-acquisition.test.mjs
+node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs tests/caw-account-authority.test.mjs tests/caw-paid-action.test.mjs tests/caw-paid-adversarial.test.mjs tests/caw-paid-acquisition.test.mjs tests/caw-paid-reorg.test.mjs tests/caw-paid-reorg-evidence.test.mjs
 node --max-old-space-size=128 scripts/build.mjs
 node --max-old-space-size=128 server.mjs
 ```
@@ -41,3 +41,5 @@ Read [account authority](ACCOUNT_AUTHORITY.md) for the explicit Windows-only EVM
 Read [one signed, paid CAW](PAID_ACTION.md) for the complete local slice, two offline reader commands, failed attempts and remaining adversarial/recovery work. The independent Python reader needs only the standard library; the separate Windows signing runner also requires the recorded `cryptography` version and pinned Anvil. Neither optional experiment runs during `npm test`.
 
 Read [paid-action regression](PAID_ACTION_REGRESSION.md) for the separate synthetic execution against the unchanged alpha.20 contract. Its offline checker is part of the test suite; fresh EVM execution is explicitly invoked and remains separate.
+
+Read [controlled branch recovery](PAID_REORG_RECOVERY.md) for the four retained histories, independent Python reconstruction, replacement/restart tests and optional local Windows run. The caller supplies the selected checkpoint; public finality and provider agreement remain open.

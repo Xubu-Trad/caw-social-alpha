@@ -1,0 +1,22 @@
+{
+  "schema": "caw-paid-reorg-inputs/1",
+  "files": {
+    "run_reorg.py": "698922875fb77bbd8c41f809e8dbb1d47fabee744d6a48170977eae79bac86ce",
+    "reorg_node.py": "3301bf19f028e95eced6b5a48db9956a2a26baba37ff37b593a8f0ec8f056f7f",
+    "../paid-acquisition/acquisition_node.py": "7d980e46e2e1db3e5063b79c1ebd77d8b5eaee41427f7edc5dc55f150fc4b1b4",
+    "../paid-acquisition/collect_by_number.py": "b4da8340db9fd76e23faa346829b7e849e71abbd7e43c7a94d5fdf6800509651",
+    "../paid-acquisition/collect_by_hash.py": "4e9e3208fc5113fff718cb3ad7ea320101c783b41e48211b2ac6e3ba69428c23",
+    "../paid-adversarial/synthetic_node.py": "5d3e509cb2557b791a6d4c8dc012a75f41f9cdc2ce10b1df708034fbcabad8d3",
+    "../paid-action/paid_node.py": "ecd540dfd3414b28cbb9d085254cc2be3de42ea7f13033afb40b72c6884a4160",
+    "../paid-action/run_paid_action.py": "92b50402f8ad097839ec4e40e7e221647c89c8b9d0b3c915c4ce2400531130bf",
+    "../paid-action/paid-build.json": "54f130a1f49e8569cbe7b9a6db54547f8e1e9275d9c0c256b5d916b01a59c54e",
+    "../paid-action/CawPaidActionProbe.sol": "e48f8f8f816aae21e0e9865a8be0aa2e47204ea04b4c12b4124e5b0452412da1",
+    "../paid-action/TestAccountRegistry.sol": "ab3aecb6b0bc77fa838baf1141d2af96ad8395850b714f35b2f0cdb3b8c826df",
+    "../account-authority/account-token-build.json": "55a07478fa4673c9d48d4f5905b1b73cc540e6bac90b023cec705cf80562129f",
+    "../account-authority/AccountAdversarialToken.sol": "aedb0c7d317bf55591f3c38db3f36783b32c18129c33582cfa7fc4459445a58f",
+    "../../reference/fixtures/generate-ethereum-proof-fixtures.py": "5f100b6e1a12d29b0004bcb29f2ba5b23ffefc076646d2b67b1fb8df81c2effa",
+    "../../reference/paid_action_reader.py": "a6a5869994c17baefbe6225b8726746fc0f29ace942583c8c9e7864f2224c6cd",
+    "../../reference/paid-action-reader.mjs": "81c5f4dd0b9bf4798571c5696edd8fe8050ae707f8486c5fd5ad87314bf09269",
+    "../../reference/keccak256.mjs": "6ed8268eb811eddb3345ebb47e824346c00585d6bed2ec3767e1783d31615edf"
+  }
+}

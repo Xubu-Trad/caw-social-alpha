@@ -1,0 +1,127 @@
+{
+  "schema": "caw-paid-reorg-summary/1",
+  "status": "pass",
+  "synthetic_only": true,
+  "trace_sha256": "b12d2eeebd281e3f4b041ba5467b2de768494866ad73024966e802bea12dcd2f",
+  "selected_branch": "right",
+  "ancestor": "0xc88081e765caf76562e6a845a507a94de93ecdab6a522debffbe12d262c53682",
+  "ancestor_number": "0xc",
+  "branches": {
+    "left": {
+      "config": {
+        "chain_id": 31337,
+        "addresses": {
+          "registry": "0x90fbd66684944acd339b0f8407f29e4d6fcfe3d1",
+          "probe": "0x973d7bf73147792e8ba8e360c26879b16846a115",
+          "token": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+        },
+        "start_block_number": 2,
+        "start_block_hash": "0x27eae47a6ef268fc4c7286e94cfd0129f090dd82b56113321f44d9e964c55379",
+        "registry_runtime_sha256": "4745276b40204bd6e373b3f6c2e990ba8aeb3feb2de69a97b44510c58153d68f",
+        "probe_runtime_sha256": "5fbe90d5bf73e4897479e1e609aeb13edd7a66f4a198abe945ad0883df1a0511",
+        "end_block_number": 17,
+        "end_block_hash": "0xba34c53051e53659ff4a79f8f2d5b6cc34eb314397ddc23a0bcaf4d3d4b633f9"
+      },
+      "blocks": 15,
+      "collector_requests": {
+        "number": 57,
+        "hash": 84
+      },
+      "final": {
+        "owners": [
+          "0x47ecac8221f18970c48cf48aaa3cbe8167bbbe73",
+          "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+          "0x47ecac8221f18970c48cf48aaa3cbe8167bbbe73"
+        ],
+        "epochs": [
+          "1",
+          "0",
+          "0"
+        ],
+        "credits": [
+          "84999999999999999999993",
+          "4583333333333333333342",
+          "10416666666666666666676"
+        ],
+        "stakes": [
+          "0",
+          "1",
+          "3"
+        ],
+        "nonces": [
+          "3",
+          "0",
+          "0"
+        ],
+        "totalCredits": "100000000000000000000011",
+        "poolDust": "2",
+        "messageCount": "3",
+        "tokenBalance": "100000000000000000000013"
+      }
+    },
+    "right": {
+      "config": {
+        "chain_id": 31337,
+        "addresses": {
+          "registry": "0x90fbd66684944acd339b0f8407f29e4d6fcfe3d1",
+          "probe": "0x973d7bf73147792e8ba8e360c26879b16846a115",
+          "token": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+        },
+        "start_block_number": 2,
+        "start_block_hash": "0x27eae47a6ef268fc4c7286e94cfd0129f090dd82b56113321f44d9e964c55379",
+        "registry_runtime_sha256": "4745276b40204bd6e373b3f6c2e990ba8aeb3feb2de69a97b44510c58153d68f",
+        "probe_runtime_sha256": "5fbe90d5bf73e4897479e1e609aeb13edd7a66f4a198abe945ad0883df1a0511",
+        "end_block_number": 17,
+        "end_block_hash": "0xe142e80110422fd28c110a97e59bedcf56a773ba6ff026a2038da3b3c796d7dd"
+      },
+      "blocks": 15,
+      "collector_requests": {
+        "number": 57,
+        "hash": 84
+      },
+      "final": {
+        "owners": [
+          "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+          "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+          "0x47ecac8221f18970c48cf48aaa3cbe8167bbbe73"
+        ],
+        "epochs": [
+          "1",
+          "0",
+          "0"
+        ],
+        "credits": [
+          "89999999999999999999991",
+          "4666666666666666666676",
+          "5333333333333333333343"
+        ],
+        "stakes": [
+          "0",
+          "3",
+          "2"
+        ],
+        "nonces": [
+          "2",
+          "0",
+          "0"
+        ],
+        "totalCredits": "100000000000000000000010",
+        "poolDust": "1",
+        "messageCount": "2",
+        "tokenBalance": "100000000000000000000011"
+      }
+    }
+  },
+  "local_requests": 641,
+  "remote_requests": 0,
+  "local_transactions": 22,
+  "seconds": 22.609,
+  "peak_node_bytes": 23552000,
+  "owned_listener_released": true,
+  "same_node": true,
+  "shared_transport": true,
+  "independent_providers": false,
+  "authenticates_consensus": false,
+  "paid_action_contract_changed": false,
+  "source_pins_unchanged_after_run": true
+}

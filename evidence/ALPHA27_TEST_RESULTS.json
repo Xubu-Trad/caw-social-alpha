@@ -1,31 +1,29 @@
 {
+  "release": "0.1.0-alpha.27",
+  "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
   "project": "cawmmunity.caw - decentralized - social",
   "frontend": "cawmmunity.caw - decentralized - social - alpha",
   "protocol": "cawmmunity.caw - decentralized - social - protocol",
-  "source_requirements": 59,
-  "open_conflicts": 15,
-  "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
-  "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
-  "release": "0.1.0-alpha.28",
-  "date": "2026-09-09",
-  "tests": 446,
-  "passed": 446,
+  "tests": 401,
+  "passed": 401,
   "failed": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
-  "test_files": 29,
-  "new_tests": 45,
-  "source_files": 168,
+  "test_files": 27,
+  "new_tests": 0,
+  "source_files": 145,
   "build_files": 22,
+  "source_requirements": 59,
+  "open_conflicts": 15,
   "test_execution": {
     "mode": "all",
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 20.828,
-    "observed_peak_bytes": 320393216,
+    "seconds": 15.437,
+    "observed_peak_bytes": 321323008,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -40,8 +38,6 @@
       "tests/caw-paid-acquisition.test.mjs",
       "tests/caw-paid-action.test.mjs",
       "tests/caw-paid-adversarial.test.mjs",
-      "tests/caw-paid-reorg-evidence.test.mjs",
-      "tests/caw-paid-reorg.test.mjs",
       "tests/caw-token-capture.test.mjs",
       "tests/checkpoint-continuity.test.mjs",
       "tests/delegation.test.mjs",
@@ -69,8 +65,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 1.281,
-    "observed_peak_bytes": 56029184,
+    "seconds": 0.485,
+    "observed_peak_bytes": 56905728,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
@@ -82,48 +78,51 @@
     "bytes": 1422784,
     "manifestSha256": "3590fc562c47c46f9f911918fd2b5181bb41db2f87f2ee6c6f0c2ee740ad8f0a"
   },
-  "prior_build_attempt": {
-    "status": "not_started",
-    "reason": "STARTUP_DISK_FLOOR",
-    "required_free_disk_bytes": 2147483648,
-    "observed_free_disk_bytes": 1310339072,
-    "limits_unchanged": true
-  },
-  "static_build_verification": {
-    "result": "pass",
-    "method": "Full-suite collectStatic determinism/package tests plus exact existing dist/public byte and SHA256SUMS comparison.",
-    "files": 22,
-    "bytes": 1422784,
-    "manifestSha256": "3590fc562c47c46f9f911918fd2b5181bb41db2f87f2ee6c6f0c2ee740ad8f0a",
-    "new_build_command_completed": true
-  },
   "browser_visual_review": {
-    "result": "not_repeated",
-    "frontend_unchanged": true,
-    "historical_receipt": "ALPHA27_TEST_RESULTS.json"
+    "result": "passed",
+    "pages": [
+      "website",
+      "Commons",
+      "Media",
+      "Identity",
+      "Ledger",
+      "Readers",
+      "Messages"
+    ],
+    "viewport_widths": [
+      1280,
+      1024,
+      768,
+      320
+    ],
+    "horizontal_overflow_observed": false,
+    "interactions": [
+      "All six app views fit at 320 pixels",
+      "Phone multiline Unicode draft review and preserved draft after Escape",
+      "Review dialog focus wraps backward to queue and forward to close",
+      "Queue and submit retain 250,000 synthetic CAW; confirmation changes it to 245,000 and clears the draft",
+      "Exactly one composer remains after confirmation",
+      "Website configuration and four entry hooks retained; Enter the alpha opens Commons",
+      "Website navigation highlights Start initially and Build after its section is selected"
+    ],
+    "scope": "Visual desktop and 320-pixel phone checks; layout-overflow checks at 1024 pixels for website and Commons, and 768 pixels for Commons. No new browser checks for media selection, reader actions, search/saves, character boundary, 200 percent zoom, or a full accessibility audit. Existing offline tests remain separate.",
+    "capture_viewport": {
+      "width": 1280,
+      "height": 800,
+      "purpose": "Desktop layout verification"
+    },
+    "server": "Owned loopback preview stopped; temporary browser tab closed; viewport override reset"
   },
-  "changes": "Controlled synthetic branch replacement with explicit endpoint selection, immutable atomic adoption, stale-work rejection, full restart reconstruction and bound RPC evidence.",
+  "changes": "Framed terminal website and app with square panels, green title bars, ASCII CAW lettering, horizontal bracket navigation and refined text spacing. All application scripts and protocol behavior are unchanged.",
   "contracts_changed": false,
   "signed_domains_changed": false,
   "primary_sources_changed": false,
   "historical_experiment_evidence_changed": false,
-  "new_chain_experiment": true,
+  "new_chain_experiment": false,
   "public_deployment": false,
   "external_audit": false,
-  "chain_experiment": {
-    "summary": "../experiments/paid-reorg/execution-summary.json",
-    "trace_sha256": "b12d2eeebd281e3f4b041ba5467b2de768494866ad73024966e802bea12dcd2f",
-    "local_transactions": 22,
-    "local_requests": 641,
-    "remote_requests": 0,
-    "cleanup_confirmed": true
-  },
-  "python_reconstruction": {
-    "results": 4,
-    "negative_cases": 6,
-    "all_passed": true,
-    "receipt": "../experiments/paid-reorg/python-execution.json"
-  },
-  "historical_receipt": "ALPHA27_TEST_RESULTS.json",
-  "historical_source_manifest": "ALPHA27_CODE_SHA256SUMS.txt"
+  "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
+  "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
+  "historical_receipt": "ALPHA26_TEST_RESULTS.json",
+  "historical_source_manifest": "ALPHA26_CODE_SHA256SUMS.txt"
 }

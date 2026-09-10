@@ -1,0 +1,12 @@
+{
+  "addresses": {
+    "registry": "0x90fbd66684944acd339b0f8407f29e4d6fcfe3d1",
+    "probe": "0x973d7bf73147792e8ba8e360c26879b16846a115",
+    "token": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+  },
+  "start_block_hash": "0x27eae47a6ef268fc4c7286e94cfd0129f090dd82b56113321f44d9e964c55379",
+  "registry_runtime_sha256": "4745276b40204bd6e373b3f6c2e990ba8aeb3feb2de69a97b44510c58153d68f",
+  "probe_runtime_sha256": "5fbe90d5bf73e4897479e1e609aeb13edd7a66f4a198abe945ad0883df1a0511",
+  "end_block_hash": "0xba34c53051e53659ff4a79f8f2d5b6cc34eb314397ddc23a0bcaf4d3d4b633f9",
+  "chain_id": 31337
+}

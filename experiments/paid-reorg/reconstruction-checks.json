@@ -1,0 +1,134 @@
+{
+  "ancestor_oracle": {
+    "credits": [
+      "95000000000000000000000",
+      "1666666666666666666676",
+      "3333333333333333333343"
+    ],
+    "epochs": [
+      "0",
+      "0",
+      "0"
+    ],
+    "messageCount": "1",
+    "messages": [
+      {
+        "accountId": "1",
+        "allocations": [
+          "0",
+          "1666666666666666666666",
+          "3333333333333333333333"
+        ],
+        "distributionHash": "0xe682b7c401097344fed1af3e3492f018caf2a2491b45159ba612453495164301",
+        "dust": "1",
+        "epoch": "0",
+        "fee": "5000000000000000000000",
+        "id": "1",
+        "nonce": "0",
+        "owner": "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+        "text_hex": "0x636f6d6d6f6e2d707265666978"
+      }
+    ],
+    "nonces": [
+      "1",
+      "0",
+      "0"
+    ],
+    "owners": [
+      "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+      "0x765d03fe39e2a0a48ac162a15b541c3cd1d63e76",
+      "0x47ecac8221f18970c48cf48aaa3cbe8167bbbe73"
+    ],
+    "poolDust": "1",
+    "stakes": [
+      "0",
+      "1",
+      "2"
+    ],
+    "tokenBalance": "100000000000000000000020",
+    "totalCredits": "100000000000000000000019"
+  },
+  "branch_shape": {
+    "ancestor_hash": "0xc88081e765caf76562e6a845a507a94de93ecdab6a522debffbe12d262c53682",
+    "ancestor_number": "0xc",
+    "blocks_per_suffix": 5,
+    "common_prefix_blocks": 10,
+    "left_suffix_hashes": [
+      "0x4936e579700191f1cf9174beceec0d0d3f047f033f793b40cc18eb74867ea98f",
+      "0x421f5b9ed04481a9c6d90b5a504cccf70ca81524de98451c8c20e2ebc140035e",
+      "0x7f16464f3d1351a1d9cf43c3ad3b188231372f0fecc837ec216a5351a9884188",
+      "0xf70d798aab56cda660a4129cc17b8dad9b67cbf067e835c5f22c10c330ea1993",
+      "0xba34c53051e53659ff4a79f8f2d5b6cc34eb314397ddc23a0bcaf4d3d4b633f9"
+    ],
+    "left_tip_hash": "0xba34c53051e53659ff4a79f8f2d5b6cc34eb314397ddc23a0bcaf4d3d4b633f9",
+    "right_suffix_hashes": [
+      "0xe21bbb586564db5c8a18d0afae85478446191580897f87eec37a6ce96be91453",
+      "0x719ed5b86728e3640272c4e30e0e2e336d21822dc9bcc21ce5f7e6f042b0eec5",
+      "0x74afa3d832950b9438dc7f7f798602d2e5dbe0377b0ad936a9f2c69f3b6224f6",
+      "0x98fe21367e727727528468d56740b2651df2638f7ec2b5cc1b1b14e2527f77aa",
+      "0xe142e80110422fd28c110a97e59bedcf56a773ba6ff026a2038da3b3c796d7dd"
+    ],
+    "right_tip_hash": "0xe142e80110422fd28c110a97e59bedcf56a773ba6ff026a2038da3b3c796d7dd",
+    "tip_number": "0x11"
+  },
+  "checks": [
+    "left_full_acquisition_reconstruction_and_endpoint_oracle",
+    "right_full_acquisition_reconstruction_and_endpoint_oracle",
+    "same_complete_prefix_and_five_one_transaction_blocks_per_suffix",
+    "same_submitted_post_bytes_left_success_right_failure",
+    "ancestor_complete_prefix_arithmetic_oracle",
+    "message_id_reuse_with_exact_distinct_text_authority_and_allocations"
+  ],
+  "complete": true,
+  "historical_caw_execution": false,
+  "input_sha256": {
+    "history-left-hash.json": "e63c9f608d5c3b81f90e052c2e3defc6f635684fa0bf62cba89025dab8f970d4",
+    "history-left-number.json": "9c1a69329dab7a232ffde072d658a02f99497348ec640f3419b1cd6a10ac88e4",
+    "history-right-hash.json": "d8aa7517ebeb7356bd176e47bb9442fc9e30afd3ab56cf61d470f5429c18da23",
+    "history-right-number.json": "bb1571c806a80d4866eeb54f61c1269831acca70f4a4efcb1d3ccc7471834cb2",
+    "manifest-left.json": "b36b6209074c1b2d434403ef3839a6ee2441dd00d8b1c4098d947ed4185ac59c",
+    "manifest-right.json": "39efad86b7ea938fdb5304b28053ec7ac097e5ea716e5a8815a72e7532232fbc"
+  },
+  "negative_checks": [
+    {
+      "name": "mixed_suffix",
+      "reason": "block gap/reorder/parent mismatch",
+      "rejected": true
+    },
+    {
+      "name": "omitted_ancestor_block",
+      "reason": "incomplete block interval",
+      "rejected": true
+    },
+    {
+      "name": "missing_post_log",
+      "reason": "successful probe call missing event",
+      "rejected": true
+    },
+    {
+      "name": "duplicated_transaction",
+      "reason": "duplicate header transaction",
+      "rejected": true
+    },
+    {
+      "name": "contradictory_endpoint_state_root",
+      "reason": "end header differs from captured interval",
+      "rejected": true
+    },
+    {
+      "name": "left_history_under_right_manifest",
+      "reason": "trusted endpoint hash mismatch",
+      "rejected": true
+    }
+  ],
+  "reader_sha256": "a6a5869994c17baefbe6225b8726746fc0f29ace942583c8c9e7864f2224c6cd",
+  "reconstruction_sha256": {
+    "reconstruction-python-left-hash.json": "0ca30b6ba29ec74efb0b187b1d53e4ec9a70194e6e9e2c52cf63f2679e4f130e",
+    "reconstruction-python-left-number.json": "0ca30b6ba29ec74efb0b187b1d53e4ec9a70194e6e9e2c52cf63f2679e4f130e",
+    "reconstruction-python-right-hash.json": "c17123c60cd8197fca12e3e1c4e33e8318240661ce6dbc0210f15354edb04478",
+    "reconstruction-python-right-number.json": "c17123c60cd8197fca12e3e1c4e33e8318240661ce6dbc0210f15354edb04478"
+  },
+  "schema": "caw-paid-reorg-python-checks/1",
+  "synthetic_only": true,
+  "trust": "Supplied local histories and independent endpoint manifests; the controller nominates the selected branch. No network access, signature validation, header/trie authentication, independent-provider consensus, freshness or public-chain finality is established. A failed reused post does not prove all orphaned signatures are permanently invalid."
+}
