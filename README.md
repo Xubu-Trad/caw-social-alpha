@@ -14,14 +14,14 @@ bring code. bring criticism. bring failed reproductions. bring the thing i misse
 
 by teh ppl. for teh ppl.
 
-![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha24.jpg)
+![Commons in the current cawmmunity.caw alpha](docs/images/commons-alpha25.jpg)
 
 Authentic screenshot of the local alpha. Synthetic accounts; no real funds. [Image provenance](docs/images/README.md).
 
 <details>
 <summary>Website entrance</summary>
 
-![The cawmmunity.caw alpha website entrance](docs/images/website-alpha24.jpg)
+![The cawmmunity.caw alpha website entrance](docs/images/website-alpha25.jpg)
 
 </details>
 

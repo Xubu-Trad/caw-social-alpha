@@ -1,5 +1,5 @@
 {
-  "release": "0.1.0-alpha.25",
+  "release": "0.1.0-alpha.24",
   "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
   "project": "cawmmunity.caw - decentralized - social",
@@ -22,8 +22,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 10.0,
-    "observed_peak_bytes": 334532608,
+    "seconds": 10.578,
+    "observed_peak_bytes": 315146240,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -65,8 +65,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 0.468,
-    "observed_peak_bytes": 55705600,
+    "seconds": 0.422,
+    "observed_peak_bytes": 56963072,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
@@ -75,8 +75,8 @@
   },
   "build_output": {
     "files": 22,
-    "bytes": 1415956,
-    "manifestSha256": "efdbcc354cd8a0b9131719d4fc3c5670a76cbedb2daec83b21eca14d8415ca51"
+    "bytes": 1419254,
+    "manifestSha256": "85530a820dacc96c5afeb34d2f21d7dd85ba1e8656e6d7f507bc9296021664bb"
   },
   "browser_visual_review": {
     "result": "passed",
@@ -91,26 +91,23 @@
     ],
     "viewport_widths": [
       1280,
+      390,
       320
     ],
     "horizontal_overflow_observed": false,
     "interactions": [
-      "Multiline Unicode draft review",
-      "Review dialog focus wraps backward to queue and forward to close; Escape dismisses",
-      "Queue and submit retain 250,000 synthetic CAW; confirmation changes it to 245,000",
+      "Multiline Unicode draft review; close/reopen and Escape dismissal",
+      "Review dialog focus wraps in both directions",
+      "Queue and submit preserve balance; confirmation applies the 5,000 synthetic CAW charge",
+      "Search filters to zero records; keyboard clearing restores four sample records",
+      "Save and Saved locally filter retain the selected record without a fee",
       "All six navigation sections fit at 320 pixels",
-      "Website configuration and all four entry hooks remain; Enter the alpha opens fresh Commons",
-      "Decorative navigation numbers excluded from accessible button names"
+      "Website entry configuration and four entry hooks remain present"
     ],
-    "scope": "Manual desktop and narrow-phone visual and core-flow checks. No new browser checks for media selection, reader actions, search/saves, character boundary, 200 percent zoom, or a full accessibility audit. Existing offline tests remain separate.",
-    "capture_viewport": {
-      "width": 1280,
-      "height": 800,
-      "purpose": "Desktop layout verification"
-    },
-    "server": "Owned loopback preview stopped; temporary browser tab closed; viewport override reset"
+    "scope": "Manual desktop and narrow-phone visual/interaction checks. Media uploads, reader actions, 420-character boundary, 200 percent zoom and full accessibility audit were not rerun in the browser. Existing offline tests remain separate.",
+    "server": "Loopback only; owned preview stopped after review"
   },
-  "changes": "Monochrome terminal windows, square controls, monospace text, compact conversation panels, static scanlines and a CAW ASCII welcome screen. HTML/CSS presentation only; all application scripts unchanged.",
+  "changes": "New website and Commons visual design, responsive layout, typography, navigation treatment and Media icon. No application model or transaction logic changes.",
   "contracts_changed": false,
   "signed_domains_changed": false,
   "primary_sources_changed": false,
@@ -120,12 +117,6 @@
   "external_audit": false,
   "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
   "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
-  "historical_receipt": "ALPHA24_TEST_RESULTS.json",
-  "historical_source_manifest": "ALPHA24_CODE_SHA256SUMS.txt",
-  "prior_attempt": {
-    "tests": 401,
-    "passed": 400,
-    "failed": 1,
-    "reason": "Website banner omitted the slash in the required ALPHA / SIMULATION label. Restored the exact label; existing test unchanged; full suite then passed."
-  }
+  "historical_receipt": "ALPHA23_TEST_RESULTS.json",
+  "historical_source_manifest": "PRE_ALPHA24_CODE_SHA256SUMS.txt"
 }
