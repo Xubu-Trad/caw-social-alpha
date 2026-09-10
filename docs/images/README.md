@@ -1,8 +1,21 @@
 # Interface captures
 
-## Current alpha.26 screens
+## Current alpha.27 screens
 
-Unedited viewport captures from desktop layout verification on 2026-09-09 (America/New_York). The viewport was set to 1280 × 800 for that check and reset afterward. Native captures contain 1265 × 791 pixels. The [source manifest](../../evidence/CODE_SHA256SUMS.txt) pins this release. The public parent before the update is [`f5aef3ddc50803d39ad436a4da3ae5b2eb08d530`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/f5aef3ddc50803d39ad436a4da3ae5b2eb08d530).
+Unedited viewport captures from desktop layout verification on 2026-09-09 (America/New_York). The viewport was set to 1280 × 800 for that check and reset afterward. Native captures contain 1265 × 791 pixels. The [source manifest](../../evidence/CODE_SHA256SUMS.txt) pins this release. The public parent before the update is [`6d41c184ce966cc237cbad727f49ec368fa30338`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/6d41c184ce966cc237cbad727f49ec368fa30338).
+
+- [commons-alpha27.jpg](commons-alpha27.jpg): JPEG, 100,247 bytes. Local page `/index.html#feed`. SHA-256 `8d6d410526f8cef0ae210ba9b3b94b723d3e86c353799ad21937a84f9b920519`.
+- [website-alpha27.jpg](website-alpha27.jpg): JPEG, 87,867 bytes. Local page `/website.html`. SHA-256 `50ec10bb75faea5bb527fed29a49b74a71b7cf92a825f49cf9aed9223eb357b8`.
+
+Both captures show the actual local interface. Commons contains fresh synthetic fixtures with no draft or submitted action. Only the application viewport is included. No crop, compositing, retouching, text replacement or image re-encoding was applied. ASCII lettering and surface effects are rendered by the shipped HTML/CSS.
+
+These captures include the existing CAW illustration and remain outside the code-only MIT grant. They establish no connected wallet, public network, deployment or real transaction. See [asset provenance](../ASSET_PROVENANCE.md) and [licensing scope](../../LICENSE_STATUS.md).
+
+## Historical alpha.26 captures
+
+### Alpha.25 terminal screens
+
+Unedited viewport captures from desktop layout verification on 2026-09-09 (America/New_York). The viewport was set to 1280 × 800 for that check and reset afterward. Native captures contain 1265 × 791 pixels. The [alpha.26 source manifest](../../evidence/ALPHA26_CODE_SHA256SUMS.txt) pins this release. The public parent before the update is [`f5aef3ddc50803d39ad436a4da3ae5b2eb08d530`](https://github.com/Xubu-Trad/cawmmunity.caw-decentralized-social/commit/f5aef3ddc50803d39ad436a4da3ae5b2eb08d530).
 
 - [commons-alpha26.jpg](commons-alpha26.jpg): JPEG, 88,966 bytes. Local page `/index.html#feed`. SHA-256 `ba7ac54cecbc418d7c3a0662fedb102af8c550017a2b72380bf28eccf6449c70`.
 - [website-alpha26.jpg](website-alpha26.jpg): JPEG, 88,114 bytes. Local page `/website.html`. SHA-256 `39eb4cbabc5174df2c0f1f8ef82047ea64b1f1d3b42c18ae2173e686cd408b50`.

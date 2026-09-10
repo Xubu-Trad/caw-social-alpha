@@ -1,5 +1,5 @@
 {
-  "release": "0.1.0-alpha.27",
+  "release": "0.1.0-alpha.26",
   "date": "2026-09-09",
   "runtime": "Node.js 24.20.0",
   "project": "cawmmunity.caw - decentralized - social",
@@ -22,8 +22,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 15.437,
-    "observed_peak_bytes": 321323008,
+    "seconds": 8.359,
+    "observed_peak_bytes": 311447552,
     "arguments": [
       "--max-old-space-size=256",
       "--test",
@@ -65,8 +65,8 @@
     "node_version": "24.20.0",
     "node_sha256": "5c976096e04e5c2c1f091938926234cc9fbebfe9787ddd149351b3b0ecc707b5",
     "exit_code": 0,
-    "seconds": 0.485,
-    "observed_peak_bytes": 56905728,
+    "seconds": 0.563,
+    "observed_peak_bytes": 55857152,
     "arguments": [
       "--max-old-space-size=128",
       "scripts/build.mjs"
@@ -75,8 +75,8 @@
   },
   "build_output": {
     "files": 22,
-    "bytes": 1422784,
-    "manifestSha256": "3590fc562c47c46f9f911918fd2b5181bb41db2f87f2ee6c6f0c2ee740ad8f0a"
+    "bytes": 1430505,
+    "manifestSha256": "1a2cf73aa0e7c4bf3b114a885826535802bbc3bd5d194b4965ab185294cde8b5"
   },
   "browser_visual_review": {
     "result": "passed",
@@ -97,23 +97,24 @@
     ],
     "horizontal_overflow_observed": false,
     "interactions": [
-      "All six app views fit at 320 pixels",
-      "Phone multiline Unicode draft review and preserved draft after Escape",
-      "Review dialog focus wraps backward to queue and forward to close",
-      "Queue and submit retain 250,000 synthetic CAW; confirmation changes it to 245,000 and clears the draft",
-      "Exactly one composer remains after confirmation",
-      "Website configuration and four entry hooks retained; Enter the alpha opens Commons",
-      "Website navigation highlights Start initially and Build after its section is selected"
+      "Desktop multiline Unicode draft review and preserved draft after queue",
+      "Review dialog focus wraps backward to queue and forward to close; Escape dismisses",
+      "Queue and submit retain 250,000 synthetic CAW; confirmation changes it to 245,000 and adds one post",
+      "Exactly one composer in Commons and none in the other five app sections",
+      "All six navigation sections fit at 320 pixels",
+      "Phone reference action inserts an ordinary draft and focuses the relocated composer",
+      "421 Unicode code points disable Review CAW with visible 421 / 420 counter",
+      "Website configuration and four entry hooks retained; entry opens Commons"
     ],
-    "scope": "Visual desktop and 320-pixel phone checks; layout-overflow checks at 1024 pixels for website and Commons, and 768 pixels for Commons. No new browser checks for media selection, reader actions, search/saves, character boundary, 200 percent zoom, or a full accessibility audit. Existing offline tests remain separate.",
+    "scope": "Visual desktop and 320-pixel phone checks; layout-overflow checks at 1024 pixels for website and Commons, and 768 pixels for Commons. No new browser checks for media selection, reader actions, search/saves, 200 percent zoom, or a full accessibility audit. Existing offline tests remain separate.",
     "capture_viewport": {
       "width": 1280,
       "height": 800,
       "purpose": "Desktop layout verification"
     },
-    "server": "Owned loopback preview stopped; temporary browser tab closed; viewport override reset"
+    "server": "Owned loopback preview stopped; temporary browser tabs closed; viewport override reset"
   },
-  "changes": "Framed terminal website and app with square panels, green title bars, ASCII CAW lettering, horizontal bracket navigation and refined text spacing. All application scripts and protocol behavior are unchanged.",
+  "changes": "New CAW website composition and line artwork; desktop navigation rail, adjacent draft panel and updated shared controls. The existing composer node moves into the sidebar after rendering; its IDs, listeners and state remain intact.",
   "contracts_changed": false,
   "signed_domains_changed": false,
   "primary_sources_changed": false,
@@ -123,6 +124,6 @@
   "external_audit": false,
   "initial_review_commit": "91479b6dc8c9a264411d75177d43029e0266c354",
   "github_address": "Xubu-Trad/cawmmunity.caw-decentralized-social",
-  "historical_receipt": "ALPHA26_TEST_RESULTS.json",
-  "historical_source_manifest": "ALPHA26_CODE_SHA256SUMS.txt"
+  "historical_receipt": "ALPHA25_TEST_RESULTS.json",
+  "historical_source_manifest": "ALPHA25_CODE_SHA256SUMS.txt"
 }
