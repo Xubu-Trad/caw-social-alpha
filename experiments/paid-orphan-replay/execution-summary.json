@@ -1,0 +1,25 @@
+{
+  "schema": "caw-paid-orphan-replay-summary/1",
+  "status": "pass",
+  "trace_sha256": "ebad7bf35c45bc4fcc0ec0d192a8313bbcf2b2d56e572a11ffdd656de86c3e49",
+  "trace_bytes": 2184365,
+  "compressed_sha256": "4d14ff02796dda94f6b6e18fb09d87be94325363beba294bfbc13898fe261319",
+  "compressed_bytes": 216415,
+  "input_manifest_sha256": "3c0e750730a23f5509b9ed6328e28084b910a2efd98bf537aec013091343db89",
+  "local_requests": 632,
+  "remote_requests": 0,
+  "local_transactions": 19,
+  "node_seconds": 28.312,
+  "peak_node_bytes": 22859776,
+  "owned_listener_released": true,
+  "independent_providers": false,
+  "authenticates_consensus": false,
+  "supervisor": {
+    "runtime": "3.12.14",
+    "runtime_sha256": "372c2eae555b344520bf147be0096e009069aeca4e7f78d6aecea6d53158056a",
+    "exit_code": 0,
+    "seconds": 28.937,
+    "peak_bytes": 57319424,
+    "limits": "300 seconds, 512 MiB combined controller/node, 2 processes, 1 MiB output, 768 MiB startup memory, 2 GiB disk"
+  }
+}

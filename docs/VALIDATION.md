@@ -1,12 +1,18 @@
 # Validation boundary
 
+Alpha.31 adds [action replay after rollback](ORPHAN_INTENT_REPLAY.md). The exact signed action succeeds once on each alternative local branch. Each same-branch duplicate fails with `InvalidNonce()`; all observed protocol accounting is unchanged by those failed submissions. Both collectors and unchanged readers reconstruct complete branch results against explicit accounting and message oracles.
+
+**499/499 Node offline tests across 32 files passed**, including 22 new orphan-action evidence checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the new validation. Historical contracts, signed domains, collectors, readers, primary sources and the approved frontend remain unchanged. This does not establish a double charge on the selected branch, independent-provider agreement, authenticated history or public finality.
+
+## Historical alpha.30 evidence
+
 Alpha.30 adds a [live local acquisition change](LIVE_ACQUISITION_CHANGE.md), preserving the alpha.29 coordinator and all historical contracts, collectors and readers. A stable left acquisition succeeds; a second acquisition completes both left collectors before the actual node is restored and rebuilt on right at the coordinator's final numeric end-header request. The returned right header causes exact `FINAL_BOUNDARY` rejection while selection remains left. Explicit right selection then acquires and publishes the complete right history.
 
 The live run records 22 synthetic transactions, 797 local requests and zero remote requests. The three acquisition attempts account for 147, 144 and 147 calls. The node ran for 36.922 seconds and its listener was released. The outer controller/node supervision took 37.469 seconds with a combined 512 MiB cap; the observed controller peak was 59,637,760 bytes and node peak was 37,007,360 bytes. These peaks were observed separately, not asserted as a measured simultaneous combined peak.
 
 An initial launch stopped before requests or transactions because the outer supervisor permitted only its Python controller. The corrected two-process supervisor retained the node's existing resource guard and added a combined memory cap. Both attempts are preserved. This is one controlled local change between requests, not simultaneous in-flight requests or evidence of independent providers/public finality. The alpha.27 frontend remains unchanged; no new browser result is claimed.
 
-**477/477 Node offline tests across 31 files passed**, including 17 new live-evidence checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records package validation; [input hashes](../evidence/CODE_SHA256SUMS.txt) pin the source and evidence. Existing specification decisions, registration gate, signed domains and deployment status are unchanged.
+**477/477 Node offline tests across 31 files passed**, including 17 new live-evidence checks. The separate build retained 22 byte-identical frontend assets. The [alpha.30 receipt](../evidence/ALPHA30_TEST_RESULTS.json) records package validation; [alpha.30 input hashes](../evidence/ALPHA30_CODE_SHA256SUMS.txt) pin its source and evidence. Existing specification decisions, registration gate, signed domains and deployment status are unchanged.
 
 ## Historical alpha.29 evidence
 
