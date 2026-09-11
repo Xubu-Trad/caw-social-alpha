@@ -2,7 +2,7 @@
 
 Alpha.34 adds a bounded offline check of Ethereum execution-header encoding, claimed hashes and parent links. The caller explicitly selects a header format and endpoint. The module recomputes each header's Keccak hash from its ordered RLP fields and requires it to match that selection.
 
-This is a standalone check. Existing paid-history readers, action observers and provider comparison remain unchanged. Their earlier success results do not imply that this header check ran.
+This is a standalone check. Alpha.35 adds an explicit [recovery adapter](HEADER_CHECKED_RECOVERY.md) that requires it before adopting history. Existing paid-history readers, action observers and provider comparison remain unchanged. Their earlier success results do not imply that this header check ran.
 
 **25 focused checks and 582/582 full-suite tests passed.** The fixture generator also verified its retained observed vectors; no new live acquisition occurred.
 
