@@ -1,8 +1,14 @@
 # Validation boundary
 
+Alpha.33 adds [fixed-roster provider comparison](PROVIDER_COMPARISON.md) for one immutable action target. Each report reconstructs in an isolated existing observer. Shared observations require every configured report to match the complete supplied history and explicitly selected manifest. Failure, missing replies, differing endpoints, content conflicts and unanimous reports at another endpoint withhold agreement. A fresh selection immediately clears earlier reports and invalidates old tokens.
+
+**557/557 Node offline tests across 34 files passed**, including 25 new provider comparison checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records this package's offline checks and separate build. Existing alpha.28 histories supply simulated provider roles from one controlled node. Synthetic conflict and limit inputs are not new live observations. No new EVM execution, network acquisition, independent-provider run, authenticated history or finality policy is claimed. Historical code, experiments, contracts, signed domains, primary sources and frontend are unchanged.
+
+## Historical alpha.32 evidence
+
 Alpha.32 adds a [bounded action observer](ACTION_OBSERVATION.md) over the unchanged recovery reader. It watches exact call bytes in a fixed deployment/checkpoint context. Selection clears the current classification before validation; complete reconstruction precedes publication. Acceptance takes precedence over a matching failed duplicate, while rejection-only and absence remain limited to the selected interval. Restart rebuilds raw retained histories and ignores calculated status.
 
-**532/532 Node offline tests across 33 files passed**, including 33 new observer checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the offline checks and build. This reuses the existing alpha.28/alpha.31 observations; no new EVM execution or network acquisition occurred. The observer does not authenticate signatures or consensus, adopt confirmation policy, assess retry safety, or connect the frontend to a wallet. Historical contracts, readers, collectors, signed domains, sources and frontend remain unchanged.
+**532/532 Node offline tests across 33 files passed**, including 33 new observer checks. The separate build retained 22 byte-identical frontend assets. The [alpha.32 receipt](../evidence/ALPHA32_TEST_RESULTS.json) records the offline checks and build. This reuses the existing alpha.28/alpha.31 observations; no new EVM execution or network acquisition occurred. The observer does not authenticate signatures or consensus, adopt confirmation policy, assess retry safety, or connect the frontend to a wallet. Historical contracts, readers, collectors, signed domains, sources and frontend remain unchanged.
 
 ## Historical alpha.31 evidence
 
