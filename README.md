@@ -64,8 +64,9 @@ Draft, review a simulated fee, post, and inspect the receipt. Nothing is sent wh
 | [Alpha.34: header integrity](docs/EXECUTION_HEADER_INTEGRITY.md) | Recompute execution-header hashes and check a linked interval against selected endpoints | Header integrity only; endpoint authentication, body proofs, execution validity and finality remain open |
 | [Alpha.35: recovery with checked headers](docs/HEADER_CHECKED_RECOVERY.md) | Recheck headers and accounting together before adopting or restoring supplied history | Explicit adapter; endpoint authentication, body inclusion and finality remain open |
 | [Alpha.36: actions with checked headers](docs/HEADER_CHECKED_ACTIONS.md) | Publish current action status only after checked recovery; recheck all saved branches at restart | Explicit offline mode; body inclusion, authenticated endpoints and finality remain open |
+| [Alpha.37: provider reports with checked headers](docs/HEADER_CHECKED_PROVIDERS.md) | Require header and accounting checks for every configured report before shared action status | Explicit offline mode; matching labels do not prove independent sources or authenticated history |
 
-**Recorded validation:** 634/634 offline tests across 37 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
+**Recorded validation:** 663/663 offline tests across 38 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
 
 ## Read, reproduce, challenge
 

@@ -3,7 +3,7 @@
 // not authenticate an endpoint, prove finality or permit a retry.
 import { Buffer } from 'node:buffer';
 import { isDeepStrictEqual as equal } from 'node:util';
-import { createPaidActionObserver } from './paid-action-observer.mjs';
+import { createPaidActionObserver, createHeaderCheckedPaidActionObserver } from './paid-action-observer.mjs';
 
 // Bounded plain-data capture is adapted from the existing observer/recovery
 // reader. Reusing those checks does not create another independent verifier.
@@ -72,7 +72,24 @@ function freeze(value) {
  * After restart create a fresh instance, select and submit complete histories. */
 export function createPaidProviderComparison(targetInput, providerIdsInput) {
   need(arguments.length === 2, 'SCHEMA');
-  const watched = createPaidActionObserver(targetInput).state().target;
+  return make(targetInput, providerIdsInput, false);
+}
+
+/** Explicit checked mode: every admitted report must pass header integrity and
+ * accounting before comparison. A missing/null profile never selects legacy
+ * behavior. Matching reports still do not prove bodies or provider independence. */
+export function createHeaderCheckedPaidProviderComparison(targetInput, providerIdsInput, profileString) {
+  need(arguments.length === 3, 'SCHEMA');
+  return make(targetInput, providerIdsInput, true, profileString);
+}
+
+function make(targetInput, providerIdsInput, checked, profileString) {
+  // The mode is private and explicit. Each check uses a fresh observer with
+  // the same captured target and immutable profile, never a provider's status.
+  const newObserver = input => checked
+    ? createHeaderCheckedPaidActionObserver(input, profileString) : createPaidActionObserver(input);
+  const initial = newObserver(targetInput).state(), watched = initial.target;
+  const profile = checked ? initial.profile : undefined;
   const ids = capture(providerIdsInput);
   need(Array.isArray(ids) && ids.length >= 2 && ids.length <= 4
     && ids.every(id => typeof id === 'string' && /^[a-z][a-z0-9-]{0,31}$/.test(id))
@@ -95,9 +112,10 @@ export function createPaidProviderComparison(targetInput, providerIdsInput) {
         else { status = 'matching-supplied-histories'; shared = providers[0].observation; }
       }
     }
-    return freeze({ schema: 'caw-paid-provider-comparison/1', generation, target: watched,
+    const state = { schema: checked ? 'caw-paid-header-provider-comparison/1' : 'caw-paid-provider-comparison/1', generation, target: watched,
       selected, status, providers, shared_observation: shared,
-      finality: 'not-established', retry_safety: 'not-assessed', provider_independence: 'not-established' });
+      finality: 'not-established', retry_safety: 'not-assessed', provider_independence: 'not-established' };
+    return freeze(checked ? { ...state, profile } : state);
   }
   let current = snapshot(slots, reports);
   function select(input) {
@@ -109,7 +127,7 @@ export function createPaidProviderComparison(targetInput, providerIdsInput) {
     ++generation; current = snapshot(slots, reports);
     const m = capture(input);
     // Validate shape and target context without trusting any provider report.
-    createPaidActionObserver(watched).select(m);
+    newObserver(watched).select(m);
     selected = freeze(m);
     active = freeze({ schema: 'caw-paid-provider-round/1', generation });
     current = snapshot(slots, reports); return active;
@@ -129,7 +147,7 @@ export function createPaidProviderComparison(targetInput, providerIdsInput) {
       capture({ reports: [...nextReports.values()] });
       // Each provider gets an isolated reader. A shared retention cache could
       // reject conflicting equal-hash reports before they can be compared.
-      const observer = createPaidActionObserver(watched), selection = observer.select(report.manifest);
+      const observer = newObserver(watched), selection = observer.select(report.manifest);
       observer.commit(observer.prepare(selection, report.history));
       observation = observer.state(); freeze(report);
       nextSlots = new Map(slots); nextSlots.set(id, freeze({ id, status: 'valid', manifest: report.manifest, observation }));

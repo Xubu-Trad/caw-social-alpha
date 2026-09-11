@@ -1,13 +1,13 @@
 # Review the alpha
 
-The review target is a synthetic frontend and reference model. It includes a separate compiled local experiment joining fixed test NFT authority, signed paid posting and record reconstruction. Authentic registration and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 37 test files are in tests/.
+The review target is a synthetic frontend and reference model. It includes a separate compiled local experiment joining fixed test NFT authority, signed paid posting and record reconstruction. Authentic registration and production settlement remain unfinished. It contains no wallet connector or production backend. Application code is in public/, server.mjs and scripts/; the separate Node readers and fixed fixtures are in reference/; 38 test files are in tests/.
 
 ## Reproduce
 
 With Node 24.20.0, from the repository root:
 
 ```sh
-node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs tests/caw-account-authority.test.mjs tests/caw-paid-action.test.mjs tests/caw-paid-adversarial.test.mjs tests/caw-paid-acquisition.test.mjs tests/caw-paid-reorg.test.mjs tests/caw-paid-reorg-evidence.test.mjs tests/caw-acquisition-session.test.mjs tests/caw-live-acquisition.test.mjs tests/caw-orphan-replay.test.mjs tests/caw-action-observer.test.mjs tests/caw-provider-comparison.test.mjs tests/execution-header.test.mjs tests/caw-header-recovery.test.mjs tests/caw-checked-observer.test.mjs
+node --max-old-space-size=256 --test --test-isolation=none --test-concurrency=1 --test-timeout=30000 tests/model.test.mjs tests/reference.test.mjs tests/server.test.mjs tests/media.test.mjs tests/deployment.test.mjs tests/build.test.mjs tests/history.test.mjs tests/economics.test.mjs tests/signatures.test.mjs tests/signed-ledger.test.mjs tests/signed-record.test.mjs tests/delegation.test.mjs tests/owner-grant.test.mjs tests/owner-revocation.test.mjs tests/checkpoint-continuity.test.mjs tests/anchor-package.test.mjs tests/independent-action-reader.test.mjs tests/independent-history-reader.test.mjs tests/independent-permission-reader.test.mjs tests/ethereum-state-proof.test.mjs tests/caw-token-capture.test.mjs tests/caw-custody-probe.test.mjs tests/caw-local-custody.test.mjs tests/caw-account-authority.test.mjs tests/caw-paid-action.test.mjs tests/caw-paid-adversarial.test.mjs tests/caw-paid-acquisition.test.mjs tests/caw-paid-reorg.test.mjs tests/caw-paid-reorg-evidence.test.mjs tests/caw-acquisition-session.test.mjs tests/caw-live-acquisition.test.mjs tests/caw-orphan-replay.test.mjs tests/caw-action-observer.test.mjs tests/caw-provider-comparison.test.mjs tests/execution-header.test.mjs tests/caw-header-recovery.test.mjs tests/caw-checked-observer.test.mjs tests/caw-checked-provider.test.mjs
 node --max-old-space-size=128 scripts/build.mjs
 node --max-old-space-size=128 server.mjs
 ```
@@ -59,3 +59,5 @@ Read [execution-header integrity](EXECUTION_HEADER_INTEGRITY.md) for explicit la
 Read [recovery with checked headers](HEADER_CHECKED_RECOVERY.md) for the composed adapter, selection invalidation, atomic adoption and raw-history revalidation after restart.
 
 Read [actions with checked headers](HEADER_CHECKED_ACTIONS.md) for the explicit observation mode, current header evidence and strict restart schemas.
+
+Read [provider reports with checked headers](HEADER_CHECKED_PROVIDERS.md) for the explicit comparison mode, per-report header evidence and fixed-roster admission boundary.

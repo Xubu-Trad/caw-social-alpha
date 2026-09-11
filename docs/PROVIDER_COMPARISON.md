@@ -1,5 +1,7 @@
 # Compare supplied provider histories
 
+This page preserves the alpha.33 interface and evidence. Alpha.37 adds an explicit [mode with checked headers](HEADER_CHECKED_PROVIDERS.md); the export below retains its original behavior.
+
 Alpha.33 adds a bounded offline comparison before presenting an action observation as shared by a fixed roster of providers. The caller names two to four providers and explicitly selects a manifest. Every provider must supply a valid, matching complete history for that selection. There is no majority rule, automatic choice of the highest tip or network request.
 
 These identifiers are caller-supplied labels, not authenticated provider identities. Matching inputs do not establish independent operators, consensus, freshness or public finality. Every snapshot states `provider_independence: 'not-established'`, `finality: 'not-established'` and `retry_safety: 'not-assessed'`.

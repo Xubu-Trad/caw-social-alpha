@@ -4,7 +4,7 @@ Alpha.35 adds a recovery adapter that checks execution-header hashes before acce
 
 **26 focused checks and 608/608 full-suite tests passed.** The separate build retained 22 byte-identical frontend assets. The tests reuse retained captures and synthetic mutations; no new live acquisition occurred.
 
-The [adapter](../reference/paid-header-recovery.mjs) composes the existing [branch reader](../reference/paid-reorg-reader.mjs) and [header inspector](../reference/ethereum-execution-header.mjs). It does not replace their implementations. Applications must explicitly use this adapter. Alpha.36 adds an [action observation mode](HEADER_CHECKED_ACTIONS.md) that requires it. The earlier observer exports, provider comparison and Python acquisition coordinator retain their existing behavior.
+The [adapter](../reference/paid-header-recovery.mjs) composes the existing [branch reader](../reference/paid-reorg-reader.mjs) and [header inspector](../reference/ethereum-execution-header.mjs). It does not replace their implementations. Applications must explicitly use this adapter. Alpha.36 adds an [action observation mode](HEADER_CHECKED_ACTIONS.md) that requires it. Alpha.37 adds a [provider comparison mode](HEADER_CHECKED_PROVIDERS.md) through that checked observer. The earlier observer and comparison exports and Python acquisition coordinator retain their existing behavior.
 
 ## Read a selected interval
 
