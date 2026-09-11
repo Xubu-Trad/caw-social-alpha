@@ -1,8 +1,14 @@
 # Validation boundary
 
+Alpha.32 adds a [bounded action observer](ACTION_OBSERVATION.md) over the unchanged recovery reader. It watches exact call bytes in a fixed deployment/checkpoint context. Selection clears the current classification before validation; complete reconstruction precedes publication. Acceptance takes precedence over a matching failed duplicate, while rejection-only and absence remain limited to the selected interval. Restart rebuilds raw retained histories and ignores calculated status.
+
+**532/532 Node offline tests across 33 files passed**, including 33 new observer checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the offline checks and build. This reuses the existing alpha.28/alpha.31 observations; no new EVM execution or network acquisition occurred. The observer does not authenticate signatures or consensus, adopt confirmation policy, assess retry safety, or connect the frontend to a wallet. Historical contracts, readers, collectors, signed domains, sources and frontend remain unchanged.
+
+## Historical alpha.31 evidence
+
 Alpha.31 adds [action replay after rollback](ORPHAN_INTENT_REPLAY.md). The exact signed action succeeds once on each alternative local branch. Each same-branch duplicate fails with `InvalidNonce()`; all observed protocol accounting is unchanged by those failed submissions. Both collectors and unchanged readers reconstruct complete branch results against explicit accounting and message oracles.
 
-**499/499 Node offline tests across 32 files passed**, including 22 new orphan-action evidence checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the new validation. Historical contracts, signed domains, collectors, readers, primary sources and the approved frontend remain unchanged. This does not establish a double charge on the selected branch, independent-provider agreement, authenticated history or public finality.
+**499/499 Node offline tests across 32 files passed**, including 22 new orphan-action evidence checks. The separate build retained 22 byte-identical frontend assets. The [alpha.31 receipt](../evidence/ALPHA31_TEST_RESULTS.json) records that validation; [alpha.31 input hashes](../evidence/ALPHA31_CODE_SHA256SUMS.txt) pin the package. Historical contracts, signed domains, collectors, readers, primary sources and the approved frontend remain unchanged. This does not establish a double charge on the selected branch, independent-provider agreement, authenticated history or public finality.
 
 ## Historical alpha.30 evidence
 

@@ -59,8 +59,9 @@ Draft, review a simulated fee, post, and inspect the receipt. Nothing is sent wh
 | [Alpha.29: acquisition sessions](docs/PAID_ACQUISITION_SESSION.md) | Selected-history invalidation and full retry checked across 22 recorded-response cases | Offline replay; live concurrent changes, independent providers and public finality remain open |
 | [Alpha.30: live acquisition change](docs/LIVE_ACQUISITION_CHANGE.md) | A real local branch change interrupts acquisition; fresh selection restores the complete record | One controlled request boundary; independent providers, authenticated history and public finality remain open |
 | [Alpha.31: action replay after rollback](docs/ORPHAN_INTENT_REPLAY.md) | One exact signature is accepted once on each alternative branch; each branch rejects a second use | Local experiment; no branch-specific signing or public-finality rule adopted |
+| [Alpha.32: action observations](docs/ACTION_OBSERVATION.md) | Selected-history status distinguishes acceptance, failed attempts and bounded absence across rollback | Offline observer; no finality, present validity or retry decision inferred |
 
-**Recorded validation:** 499/499 offline tests across 32 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
+**Recorded validation:** 532/532 offline tests across 33 files; 22 build assets. See [results and browser coverage](docs/VALIDATION.md). These finite checks establish neither an external audit, community agreement nor permanent availability.
 
 ## Read, reproduce, challenge
 
