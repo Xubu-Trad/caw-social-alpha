@@ -1,8 +1,14 @@
 # Validation boundary
 
+Alpha.34 adds an explicit [execution-header integrity check](EXECUTION_HEADER_INTEGRITY.md). It recomputes canonical RLP/Keccak hashes for four named layouts and checks each against the reported and separately selected hash. A bounded fixed-layout interval also checks parent links and contiguous block numbers. Existing observers, provider comparison, readers and state-proof flags are unchanged; their earlier success does not imply this new check ran.
+
+**582/582 Node offline tests across 35 files passed**, including 25 new header integrity checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records this package's offline checks and separate build. Retained local London headers and a retained public Prague header provide observed hash vectors; independently encoded Python fixtures provide synthetic edge cases. This adds no live acquisition or deployment. A matching hash binds header fields to a supplied commitment, but does not authenticate the selected endpoint, verify transaction/receipt/withdrawal bodies, execute state transitions or establish finality. Historical contracts, signed domains, primary sources and frontend remain unchanged.
+
+## Historical alpha.33 evidence
+
 Alpha.33 adds [fixed-roster provider comparison](PROVIDER_COMPARISON.md) for one immutable action target. Each report reconstructs in an isolated existing observer. Shared observations require every configured report to match the complete supplied history and explicitly selected manifest. Failure, missing replies, differing endpoints, content conflicts and unanimous reports at another endpoint withhold agreement. A fresh selection immediately clears earlier reports and invalidates old tokens.
 
-**557/557 Node offline tests across 34 files passed**, including 25 new provider comparison checks. The separate build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records this package's offline checks and separate build. Existing alpha.28 histories supply simulated provider roles from one controlled node. Synthetic conflict and limit inputs are not new live observations. No new EVM execution, network acquisition, independent-provider run, authenticated history or finality policy is claimed. Historical code, experiments, contracts, signed domains, primary sources and frontend are unchanged.
+**557/557 Node offline tests across 34 files passed**, including 25 new provider comparison checks. The separate build retained 22 byte-identical frontend assets. The [alpha.33 receipt](../evidence/ALPHA33_TEST_RESULTS.json) records this package's offline checks and separate build. Existing alpha.28 histories supply simulated provider roles from one controlled node. Synthetic conflict and limit inputs are not new live observations. No new EVM execution, network acquisition, independent-provider run, authenticated history or finality policy is claimed. Historical code, experiments, contracts, signed domains, primary sources and frontend are unchanged.
 
 ## Historical alpha.32 evidence
 
