@@ -4,6 +4,7 @@
 import { Buffer } from 'node:buffer';
 import { isDeepStrictEqual as equal } from 'node:util';
 import { createPaidReorgReader } from './paid-reorg-reader.mjs';
+import { createPaidHeaderRecovery } from './paid-header-recovery.mjs';
 
 // The bounded plain-data capture/manifest checks below are adapted from the
 // existing recovery reader. Shared validation is not an independent verifier.
@@ -107,9 +108,9 @@ function target(input) {
     && value.calldata.startsWith(POST_SELECTOR) && (value.calldata.length - 2) / 2 <= LIMIT.calldataBytes, 'CALLDATA');
   return freeze(value);
 }
-function projection(history, selected, watched) {
+function projection(history, selected, watched, maximumBlocks = LIMIT.blocks) {
   fields(history, [...ENVELOPE, 'blocks']);
-  need(Array.isArray(history.blocks) && history.blocks.length > 0 && history.blocks.length <= LIMIT.blocks, 'RANGE');
+  need(Array.isArray(history.blocks) && history.blocks.length > 0 && history.blocks.length <= maximumBlocks, 'RANGE');
   const observations = [];
   for (const block of history.blocks) {
     fields(block, ['header', 'transactions']);
@@ -146,15 +147,27 @@ function classify(observations) {
   if (observations.some(item => item.outcome === 'accepted')) return 'observed-accepted';
   return observations.length ? 'rejected-only-in-selected-interval' : 'not-observed-in-covered-interval';
 }
-function make(watched) {
-  const recovery = createPaidReorgReader();
+function retainedSchema(checked) {
+  return checked ? 'caw-paid-header-action-observer-retained/1' : 'caw-paid-action-observer-retained/1';
+}
+function retainedWrapper(watched, recovery, checked) {
+  return { schema: retainedSchema(checked), target: watched, recovery };
+}
+function make(watched, checked = false, profileString) {
+  // Mode is an internal boolean, never inferred from a missing/null profile.
+  // Legacy callers retain the original reader, output shapes and block limit.
+  const recovery = checked ? createPaidHeaderRecovery(profileString) : createPaidReorgReader();
+  const profile = checked ? recovery.state().profile : undefined;
   let generation = 0, selected = null, active = null, current = null, records = new Map();
   const pending = new Map();
   function snapshot(chosen, retained) {
-    return freeze({ schema: 'caw-paid-action-observation/1', generation, target: watched,
+    const state = { schema: checked ? 'caw-paid-header-action-observation/1' : 'caw-paid-action-observation/1', generation, target: watched,
       status: chosen ? classify(chosen.observations) : 'unresolved', finality: 'not-established',
       retry_safety: 'not-assessed', selected: chosen,
-      retained_intervals: [...retained.values()].filter(item => item !== chosen) });
+      retained_intervals: [...retained.values()].filter(item => item !== chosen) };
+    // Prepared snapshots are private. Only commit can attach the checked
+    // recovery's report; unresolved states and retained projections carry none.
+    return freeze(checked ? { ...state, profile, header_integrity: null } : state);
   }
   function select(input) {
     // Clear the public classification before inspecting even malformed input.
@@ -162,7 +175,8 @@ function make(watched) {
     current = null; selected = null; active = null; pending.clear();
     need(arguments.length === 1 && generation < LIMIT.selections, 'SELECTION_LIMIT');
     const admission = ++generation;
-    const token = recovery.select(input), m = recovery.state().selected;
+    const token = recovery.select(input), state = recovery.state();
+    const m = checked ? state.recovery.selected : state.selected;
     need(equal(contextOf(m), watched.context), 'CONTEXT_MISMATCH');
     need(generation === admission && active === null && current === null, 'STALE_SELECTION');
     selected = m; active = token; return token;
@@ -171,7 +185,7 @@ function make(watched) {
     need(arguments.length === 2 && active !== null && selectionToken === active, 'STALE_SELECTION');
     need(pending.size < LIMIT.pending, 'PENDING_LIMIT');
     const admission = generation, selection = active, m = selected;
-    const history = capture(input), projected = projection(history, m, watched);
+    const history = capture(input), projected = projection(history, m, watched, checked ? 128 : LIMIT.blocks);
     // Budget and allocate all derived output before obtaining a base token.
     // Full history validation below must succeed before this output is exposed.
     const nextRecords = new Map(records); nextRecords.set(key(m), projected);
@@ -179,10 +193,14 @@ function make(watched) {
       .reduce((count, item) => count + item.observations.length, 0) <= LIMIT.observations, 'OBSERVATION_LIMIT');
     // Admit only a complete raw export that this observer can capture again
     // on restart. Per-history limits alone do not bound the aggregate wrapper.
-    const retainedBranches = recovery.exportRetained().branches.filter(entry => key(entry.manifest) !== key(m));
+    const saved = recovery.exportRetained();
+    const retainedBranches = (checked ? saved.recovery.branches : saved.branches)
+      .filter(entry => key(entry.manifest) !== key(m));
     retainedBranches.push({ manifest: m, history });
-    capture({ schema: 'caw-paid-action-observer-retained/1', target: watched,
-      recovery: { schema: 'caw-paid-reorg-retained/1', branches: retainedBranches } });
+    const prospective = { schema: 'caw-paid-reorg-retained/1', branches: retainedBranches };
+    const completeRecovery = checked
+      ? { schema: 'caw-paid-header-recovery-retained/1', profile, recovery: prospective } : prospective;
+    capture(retainedWrapper(watched, completeRecovery, checked));
     const nextState = snapshot(projected, nextRecords);
     const basePrepared = recovery.prepare(selectionToken, history);
     need(generation === admission && active === selection, 'STALE_SELECTION');
@@ -196,14 +214,17 @@ function make(watched) {
       && prepared.generation === generation, 'STALE_PREPARED');
     // The recovery reader checks/commits first. All derived output is already
     // bounded and frozen: no caller code or fallible parsing follows its commit.
-    recovery.commit(prepared.basePrepared);
-    records = prepared.nextRecords; current = prepared.nextState;
+    const adopted = recovery.commit(prepared.basePrepared);
+    records = prepared.nextRecords;
+    // The checked report is an internal frozen return value, covering this
+    // exact committed interval. No caller reads, parsing or checks follow commit.
+    current = checked ? freeze({ ...prepared.nextState, header_integrity: adopted.header_integrity }) : prepared.nextState;
     active = null; pending.clear(); return current;
   }
   function state() { need(arguments.length === 0, 'SCHEMA'); return current ?? snapshot(null, records); }
   function exportRetained() {
     need(arguments.length === 0, 'SCHEMA');
-    return freeze({ schema: 'caw-paid-action-observer-retained/1', target: watched, recovery: recovery.exportRetained() });
+    return freeze(retainedWrapper(watched, recovery.exportRetained(), checked));
   }
   return Object.freeze({ select, prepare, commit, state, exportRetained });
 }
@@ -215,19 +236,46 @@ export function createPaidActionObserver(targetInput) {
   need(arguments.length === 1, 'SCHEMA'); return make(target(targetInput));
 }
 
+/** Explicit checked mode. Header hashing and accounting must both pass before
+ * an observation becomes current. Profile choice and endpoint hashes remain
+ * supplied assumptions; signature/body/consensus/finality are not established. */
+export function createHeaderCheckedPaidActionObserver(targetInput, profileString) {
+  need(arguments.length === 2, 'SCHEMA'); return make(target(targetInput), true, profileString);
+}
+
 /** Rebuild every retained raw interval, then select the separately supplied
  * endpoint. Ignore bounded calculated_cache rather than trusting saved status.
  * No history or target is inferred from the previously displayed result. */
 export function restartPaidActionObserver(retainedInput, selectedManifestInput) {
   need(arguments.length === 2, 'SCHEMA');
+  return restart(retainedInput, selectedManifestInput, false);
+}
+
+/** Checked saves have a distinct schema and require an explicit matching
+ * profile. A legacy saved observation cannot be upgraded by trusting a cache. */
+export function restartHeaderCheckedPaidActionObserver(retainedInput, selectedManifestInput, profileString) {
+  need(arguments.length === 3, 'SCHEMA');
+  return restart(retainedInput, selectedManifestInput, true, profileString);
+}
+
+function restart(retainedInput, selectedManifestInput, checked, profileString) {
+  // Validate the explicit checked profile even when it is null or undefined.
+  // The legacy path does not create or consult a header-recovery instance.
+  const profile = checked ? createPaidHeaderRecovery(profileString).state().profile : undefined;
   const retained = capture(retainedInput), selected = manifest(capture(selectedManifestInput));
   fields(retained, ['schema', 'target', 'recovery'], ['calculated_cache']);
-  need(retained.schema === 'caw-paid-action-observer-retained/1', 'SCHEMA');
-  fields(retained.recovery, ['schema', 'branches'], ['calculated_cache']);
-  need(retained.recovery.schema === 'caw-paid-reorg-retained/1' && Array.isArray(retained.recovery.branches)
-    && retained.recovery.branches.length > 0 && retained.recovery.branches.length <= LIMIT.branches, 'RETENTION_LIMIT');
-  const observer = make(target(retained.target)), seen = new Set(); let chosen = null;
-  for (const entry of retained.recovery.branches) {
+  need(retained.schema === retainedSchema(checked), 'SCHEMA');
+  if (checked) {
+    fields(retained.recovery, ['schema', 'profile', 'recovery'], ['calculated_cache']);
+    need(retained.recovery.schema === 'caw-paid-header-recovery-retained/1', 'SCHEMA');
+    need(retained.recovery.profile === profile, 'PROFILE_MISMATCH');
+  }
+  const raw = checked ? retained.recovery.recovery : retained.recovery;
+  fields(raw, ['schema', 'branches'], ['calculated_cache']);
+  need(raw.schema === 'caw-paid-reorg-retained/1' && Array.isArray(raw.branches)
+    && raw.branches.length > 0 && raw.branches.length <= LIMIT.branches, 'RETENTION_LIMIT');
+  const observer = make(target(retained.target), checked, profile), seen = new Set(); let chosen = null;
+  for (const entry of raw.branches) {
     fields(entry, ['manifest', 'history']); const m = manifest(entry.manifest), branchKey = key(m);
     need(!seen.has(branchKey), 'BRANCH_CONFLICT'); seen.add(branchKey);
     const token = observer.select(m); observer.commit(observer.prepare(token, entry.history));

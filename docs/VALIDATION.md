@@ -1,8 +1,14 @@
 # Validation boundary
 
+Alpha.36 adds an explicit [action observation mode with checked headers](HEADER_CHECKED_ACTIONS.md). The existing observer module now composes checked recovery with its shared projection logic. Current classifications and header reports become available together only after commit. Restart requires distinct saved schemas, an explicit matching profile and successful reconstruction of all raw retained branches before returning the separately selected observation.
+
+**634/634 Node offline tests across 37 files passed**, including 26 new checked-observation checks. The build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the offline checks and separate build. The tests reuse retained controlled local captures and synthetic mutations. The legacy observer exports and schemas retain their earlier behavior; provider comparison and the Python coordinator do not automatically adopt the checked mode. Header integrity and accounting consistency do not prove body inclusion, endpoint authenticity, signature validity, execution, consensus, freshness, finality or safe retry. Historical captures, contracts, signed domains, primary sources and frontend remain unchanged.
+
+## Historical alpha.35 evidence
+
 Alpha.35 adds [recovery with checked headers](HEADER_CHECKED_RECOVERY.md). The adapter gives the exact captured history to the header inspector and existing accounting reader before publishing a current record. An explicit selection clears the previous result immediately; restart checks all retained raw histories before adopting the separately selected interval. The adapter also bounds the complete retained export before preparation.
 
-**608/608 Node offline tests across 36 files passed**, including 26 new recovery integration checks. The build retained 22 byte-identical frontend assets. The [current receipt](../evidence/TEST_RESULTS.json) records the offline checks and separate build. The fixed local captures and synthetic mutations add no live acquisition. Header integrity does not authenticate endpoints or prove body inclusion, consensus, execution, freshness or finality. The earlier observer, provider comparison and Python acquisition coordinator are not automatically switched to this adapter. Historical implementations, evidence, contracts, primary sources and frontend remain unchanged.
+**608/608 Node offline tests across 36 files passed**, including 26 new recovery integration checks. The build retained 22 byte-identical frontend assets. The [alpha.35 receipt](../evidence/ALPHA35_TEST_RESULTS.json) records the offline checks and separate build. The fixed local captures and synthetic mutations add no live acquisition. Header integrity does not authenticate endpoints or prove body inclusion, consensus, execution, freshness or finality. The earlier observer, provider comparison and Python acquisition coordinator are not automatically switched to this adapter. Historical implementations, evidence, contracts, primary sources and frontend remain unchanged.
 
 ## Historical alpha.34 evidence
 

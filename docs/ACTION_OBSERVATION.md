@@ -1,5 +1,7 @@
 # An action in the selected history
 
+This page preserves the alpha.32 interface and evidence. Alpha.36 adds a separate [mode with checked headers](HEADER_CHECKED_ACTIONS.md); the exports described here retain their original behavior.
+
 Alpha.32 adds an offline observation layer over the [existing recovery reader](../reference/paid-reorg-reader.mjs). Its purpose is to describe where an exact watched call appears after the caller selects and rebuilds a complete history. The interface below passed 33 focused offline checks; the complete package passed 532/532. This work adds no live run, confirmation policy, wallet integration or frontend change.
 
 An observation is evidence within a supplied interval. It is not settlement, a signature decision or permission to submit again. Every state carries `finality: 'not-established'` and `retry_safety: 'not-assessed'`.
